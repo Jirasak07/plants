@@ -1,0 +1,18 @@
+.main-home{
+    display: grid;
+}
+.card-container{
+    display: grid;
+    gap: 10px;
+    row-gap: 30px;
+    grid-template-columns: repeat(auto-fit,minmax(250px,320px));
+    justify-content: space-evenly;
+}
+.MDBCard{
+    min-height: 300px !important;
+}
+.info{
+    background-color: #ffffff34;
+    backdrop-filter: blur(10px);
+    border-radius: 10px;
+}
