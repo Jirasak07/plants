@@ -6,13 +6,17 @@
     gap: 10px;
     row-gap: 30px;
     grid-template-columns: repeat(auto-fit,minmax(250px,320px));
-    justify-content: space-evenly;
+    justify-content: space-between;
 }
 .MDBCard{
-    min-height: 300px !important;
+    min-height: 350px !important;
+    display: grid;
+    grid-template-rows: 290px 40px;
+    background-color: #ffff;
+    padding: 20px;
+    box-shadow: 0px 0px 7px #00000036;
 }
-.info{
-    background-color: #ffffff34;
-    backdrop-filter: blur(10px);
-    border-radius: 10px;
+.pnav:hover{
+    background-color: rgb(255, 255, 255) !important;
+    color: black !important;
 }

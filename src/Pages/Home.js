@@ -1,8 +1,9 @@
 import React, { useEffect, useState } from "react";
 import "./Home.css";
 import image from "../Assets/baner.png";
+import sunflower from '../Assets/sunflower.jpg'
 import { Carousel } from "react-responsive-carousel";
-import { MDBCard } from "mdbreact";
+import { MDBCard, MDBCardFooter } from "mdbreact";
 import { MDBPagination, MDBPageItem, MDBPageNav, MDBCol } from "mdbreact";
 function Home() {
   const data = [{ val: 1 }, { val: 2 }, { val: 3 }];
@@ -24,7 +25,7 @@ function Home() {
   const indexOfLastUser = currentPage * itemsPerPage;
   const indexOfFirstUser = indexOfLastUser - itemsPerPage;
   const currentUsers = users.slice(indexOfFirstUser, indexOfLastUser);
-  const pagesToShow = 5; 
+  const pagesToShow = 5;
 
   // เปลี่ยนหน้า
   const handlePageChange = (pageNumber) => {
@@ -45,10 +46,13 @@ function Home() {
 
   // คำนวณหน้าเริ่มต้นและสิ้นสุดของเพจเนชันที่จะแสดง
   const startIndex = Math.max(currentPage - Math.floor(pagesToShow / 2), 1);
-  const endIndex = Math.min(startIndex + pagesToShow - 1, Math.ceil(users.length / itemsPerPage));
+  const endIndex = Math.min(
+    startIndex + pagesToShow - 1,
+    Math.ceil(users.length / itemsPerPage)
+  );
   return (
     <div className="container-lg main-home" style={{ gap: "10px" }}>
-      <div >
+      <div>
         <Carousel
           infiniteLoop
           autoPlay={true}
@@ -62,21 +66,30 @@ function Home() {
           ))}
         </Carousel>
       </div>
-      <div className=" pt-3 pb-3 mb-5 info "  >
+      <div className=" pt-3 pb-3 mb-5 info ">
         <div className="card-container pb-3">
           {currentUsers.map((user) => (
-            <MDBCard className="MDBCard">
-              {" "}
-              {user.firstName} {user.lastName} (อายุ: {user.age})
-            </MDBCard>
+            <div className="MDBCard rounded">
+              <div>
+                {/* {user.firstName} {user.lastName} (อายุ: {user.age}) */}
+                <div>
+                  <img src={sunflower} width={"100%"}  alt="" />
+                </div>
+                <div className="text-center mt-2" >
+                  <strong className="text-center" >ดอกทานตะวัน SunFlower</strong>
+                </div>
+              </div>
+
+              <div className="btn btn-secondary d-flex align-items-center justify-content-center btn-sm">
+                ดูเพิ่มเติม
+              </div>
+            </div>
           ))}
         </div>
       </div>
-      <MDBPagination className="d-flex justify-content-center" >
+      <MDBPagination className="d-flex justify-content-center bg-secondary py-2" color="purple" >
         <MDBPageItem disabled={currentPage === 1}>
-          <MDBPageNav onClick={goToPrevPage}>
-            &laquo; Prev
-          </MDBPageNav>
+          <MDBPageNav className="pnav" onClick={goToPrevPage}>&laquo; Prev</MDBPageNav>
         </MDBPageItem>
 
         {Array.from({ length: endIndex - startIndex + 1 }).map((_, index) => (
@@ -84,16 +97,16 @@ function Home() {
             key={startIndex + index}
             active={startIndex + index === currentPage}
           >
-            <MDBPageNav onClick={() => handlePageChange(startIndex + index)}>
+            <MDBPageNav  onClick={() => handlePageChange(startIndex + index)}>
               {startIndex + index}
             </MDBPageNav>
           </MDBPageItem>
         ))}
 
-        <MDBPageItem disabled={currentPage === Math.ceil(users.length / itemsPerPage)}>
-          <MDBPageNav onClick={goToNextPage}>
-            Next &raquo;
-          </MDBPageNav>
+        <MDBPageItem
+          disabled={currentPage === Math.ceil(users.length / itemsPerPage)}
+        >
+          <MDBPageNav className="pnav" onClick={goToNextPage}>Next &raquo;</MDBPageNav>
         </MDBPageItem>
       </MDBPagination>
     </div>

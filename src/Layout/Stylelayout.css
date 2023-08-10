@@ -1,5 +1,5 @@
 .head {
-  background-color: #570083;
+  background-color: #8937C6;
   color: #ffffff !important;
 }
 a {
@@ -12,9 +12,10 @@ a {
   display: flex;
   justify-content: center;
   align-items: center;
-  border-radius: 5px;
+  /* border-radius: 5px; */
   margin: 0 5px;
   gap: 10px;
+  border: none;
 }
 .mainlayout{
   display: grid;
@@ -22,13 +23,17 @@ a {
 }
 .navlink:hover {
   cursor: pointer;
-  background-color: #8e07d1;
-  box-shadow: 0px 0px 6px #0000004b;
+  /* background-color: #8e07d1; */
+  /* box-shadow: 0px 0px 6px #ffffffc9; */
+  /* border: 2px solid #9000d8; */
+  border-bottom: 2px solid #ffffff;
 }
 .ac {
-  background-color: #8e07d1;
+  /* background-color: #7125ac; */
+  /* border: 2px solid #9000d8; */
+  border-bottom: 2px solid #ffffff;
 }
-@media screen and (max-width: 768px) {
+@media screen and (max-width: 992px) {
   .navlink {
     /* background-color: aliceblue; */
     width: 100%;

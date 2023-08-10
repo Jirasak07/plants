@@ -13,6 +13,7 @@ import {
   MDBIcon,
   MDBCol,
 } from "mdbreact";
+import logo from '../Assets/logoo.png'
 import "./Stylelayout.css";
 import { NavLink } from "react-router-dom";
 function Head() {
@@ -23,7 +24,7 @@ function Head() {
   return (
     <MDBNavbar className="head" dark expand="md">
       <MDBNavbarBrand>
-        <strong>KPP PGMS</strong>
+        <span style={{fontSize:'16px'}} > <img src={logo} alt="" width={40} /> โครงการ อพ.สธ. อบจ.กำแพงเพชร</span>
       </MDBNavbarBrand>
       <MDBNavbarToggler onClick={toggleCollapse} />
       <MDBCollapse id="navbarCollapse3" isOpen={isOpen} navbar>
@@ -41,7 +42,7 @@ function Head() {
             isPending ? "bg-info" : isActive ? "navlink ac" : "navlink"
           }
         >
-          <MDBIcon icon="spa" /> รายการพืชพันธ์
+          <MDBIcon icon="spa" /> พืชพรรณ
         </NavLink>
         <NavLink
           to="/user"
