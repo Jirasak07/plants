@@ -112,13 +112,14 @@ function User() {
           <div></div>
         </div>
       </Overlay>
+    
+      <div className="bg-white rounded p-2">
       <div className="d-flex justify-content-end">
         {" "}
         <div className="btn-info btn" onClick={() => setOpenAdd(true)}>
           เพิ่มผู้ใช้งานใหม่
         </div>{" "}
       </div>
-      <div className="bg-white rounded">
         <MDBDataTableV5 data={table} sortable={false} />
       </div>
       <MDBModal isOpen={openAdd} toggle={toggleAdd}>

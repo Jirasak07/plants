@@ -1,11 +1,14 @@
 .App {
   /* background-image: url(./Assets/bg.png); */
-  background-color: #f7f7f7;
+  background-color: #bfbcc2;
+  /* background-image: url('./Assets/bg-line.png'); */
+  background-image: url('./Assets/pexels-bri-schneiter-346529.jpg');
+  /* background-color: #f7f7f7; */
   /* background-image: url('./Assets/bg-gra.png'); */
   background-repeat: no-repeat;
   /* background-image: url('./Assets/bg-texture.png'); */
   background-position: center;
-  /* background-size: cover; */
+  background-size: cover;
   max-width: 100vw;
   max-height: 100vh;
   height: 100dvh;

@@ -76,7 +76,7 @@ function Home() {
                   <img src={sunflower} width={"100%"}  alt="" />
                 </div>
                 <div className="text-center mt-2" >
-                  <strong className="text-center" >ดอกทานตะวัน SunFlower</strong>
+                  <strong className="text-center" >ดอกทานตะวัน SunFlower {user.firstName}</strong>
                 </div>
               </div>
 
@@ -92,7 +92,7 @@ function Home() {
           <MDBPageNav className="pnav" onClick={goToPrevPage}>&laquo; Prev</MDBPageNav>
         </MDBPageItem>
 
-        {Array.from({ length: endIndex - startIndex + 1 }).map((_, index) => (
+        {/* {Array.from({ length: endIndex - startIndex + 1 }).map((_, index) => (
           <MDBPageItem
             key={startIndex + index}
             active={startIndex + index === currentPage}
@@ -101,7 +101,7 @@ function Home() {
               {startIndex + index}
             </MDBPageNav>
           </MDBPageItem>
-        ))}
+        ))} */}
 
         <MDBPageItem
           disabled={currentPage === Math.ceil(users.length / itemsPerPage)}
