@@ -7,6 +7,7 @@ import {
   TextInputField,
 } from "evergreen-ui";
 import React, { useEffect, useState } from "react";
+import {API} from '../configUrl'
 
 function FromAddPlant() {
   const [select, setSelect] = useState();
@@ -29,7 +30,7 @@ function FromAddPlant() {
   const Fprovince = async () => {
     try {
       const province = await axios.get(
-        "https://rspg-kpppao.com/backend/Plant/SelectProvince"
+        API+"/Plant/SelectProvince"
       );
       const response = province.data;
       setProvince(response);
@@ -39,7 +40,7 @@ function FromAddPlant() {
   const onProvinceChange= async (val)=>{
     console.log(val)
     try {
-        const fetch = await axios.post("https://rspg-kpppao.com/backend/SelectAmphur",{
+        const fetch = await axios.post(API+"/backend/SelectAmphur",{
             pv_id:val
         })
         const res = fetch.data
