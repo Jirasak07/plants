@@ -7,7 +7,6 @@ import ListData from './Pages/ListData';
 import User from './Pages/User';
 import LoginPage from './Auth/LoginPage';
 import Setting from './Pages/Setting';
-import Test from './Test';
 
 function App() {
   return (
@@ -19,7 +18,6 @@ function App() {
           <Route path='/plant' element={<ListData/>} />
           <Route path='/user' element={<User/>}/>
           <Route path='/setting' element={<Setting/>}/>
-          <Route path='/test' element={<Test/>}/>
         </Route>
       </Routes>
       

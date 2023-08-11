@@ -1,11 +1,11 @@
 import React, { useEffect, useState } from "react";
 import "./Home.css";
 import image from "../Assets/baner.png";
-import sunflower from '../Assets/sunflower.jpg'
+import sunflower from "../Assets/sunflower.jpg";
 import { Carousel } from "react-responsive-carousel";
 import { MDBCard, MDBCardFooter } from "mdbreact";
 import { MDBPagination, MDBPageItem, MDBPageNav, MDBCol } from "mdbreact";
-import {PDFDownloadLink} from '@react-pdf/renderer'
+import { PDFDownloadLink } from "@react-pdf/renderer";
 import ReportPDF from "../Report/ReportPDF";
 function Home() {
   const data = [{ val: 1 }, { val: 2 }, { val: 3 }];
@@ -54,13 +54,7 @@ function Home() {
   );
   return (
     <div className="container-lg main-home" style={{ gap: "10px" }}>
-      <div className="btn btn-info" >โหลด</div>
-      <PDFDownloadLink document={<ReportPDF/>} fileName="my_document.pdf">
-    {({ blob, url, loading, error }) =>
-      loading ? 'กำลังดาวน์โหลด...' : 'ดาวน์โหลด PDF'
-    }
-  </PDFDownloadLink>
-      <div>
+      <div className="carousel" >
         <Carousel
           infiniteLoop
           autoPlay={true}
@@ -81,10 +75,12 @@ function Home() {
               <div>
                 {/* {user.firstName} {user.lastName} (อายุ: {user.age}) */}
                 <div>
-                  <img src={sunflower} width={"100%"}  alt="" />
+                  <img src={sunflower} width={"100%"} alt="" />
                 </div>
-                <div className="text-center mt-2" >
-                  <strong className="text-center" >ดอกทานตะวัน SunFlower {user.firstName}</strong>
+                <div className="text-center mt-2">
+                  <strong className="text-center">
+                    ดอกทานตะวัน SunFlower {user.firstName}
+                  </strong>
                 </div>
               </div>
 
@@ -95,9 +91,14 @@ function Home() {
           ))}
         </div>
       </div>
-      <MDBPagination className="d-flex justify-content-center bg-secondary py-2" color="purple" >
+      <MDBPagination
+        className="d-flex justify-content-center bg-secondary py-2"
+        color="purple"
+      >
         <MDBPageItem disabled={currentPage === 1}>
-          <MDBPageNav className="pnav" onClick={goToPrevPage}>&laquo; Prev</MDBPageNav>
+          <MDBPageNav className="pnav" onClick={goToPrevPage}>
+            &laquo; Prev
+          </MDBPageNav>
         </MDBPageItem>
 
         {Array.from({ length: endIndex - startIndex + 1 }).map((_, index) => (
@@ -105,7 +106,7 @@ function Home() {
             key={startIndex + index}
             active={startIndex + index === currentPage}
           >
-            <MDBPageNav  onClick={() => handlePageChange(startIndex + index)}>
+            <MDBPageNav onClick={() => handlePageChange(startIndex + index)}>
               {startIndex + index}
             </MDBPageNav>
           </MDBPageItem>
@@ -114,7 +115,9 @@ function Home() {
         <MDBPageItem
           disabled={currentPage === Math.ceil(users.length / itemsPerPage)}
         >
-          <MDBPageNav className="pnav" onClick={goToNextPage}>Next &raquo;</MDBPageNav>
+          <MDBPageNav className="pnav" onClick={goToNextPage}>
+            Next &raquo;
+          </MDBPageNav>
         </MDBPageItem>
       </MDBPagination>
     </div>
