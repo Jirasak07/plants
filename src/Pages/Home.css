@@ -19,7 +19,7 @@
     grid-template-rows: 290px 40px;
     background-color: #ffff;
     padding: 20px;
-    box-shadow: 0px 0px 7px #00000036;
+    box-shadow: 2px 2px 10px #000000a9;
 }
 .pnav:hover{
     background-color: rgb(255, 255, 255) !important;
