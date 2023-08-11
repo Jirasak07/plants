@@ -5,6 +5,8 @@ import sunflower from '../Assets/sunflower.jpg'
 import { Carousel } from "react-responsive-carousel";
 import { MDBCard, MDBCardFooter } from "mdbreact";
 import { MDBPagination, MDBPageItem, MDBPageNav, MDBCol } from "mdbreact";
+import {PDFDownloadLink} from '@react-pdf/renderer'
+import ReportPDF from "../Report/ReportPDF";
 function Home() {
   const data = [{ val: 1 }, { val: 2 }, { val: 3 }];
   const [users, setUsers] = useState([]);
@@ -52,6 +54,12 @@ function Home() {
   );
   return (
     <div className="container-lg main-home" style={{ gap: "10px" }}>
+      <div className="btn btn-info" >โหลด</div>
+      <PDFDownloadLink document={<ReportPDF/>} fileName="my_document.pdf">
+    {({ blob, url, loading, error }) =>
+      loading ? 'กำลังดาวน์โหลด...' : 'ดาวน์โหลด PDF'
+    }
+  </PDFDownloadLink>
       <div>
         <Carousel
           infiniteLoop
@@ -92,7 +100,7 @@ function Home() {
           <MDBPageNav className="pnav" onClick={goToPrevPage}>&laquo; Prev</MDBPageNav>
         </MDBPageItem>
 
-        {/* {Array.from({ length: endIndex - startIndex + 1 }).map((_, index) => (
+        {Array.from({ length: endIndex - startIndex + 1 }).map((_, index) => (
           <MDBPageItem
             key={startIndex + index}
             active={startIndex + index === currentPage}
@@ -101,7 +109,7 @@ function Home() {
               {startIndex + index}
             </MDBPageNav>
           </MDBPageItem>
-        ))} */}
+        ))}
 
         <MDBPageItem
           disabled={currentPage === Math.ceil(users.length / itemsPerPage)}
