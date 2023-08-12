@@ -150,6 +150,37 @@ function FromAddPlant() {
       title:JSON.stringify(inputs)
     });
     console.log(inputs);
+    const data = [
+        {
+            plant_code:inputs.plant_code,
+            plant_name:inputs.plant_name,
+            area:inputs.plant_area,
+            x:inputs.x,
+            y:inputs.y,
+            distinctive:inputs.distinctive,
+            qty:inputs.qty,
+            radius:inputs.radius,
+            status:inputs.status,
+            tambon_id:inputs.tambon_id,
+            zipcode:zipcode,
+            plant_character:inputs.plant_character,
+            amphur_id:inputs.amphur_id,
+            benefit_appliances:inputs.benefit_appliances,
+            benefit_foot:inputs.benefit_foot,
+            benefit_medicine_animal:inputs.benefit_medicine_animal,
+            benefit_medicine_human:inputs.benefit_medicine_human,
+            benefit_pesticide:inputs.benefit_pesticide,
+            height:inputs.height,
+            name_adder:inputs.name_adder,
+            other:inputs.other,
+            age_adder:inputs.age_adder,
+            address_adder:inputs.address_adder,
+            about_tradition:inputs.about_tradition,
+            about_religion:inputs.about_religion,
+            age:inputs.age,
+            user_id:'1'
+        }
+    ]
   };
   return (
     <Pane className="pt-2">
