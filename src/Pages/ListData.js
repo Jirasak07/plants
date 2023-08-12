@@ -37,6 +37,7 @@ function ListData() {
         onCloseComplete={() => setIsOpen(false)}
         hasFooter={false}
         hasHeader={false}
+        width="clamp(360px,100%,60vw)"
       >
         <FromAddPlant />
       </Dialog>

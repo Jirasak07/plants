@@ -1,19 +1,23 @@
 import axios from "axios";
 import {
   Button,
+  FilePicker,
   Group,
+  IconButton,
   Label,
   Pane,
   SelectField,
   SelectMenu,
   TextInput,
   TextInputField,
-  Textarea,
+  Image,
   TextareaField,
 } from "evergreen-ui";
 import React, { useEffect, useState } from "react";
 import { API } from "../configUrl";
 import Swal from "sweetalert2";
+import ImageCarousel from "./ImageCarousel";
+import { TrashIcon, UploadIcon } from "evergreen-ui";
 
 function FromAddPlant() {
   // const [select, setSelect] = useState();
@@ -45,15 +49,6 @@ function FromAddPlant() {
       return "success";
     } catch (error) {}
   };
-  const selectAmphur = async () => {
-    try {
-      const fetch = await axios.post(API + "/Plant/SelectAmphur", {
-        pv_id: "49",
-      });
-      const res = fetch.data;
-      setAmphur(res);
-    } catch (error) {}
-  };
   const selectDistrict = async (val) => {
     try {
       const post = await axios.post(API + "/Plant/SelectTambon", {
@@ -65,7 +60,19 @@ function FromAddPlant() {
   };
   useEffect(() => {
     Fprovince();
-    selectAmphur();
+    async function fetchAmphur() {
+      try {
+        const fetch = await axios.post(API + "/Plant/SelectAmphur", {
+          pv_id: "49",
+        });
+        const res = fetch.data;
+        setAmphur(res);
+      } catch (error) {}
+    }
+    fetchAmphur();
+  }, []);
+  useEffect(() => {
+    console.log(amphur);
   }, []);
   const onSelectAmphur = async (e) => {
     try {
@@ -86,24 +93,61 @@ function FromAddPlant() {
       setZipcode(response);
     } catch (error) {}
   };
+  const [selectedFile, setSelectedFile] = useState(null);
+
+  const handleFileChange = (files) => {
+    if (files.length > 0) {
+      const file = files[0];
+      setSelectedFile(file);
+    }
+  };
+
+  const handleUpload = () => {
+    if (selectedFile) {
+      const formData = new FormData();
+      formData.append("file", selectedFile);
+
+      axios
+        .post("upload.php", formData)
+        .then((response) => {
+          console.log("Upload successful:", response.data);
+        })
+        .catch((error) => {
+          console.error("Upload error:", error);
+        });
+    }
+  };
   return (
     <Pane>
       <form onSubmit={onSubmit}>
-        <TextInputField name="plant_name" label="ชื่อพืช" onChange={onChange} />
-        <TextInputField
-          name="plant_code"
-          label="รหัสพรรณไม้"
-          onChange={onChange}
-        />
+        <div className="d-flex flex-column flex-md-row" style={{ gap: "10px" }}>
+          <TextInputField
+            width="100%"
+            name="plant_name"
+            label="ชื่อพืช"
+            onChange={onChange}
+            autoFocus={true}
+            required
+          />
+          <TextInputField
+            name="plant_code"
+            label="รหัสพรรณไม้"
+            onChange={onChange}
+            width="100%"
+            required
+          />
+        </div>
         <TextInputField
           name="plant_pr"
           label="ลักษณะวิสัย"
           onChange={onChange}
+          required
         />
         <TextareaField
           name="plant_area"
           label="บริเวณที่พบ"
           onChange={onChange}
+          required
         />
         <div className="d-flex flex-column mb-2">
           <Label>แสดงพิกัดตำแหน่งพรรณไม้ (GIS)</Label>
@@ -159,30 +203,174 @@ function FromAddPlant() {
             value={zipcode}
           />
         </div>
-        <div className="d-flex" style={{gap:'10px'}} >
-        <TextInputField
-          label="อายุโดยประมาณ (ปี)"
-          name="age"
-          width="100%"
-          onChange={onChange}
-        />
-        <TextInputField
-          label="เส้นรอบวงลำต้น(เมตร)"
-          name="radius"
-          width="100%"
-          onChange={onChange}
-        />
-        <TextInputField
-          label="ความสูง (เมตร)"
-          name="height"
-          width="100%"
-          onChange={onChange}
-        />
+        <div className="d-flex flex-column flex-md-row" style={{ gap: "10px" }}>
+          <TextInputField
+            label="อายุโดยประมาณ (ปี)"
+            name="age"
+            width="100%"
+            onChange={onChange}
+          />
+          <TextInputField
+            label="เส้นรอบวงลำต้น(เมตร)"
+            name="radius"
+            width="100%"
+            onChange={onChange}
+          />
+          <TextInputField
+            label="ความสูง (เมตร)"
+            name="height"
+            width="100%"
+            onChange={onChange}
+          />
         </div>
-      <div className="d-flex" style={{gap:'10px'}} >
-        <TextInputField width="100%" name="status" label="สถานภาพ" onChange={onChange} />
-        <TextInputField width="40%" type="number" name="qty" label="จำนวน (ต้น)" onChange={onChange} />
-      </div>
+        <div className="d-flex" style={{ gap: "10px" }}>
+          <TextInputField
+            width="100%"
+            name="status"
+            label="สถานภาพ"
+            onChange={onChange}
+          />
+          <TextInputField
+            width="40%"
+            type="number"
+            name="qty"
+            label="จำนวน (ต้น)"
+            onChange={onChange}
+          />
+        </div>
+        <div className="d-flex flex-column  mb-2">
+          <Label>การใช้ประโยชน์ในท้องถิ่น (ระบุส่วนที่ใช้และวิธีกำรใช้)</Label>
+          <div
+            className="d-flex flex-column flex-md-row"
+            style={{ gap: "10px" }}
+          >
+            <TextareaField
+              label="อาหาร"
+              name="benefit_foot"
+              onChange={onChange}
+              width="100%"
+            />
+            <TextareaField
+              label="ยารักษาโรค ใช้กับคน"
+              name="benefit_medicine_human"
+              onChange={onChange}
+              width="100%"
+            />
+          </div>
+
+          <TextareaField
+            label="ยารักษาโรค ใช้กับสัตว์"
+            name="benefit_medicine_animal"
+            onChange={onChange}
+          />
+          <TextareaField
+            label="เครื่องเรือน เครื่องใช้อื่น ๆ"
+            name="benefit_appliances"
+            onChange={onChange}
+          />
+          <TextareaField
+            label="ยาฆ่าแมลง ยาปราบศัตรูพืช"
+            name="benefit_pesticide"
+            onChange={onChange}
+          />
+          <TextareaField
+            label="ความเกี่ยวข้องกับประเพณี วัฒนธรรม"
+            name="about_tradition"
+            onChange={onChange}
+          />
+          <TextareaField
+            label="ความเกี่ยวข้องกับความเชื่อทางศาสนา"
+            name="about_religion"
+            onChange={onChange}
+          />
+          <TextareaField
+            label="อื่นๆ (เช่นการเป็นพิษ อันตราย)"
+            name="other"
+            onChange={onChange}
+          />
+        </div>
+        <div className="container-img " style={{ gap: "10px" }}>
+          <Pane width="100%" backgroundColor="#000000">
+            <FilePicker
+              onChange={handleFileChange}
+              placeholder="เลือกรูปภาพใบ"
+              accept=".png, .jpg, .jpeg"
+            />
+            {selectedFile && (
+              <Image
+                src={URL.createObjectURL(selectedFile)}
+                alt="Preview"
+                width="100%"
+              />
+            )}
+          </Pane>
+          <Pane width="100%" backgroundColor="#000000">
+            <FilePicker
+              onChange={handleFileChange}
+              placeholder="เลือกรูปภาพต้น"
+              accept=".png, .jpg, .jpeg"
+            />
+            {selectedFile && (
+              <Image
+                src={URL.createObjectURL(selectedFile)}
+                alt="Preview"
+                width="100%"
+              />
+            )}
+          </Pane>
+          <Pane width="100%" backgroundColor="#000000">
+            <FilePicker
+              onChange={handleFileChange}
+              placeholder="เลือกรูปภาพดอก"
+              accept=".png, .jpg, .jpeg"
+            />
+            {selectedFile && (
+              <Image
+                src={URL.createObjectURL(selectedFile)}
+                alt="Preview"
+                width="100%"
+              />
+            )}
+          </Pane>
+          <Pane width="100%" backgroundColor="#000000">
+            <FilePicker
+              onChange={handleFileChange}
+              placeholder="เลือกรูปภาพผล"
+              accept=".png, .jpg, .jpeg"
+            />
+            {selectedFile && (
+              <Image
+                src={URL.createObjectURL(selectedFile)}
+                alt="Preview"
+                width="100%"
+              />
+            )}
+          </Pane>
+        </div>
+        <div className="d-flex flex-column mb-2">
+          <Label>ผู้ให้ข้อมูล</Label>
+          <div className="d-flex" style={{ gap: "10px" }}>
+            <TextInputField
+              label="ชื่อ-สกุล"
+              name="name_adder"
+              onChange={onChange}
+              width="100%"
+            />
+            <TextInputField
+              label="อายุ"
+              name="age_adder"
+              width="30%"
+              type="number"
+              onChange={onChange}
+            />
+          </div>
+
+          <TextareaField
+            label="ที่อยู่"
+            name="address_adder"
+            onChange={onChange}
+          />
+        </div>
         <Button type="submit" appearance="primary" intent="success">
           บันทึก
         </Button>

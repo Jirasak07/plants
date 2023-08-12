@@ -8,3 +8,10 @@ code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
     monospace;
 }
+.evergreen-file-picker-text-input.ub-w_280px{
+  width: 100% !important;
+}
+.container-img{
+  display: grid;
+  grid-template-columns: repeat(auto-fit,minmax(300px,1fr));
+}
