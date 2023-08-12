@@ -27,7 +27,7 @@ function ListData() {
       <div className="bg-white px-3 pt-2 rounded">
         <div className="d-flex justify-content-end">
           <Button appearance="primary" style={{gap:'10px'}}  onClick={() => setIsOpen(true)}>
-            <MDBIcon icon="plus-square" /> เพิ่มพืชพรรณ
+            <MDBIcon icon="plus-square" /> เพิ่มพืชพรรณใหม่
           </Button>
         </div>
         <MDBDataTableV5 theadColor="dark" data={table} sortable={false} />
@@ -36,6 +36,7 @@ function ListData() {
         isShown={isOpen}
         onCloseComplete={() => setIsOpen(false)}
         hasFooter={false}
+        hasHeader={false}
       >
         <FromAddPlant />
       </Dialog>
