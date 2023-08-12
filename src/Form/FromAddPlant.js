@@ -30,14 +30,6 @@ function FromAddPlant() {
   const [imgFlower, setImgFlower] = useState(null);
   const [imgTrunk, setImgTrunk] = useState(null);
   const [imgFruit, setImgFruit] = useState(null);
-
-  const onSubmit = (e) => {
-    e.preventDefault();
-    Swal.fire({
-      icon: "success",
-    });
-    console.log(inputs);
-  };
   const [inputs, setInputs] = useState([]);
   const onChange = (e) => {
     const name = e.target.name;
@@ -82,7 +74,7 @@ function FromAddPlant() {
       onChange(e);
       setSelectAmphurs(e.target.value);
       const value = e.target.value;
-      await selectDistrict(value);
+        selectDistrict(value);
     } catch (error) {}
   };
   const onSelectDistrict = async (e) => {
@@ -99,7 +91,7 @@ function FromAddPlant() {
   const [selectedFile, setSelectedFile] = useState(null);
 
   const handleFileChange = (files, val) => {
-    console.log(files[0].type)
+    console.log(files[0].type);
     if (files.length > 0) {
       if (
         files &&
@@ -151,6 +143,14 @@ function FromAddPlant() {
         });
     }
   };
+  const onSubmit = (e) => {
+    e.preventDefault();
+    Swal.fire({
+      icon: "success",
+      title:JSON.stringify(inputs)
+    });
+    console.log(inputs);
+  };
   return (
     <Pane className="pt-2">
       <form onSubmit={onSubmit}>
@@ -172,8 +172,14 @@ function FromAddPlant() {
           />
         </div>
         <TextInputField
-          name="plant_pr"
+          name="plant_character"
           label="ลักษณะวิสัย"
+          onChange={onChange}
+          required
+        />
+        <TextInputField
+          name="distinctive"
+          label="ลักษณะเด่นของพืช"
           onChange={onChange}
           required
         />
@@ -322,7 +328,7 @@ function FromAddPlant() {
         <div className="container-img " style={{ gap: "10px" }}>
           <Pane width="100%">
             <FilePicker
-             onChange={(e) => handleFileChange(e, 1)}
+              onChange={(e) => handleFileChange(e, 1)}
               placeholder="เลือกรูปภาพใบ"
               accept=".png, .jpg, .jpeg"
             />
@@ -336,7 +342,7 @@ function FromAddPlant() {
           </Pane>
           <Pane width="100%">
             <FilePicker
-             onChange={(e) => handleFileChange(e, 2)}
+              onChange={(e) => handleFileChange(e, 2)}
               placeholder="เลือกรูปภาพต้น"
               accept=".png, .jpg, .jpeg"
             />
@@ -350,7 +356,7 @@ function FromAddPlant() {
           </Pane>
           <Pane width="100%">
             <FilePicker
-            onChange={(e) => handleFileChange(e, 3)}
+              onChange={(e) => handleFileChange(e, 3)}
               placeholder="เลือกรูปภาพดอก"
               accept=".png, .jpg, .jpeg"
             />
