@@ -82,7 +82,7 @@ function FromAddPlant() {
       onChange(e);
       setSelectAmphurs(e.target.value);
       const value = e.target.value;
-      setZipcode('');
+      setZipcode("");
 
       selectDistrict(value);
     } catch (error) {}
@@ -138,12 +138,14 @@ function FromAddPlant() {
       }
     }
   };
-  const handleUpload = (val) => {
+  const handleUpload = (val, id, name) => {
     if (val) {
       const formData = new FormData();
       formData.append("file", val);
+      formData.append("name", 1 + name);
+      formData.append("user_id", 1);
       axios
-        .post("upload.php", formData)
+        .post(API + "/Plant/uploadImage", formData)
         .then((response) => {
           console.log("Upload successful:", response.data);
         })
@@ -165,7 +167,7 @@ function FromAddPlant() {
           distinctive: inputs.distinctive,
           qty: inputs.qty,
           radius: inputs.radius,
-          statuss: inputs.statuss,
+          status: inputs.statuss,
           tambon_id: inputs.tambon_id,
           zipcode: zipcode,
           plant_character: inputs.plant_character,
@@ -200,7 +202,19 @@ function FromAddPlant() {
         const res = await addPlant();
         console.log(res, "123");
         if (res === "success") {
-          console.log(idimage);
+          if (imgLeaf) {
+            handleUpload(imgLeaf, idimage, "leaf");
+          }
+          if (imgFlower) {
+            handleUpload(imgFlower, idimage, "flower");
+          }
+          if (imgTrunk) {
+            handleUpload(imgTrunk, idimage, "trunk");
+          }
+          if (imgFruit) {
+            handleUpload(imgFruit, idimage, "fruit");
+          }
+
           Swal.fire({
             icon: "success",
             title: idimage,
@@ -417,6 +431,13 @@ function FromAddPlant() {
               onChange={(e) => handleFileChange(e, 1)}
               placeholder="เลือกรูปภาพใบ"
               accept=".png, .jpg, .jpeg"
+              validate={(file) => {
+                const maxFileSize = 5 * 1024 * 1024; // 5 MB
+                if (file.size > maxFileSize) {
+                  return "File size exceeds the limit";
+                }
+                return null;
+              }}
             />
             {imgLeaf && (
               <Image
