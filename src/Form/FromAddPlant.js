@@ -82,7 +82,7 @@ function FromAddPlant() {
       onChange(e);
       setSelectAmphurs(e.target.value);
       const value = e.target.value;
-      setZipcode(value);
+      setZipcode('');
 
       selectDistrict(value);
     } catch (error) {}
@@ -92,7 +92,7 @@ function FromAddPlant() {
       onChange(e);
       setTambon(e.target.value);
       const post = await axios.post(API + "/Plant/ZipCode", {
-        amphur: inputs.amphur_id,
+        amphur: inputs.tambon_id,
       });
       const response = post.data[0].ZIPCODE;
       setZipcode(response);
@@ -138,11 +138,10 @@ function FromAddPlant() {
       }
     }
   };
-  const handleUpload = () => {
-    if (selectedFile) {
+  const handleUpload = (val) => {
+    if (val) {
       const formData = new FormData();
-      formData.append("file", selectedFile);
-
+      formData.append("file", val);
       axios
         .post("upload.php", formData)
         .then((response) => {
