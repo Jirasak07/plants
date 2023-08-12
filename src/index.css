@@ -15,3 +15,8 @@ code {
   display: grid;
   grid-template-columns: repeat(auto-fit,minmax(300px,1fr));
 }
+.container-about{
+  display: grid;
+  /* grid-template-columns: repeat(auto-fit,350px); */
+  gap: 10px;
+}

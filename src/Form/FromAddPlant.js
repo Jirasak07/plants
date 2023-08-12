@@ -20,13 +20,16 @@ import ImageCarousel from "./ImageCarousel";
 import { TrashIcon, UploadIcon } from "evergreen-ui";
 
 function FromAddPlant() {
-  // const [select, setSelect] = useState();
   const [province, setProvince] = useState([]);
   const [amphur, setAmphur] = useState([]);
   const [district, setDistrict] = useState([]);
   const [selectAmphurs, setSelectAmphurs] = useState("#");
   const [tambon, setTambon] = useState();
   const [zipcode, setZipcode] = useState();
+  const [imgLeaf, setImgLeaf] = useState(null);
+  const [imgFlower, setImgFlower] = useState(null);
+  const [imgTrunk, setImgTrunk] = useState(null);
+  const [imgFruit, setImgFruit] = useState(null);
 
   const onSubmit = (e) => {
     e.preventDefault();
@@ -95,13 +98,44 @@ function FromAddPlant() {
   };
   const [selectedFile, setSelectedFile] = useState(null);
 
-  const handleFileChange = (files) => {
+  const handleFileChange = (files, val) => {
+    console.log(files[0].type)
     if (files.length > 0) {
-      const file = files[0];
-      setSelectedFile(file);
+      if (
+        files &&
+        (files[0].type === "image/png" ||
+          files[0].type === "image/jpeg" ||
+          files[0].type === "image/jpg")
+      ) {
+        const file = files[0];
+        if (val === 1) {
+          setImgLeaf(file);
+        } else if (val === 2) {
+          setImgTrunk(file);
+        } else if (val === 3) {
+          setImgFlower(file);
+        } else {
+          setImgFruit(file);
+        }
+      } else {
+        Swal.fire({
+          icon: "info",
+          title:
+            "กรุณาเลือกไฟล์รูปภาพที่เป็นประเภท png, jpg, หรือ jpeg เท่านั้น",
+        }).then((res) => {
+          if (val === 1) {
+            setImgLeaf(null);
+          } else if (val === 2) {
+            setImgTrunk(null);
+          } else if (val === 3) {
+            setImgFlower(null);
+          } else {
+            setImgFruit(null);
+          }
+        });
+      }
     }
   };
-
   const handleUpload = () => {
     if (selectedFile) {
       const formData = new FormData();
@@ -118,7 +152,7 @@ function FromAddPlant() {
     }
   };
   return (
-    <Pane>
+    <Pane className="pt-2">
       <form onSubmit={onSubmit}>
         <div className="d-flex flex-column flex-md-row" style={{ gap: "10px" }}>
           <TextInputField
@@ -240,10 +274,7 @@ function FromAddPlant() {
         </div>
         <div className="d-flex flex-column  mb-2">
           <Label>การใช้ประโยชน์ในท้องถิ่น (ระบุส่วนที่ใช้และวิธีกำรใช้)</Label>
-          <div
-            className="d-flex flex-column flex-md-row"
-            style={{ gap: "10px" }}
-          >
+          <div className="container-about">
             <TextareaField
               label="อาหาร"
               name="benefit_foot"
@@ -256,99 +287,100 @@ function FromAddPlant() {
               onChange={onChange}
               width="100%"
             />
+            <TextareaField
+              label="ยารักษาโรค ใช้กับสัตว์"
+              name="benefit_medicine_animal"
+              onChange={onChange}
+            />
+            <TextareaField
+              label="เครื่องเรือน เครื่องใช้อื่น ๆ"
+              name="benefit_appliances"
+              onChange={onChange}
+            />
+            <TextareaField
+              label="ยาฆ่าแมลง ยาปราบศัตรูพืช"
+              name="benefit_pesticide"
+              onChange={onChange}
+            />
+            <TextareaField
+              label="ความเกี่ยวข้องกับประเพณี วัฒนธรรม"
+              name="about_tradition"
+              onChange={onChange}
+            />
+            <TextareaField
+              label="ความเกี่ยวข้องกับความเชื่อทางศาสนา"
+              name="about_religion"
+              onChange={onChange}
+            />
+            <TextareaField
+              label="อื่นๆ (เช่นการเป็นพิษ อันตราย)"
+              name="other"
+              onChange={onChange}
+            />
           </div>
-
-          <TextareaField
-            label="ยารักษาโรค ใช้กับสัตว์"
-            name="benefit_medicine_animal"
-            onChange={onChange}
-          />
-          <TextareaField
-            label="เครื่องเรือน เครื่องใช้อื่น ๆ"
-            name="benefit_appliances"
-            onChange={onChange}
-          />
-          <TextareaField
-            label="ยาฆ่าแมลง ยาปราบศัตรูพืช"
-            name="benefit_pesticide"
-            onChange={onChange}
-          />
-          <TextareaField
-            label="ความเกี่ยวข้องกับประเพณี วัฒนธรรม"
-            name="about_tradition"
-            onChange={onChange}
-          />
-          <TextareaField
-            label="ความเกี่ยวข้องกับความเชื่อทางศาสนา"
-            name="about_religion"
-            onChange={onChange}
-          />
-          <TextareaField
-            label="อื่นๆ (เช่นการเป็นพิษ อันตราย)"
-            name="other"
-            onChange={onChange}
-          />
         </div>
         <div className="container-img " style={{ gap: "10px" }}>
-          <Pane width="100%" backgroundColor="#000000">
+          <Pane width="100%">
             <FilePicker
-              onChange={handleFileChange}
+             onChange={(e) => handleFileChange(e, 1)}
               placeholder="เลือกรูปภาพใบ"
               accept=".png, .jpg, .jpeg"
             />
-            {selectedFile && (
+            {imgLeaf && (
               <Image
-                src={URL.createObjectURL(selectedFile)}
+                src={URL.createObjectURL(imgLeaf)}
                 alt="Preview"
                 width="100%"
               />
             )}
           </Pane>
-          <Pane width="100%" backgroundColor="#000000">
+          <Pane width="100%">
             <FilePicker
-              onChange={handleFileChange}
+             onChange={(e) => handleFileChange(e, 2)}
               placeholder="เลือกรูปภาพต้น"
               accept=".png, .jpg, .jpeg"
             />
-            {selectedFile && (
+            {imgTrunk && (
               <Image
-                src={URL.createObjectURL(selectedFile)}
+                src={URL.createObjectURL(imgTrunk)}
                 alt="Preview"
                 width="100%"
               />
             )}
           </Pane>
-          <Pane width="100%" backgroundColor="#000000">
+          <Pane width="100%">
             <FilePicker
-              onChange={handleFileChange}
+            onChange={(e) => handleFileChange(e, 3)}
               placeholder="เลือกรูปภาพดอก"
               accept=".png, .jpg, .jpeg"
             />
-            {selectedFile && (
+            {imgFlower && (
               <Image
-                src={URL.createObjectURL(selectedFile)}
+                src={URL.createObjectURL(imgFlower)}
                 alt="Preview"
                 width="100%"
               />
             )}
           </Pane>
-          <Pane width="100%" backgroundColor="#000000">
+          <Pane width="100%">
             <FilePicker
-              onChange={handleFileChange}
+              onChange={(e) => handleFileChange(e, 4)}
               placeholder="เลือกรูปภาพผล"
               accept=".png, .jpg, .jpeg"
             />
-            {selectedFile && (
+            {imgFruit && (
               <Image
-                src={URL.createObjectURL(selectedFile)}
+                src={URL.createObjectURL(imgFruit)}
                 alt="Preview"
                 width="100%"
               />
             )}
           </Pane>
         </div>
-        <div className="d-flex flex-column mb-2">
-          <Label>ผู้ให้ข้อมูล</Label>
+        <div className="d-flex flex-column mb-2 mt-2 pt-3">
+          <Label className="ml-2" style={{ fontWeight: "600" }}>
+            ผู้ให้ข้อมูล
+          </Label>
           <div className="d-flex" style={{ gap: "10px" }}>
             <TextInputField
               label="ชื่อ-สกุล"
