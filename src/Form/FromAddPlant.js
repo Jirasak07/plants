@@ -12,6 +12,7 @@ import {
   TextInputField,
   Image,
   TextareaField,
+  Overlay,
 } from "evergreen-ui";
 import React, { useEffect, useState } from "react";
 import { API } from "../configUrl";
@@ -82,8 +83,7 @@ function FromAddPlant() {
       onChange(e);
       setSelectAmphurs(e.target.value);
       const value = e.target.value;
-      setZipcode("");
-
+      setZipcode("")
       selectDistrict(value);
     } catch (error) {}
   };
@@ -91,15 +91,21 @@ function FromAddPlant() {
     try {
       onChange(e);
       setTambon(e.target.value);
-      const post = await axios.post(API + "/Plant/ZipCode", {
-        amphur: inputs.tambon_id,
-      });
-      const response = post.data[0].ZIPCODE;
-      setZipcode(response);
+      zip()
     } catch (error) {}
   };
-  const [selectedFile, setSelectedFile] = useState(null);
-
+const zip = async()=>{
+  try {
+    const post = await axios.post(API + "/Plant/ZipCode", {
+      amphur: inputs.tambon_id,
+    });
+    const response = post.data[0].ZIPCODE;
+    setZipcode(response)
+    console.log("setZipcode called successfully");
+  } catch (error) {
+    
+  }
+}
   const handleFileChange = (files, val) => {
     console.log(files[0].type);
     if (files.length > 0) {
@@ -142,8 +148,9 @@ function FromAddPlant() {
     if (val) {
       const formData = new FormData();
       formData.append("file", val);
-      formData.append("name", 1 + name);
+      formData.append("name", id + name);
       formData.append("user_id", 1);
+      formData.append("plant_id", id);
       axios
         .post(API + "/Plant/uploadImage", formData)
         .then((response) => {
@@ -155,6 +162,7 @@ function FromAddPlant() {
     }
   };
   const onSubmit = (e) => {
+    setLoad(true)
     e.preventDefault();
     const addPlant = async () => {
       try {
@@ -188,10 +196,9 @@ function FromAddPlant() {
           user_id: "1",
         });
         const respo = go.data;
-        console.log(respo);
         if (respo.mes === "success") {
           setIdImage(respo.val);
-          return "success";
+          return respo;
         } else {
           return "error";
         }
@@ -199,40 +206,58 @@ function FromAddPlant() {
     };
     (async () => {
       try {
-        const res = await addPlant();
-        console.log(res, "123");
-        if (res === "success") {
-          if (imgLeaf) {
-            handleUpload(imgLeaf, idimage, "leaf");
+        addPlant().then((res) => {
+          console.log(res)
+          if (res.mes === "success") {
+            const va = res.val
+            console.log(va)
+            if (va) {
+              if (imgLeaf) {
+                handleUpload(imgLeaf, va, "leaf");
+              } else {
+                console.log("not Leaf");
+              }
+              if (imgFlower) {
+                handleUpload(imgFlower, va, "flower");
+              } else {
+                console.log("not Floer");
+              }
+              if (imgTrunk) {
+                handleUpload(imgTrunk, va, "trunk");
+              } else {
+                console.log("not trunk");
+              }
+              if (imgFruit) {
+                handleUpload(imgFruit, va, "fruit");
+              } else {
+                console.log("not fruit");
+              }
+            }
+          } else if (res.data === "error") {
+            Swal.fire({
+              icon: "error",
+              title: "Hi",
+            });
           }
-          if (imgFlower) {
-            handleUpload(imgFlower, idimage, "flower");
-          }
-          if (imgTrunk) {
-            handleUpload(imgTrunk, idimage, "trunk");
-          }
-          if (imgFruit) {
-            handleUpload(imgFruit, idimage, "fruit");
-          }
-
+        }).then((d)=>{
+          setLoad(false)
           Swal.fire({
             icon: "success",
-            title: idimage,
-          });
-        } else if (res === "error") {
-          Swal.fire({
-            icon: "error",
-            title: "Hi",
-          });
-        }
+            title: 'เพิ่มพืชพรรณใหม่เสร็จสิ้น',
+          })
+        })
       } catch (error) {
         // จัดการข้อผิดพลาดที่เกิดขึ้นในกรณีที่เรียกใช้ addPlant() ไม่สำเร็จ
         console.error(error);
       }
     })();
   };
+  const [load,setLoad] = useState(false)
   return (
     <Pane className="pt-2">
+      <Overlay isShown={load}  >
+      <div class="lds-dual-ring"></div>
+      </Overlay>
       <form onSubmit={onSubmit}>
         <div className="d-flex flex-column flex-md-row" style={{ gap: "10px" }}>
           <TextInputField
@@ -277,14 +302,14 @@ function FromAddPlant() {
               style={{ gap: "10px" }}
             >
               <strong>X</strong>{" "}
-              <TextInput name="x" onChange={onChange} width={"100%"} required />
+              <TextInput type="number" name="x" onChange={onChange} width={"100%"} required />
             </Group>
             <Group
               className="col p-0 d-flex align-items-center "
               style={{ gap: "10px" }}
             >
               <strong>Y</strong>{" "}
-              <TextInput name="y" onChange={onChange} width={"100%"} required />
+              <TextInput name="y" type="number" onChange={onChange} width={"100%"} required />
             </Group>
           </div>
         </div>
@@ -335,12 +360,14 @@ function FromAddPlant() {
             label="อายุโดยประมาณ (ปี)"
             name="age"
             width="100%"
+            type="number"
             onChange={onChange}
             required
           />
           <TextInputField
             label="เส้นรอบวงลำต้น(เมตร)"
             name="radius"
+            type="number"
             width="100%"
             onChange={onChange}
             required
@@ -348,6 +375,7 @@ function FromAddPlant() {
           <TextInputField
             label="ความสูง (เมตร)"
             name="height"
+            type="number"
             width="100%"
             onChange={onChange}
             required
