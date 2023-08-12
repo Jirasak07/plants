@@ -31,7 +31,7 @@ function FromAddPlant() {
   const [imgTrunk, setImgTrunk] = useState(null);
   const [imgFruit, setImgFruit] = useState(null);
   const [inputs, setInputs] = useState([]);
-  const [idimage,setIdImage] = useState(null)
+  const [idimage, setIdImage] = useState(null);
   const onChange = (e) => {
     const name = e.target.name;
     const value = e.target.value;
@@ -51,8 +51,15 @@ function FromAddPlant() {
         amphur: val,
       });
       const response = post.data;
+
+      // ตรวจสอบว่า setDistrict ถูกเรียกใช้งานและค่าที่ถูกส่งเข้ามาถูกต้อง
+      console.log("Calling setDistrict with:", response);
+
       setDistrict(response);
-    } catch (error) {}
+      console.log("setDistrict called successfully");
+    } catch (error) {
+      console.error("Error in selectDistrict:", error);
+    }
   };
   useEffect(() => {
     Fprovince();
@@ -75,6 +82,8 @@ function FromAddPlant() {
       onChange(e);
       setSelectAmphurs(e.target.value);
       const value = e.target.value;
+      setZipcode(value);
+
       selectDistrict(value);
     } catch (error) {}
   };
@@ -157,7 +166,7 @@ function FromAddPlant() {
           distinctive: inputs.distinctive,
           qty: inputs.qty,
           radius: inputs.radius,
-          status: inputs.status,
+          statuss: inputs.statuss,
           tambon_id: inputs.tambon_id,
           zipcode: zipcode,
           plant_character: inputs.plant_character,
@@ -180,7 +189,7 @@ function FromAddPlant() {
         const respo = go.data;
         console.log(respo);
         if (respo.mes === "success") {
-            setIdImage(respo.val)
+          setIdImage(respo.val);
           return "success";
         } else {
           return "error";
@@ -192,13 +201,15 @@ function FromAddPlant() {
         const res = await addPlant();
         console.log(res, "123");
         if (res === "success") {
-            
+          console.log(idimage);
           Swal.fire({
             icon: "success",
+            title: idimage,
           });
         } else if (res === "error") {
           Swal.fire({
             icon: "error",
+            title: "Hi",
           });
         }
       } catch (error) {
@@ -290,15 +301,19 @@ function FromAddPlant() {
             required
           >
             <option value={"#"}>เลือกตำบล...</option>
-            {district.map((i) => (
-              <option value={i.DISTRICT_ID}>{i.DISTRICT_NAME}</option>
-            ))}
+            {Array.isArray(district) &&
+              district.map((i) => (
+                <option key={i.DISTRICT_ID} value={i.DISTRICT_ID}>
+                  {i.DISTRICT_NAME}
+                </option>
+              ))}
           </SelectField>
           <TextInputField
             width="100%"
             label="รหัสไปรษณีย์"
             name="zipcode"
             value={zipcode}
+            readOnly
             required
           />
         </div>
