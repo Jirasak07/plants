@@ -10,8 +10,8 @@ import Setting from './Pages/Setting';
 
 function App() {
   return (
-    <div className='App' >
-      <Routes>
+    <div className='v' >
+      <Routes >
         <Route path='/login' element={<LoginPage/>}/>
         <Route path='/' element={<MainLayout/>} >
           <Route path='/home' element={<Home/>} />
@@ -20,7 +20,6 @@ function App() {
           <Route path='/setting' element={<Setting/>}/>
         </Route>
       </Routes>
-      
     </div>
   )
 }

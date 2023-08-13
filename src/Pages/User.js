@@ -10,10 +10,13 @@ import React, { useEffect, useState } from "react";
 import { Button, Dialog, Overlay, Pane, TextInputField } from "evergreen-ui";
 import Swal from "sweetalert2";
 import "./User.css";
+import axios from "axios";
+import { API } from "../configUrl";
 function User() {
   const [table, setTable] = useState([]);
   const [users, setUsers] = useState([]);
   const [openAdd, setOpenAdd] = useState(false);
+  const [input, setInput] = useState([]);
   const toggleAdd = () => {
     setOpenAdd(false);
   };
@@ -94,6 +97,33 @@ function User() {
       }
     });
   };
+  const onChange = (e) => {
+    const name = e.target.name;
+    const value = e.target.value;
+    setInput((values) => ({ ...values, [name]: value }));
+  };
+  const onSubmit = async (e) => {
+    e.preventDefault();
+    setLoading(true);
+    try {
+      const sentRequest = await axios.post(API + "/User/AddUser", {
+        name: input.fname + " " + input.lname,
+        username: input.username,
+        password: input.password,
+        citizen: input.citizen,
+        tell: input.tell,
+        organize: input.oganize,
+      });
+      const response = sentRequest.data;
+      if (response === "success") {
+        setLoading(false);
+        Swal.fire({
+          icon: "question",
+          title: JSON.stringify(input),
+        });
+      }
+    } catch (error) {}
+  };
   return (
     <div className="container-md   ">
       <Overlay isShown={loading}>
@@ -126,27 +156,75 @@ function User() {
         <MDBDataTableV5 data={table} sortable={false} />
       </div>
       <Dialog
-      header="เพิ่มผู้ใช้ใหม่"
+        header="เพิ่มผู้ใช้ใหม่"
         hasFooter={false}
         isShown={openAdd}
         onCloseComplete={() => setOpenAdd(false)}
       >
-        <Pane>
-          <TextInputField label="ชื่อ-นามสกุล" />
-          <TextInputField label="ชื่อผู้ใช้" />
-          <TextInputField label="รหัสผ่าน" />
-          <TextInputField label="เลขบัตรประชาชน" />
-          <TextInputField label="เบอร์โทรศัพท์" />
-          <TextInputField label="หน่วยงาน/สังกัด" />
-        </Pane>
-        <Button
-          appearance="primary"
-          intent="success"
-          width="100%"
-          onClick={() => EditUser()}
-        >
-          บันทึก
-        </Button>
+        <form onSubmit={onSubmit}>
+          <Pane className="formuser ">
+            <TextInputField
+              width="100%"
+              label="ชื่อ"
+              name="fname"
+              onChange={onChange}
+              required
+            />
+            <TextInputField
+              width="100%"
+              label="นามสกุล"
+              name="lname"
+              onChange={onChange}
+              required
+            />
+            <TextInputField
+              width="100%"
+              label="ชื่อผู้ใช้"
+              name="username"
+              onChange={onChange}
+              required
+            />
+            <TextInputField
+              width="100%"
+              label="รหัสผ่าน"
+              name="password"
+              onChange={onChange}
+              required
+            />
+            <TextInputField
+              width="100%"
+              label="เลขบัตรประชาชน"
+              name="citizen"
+              onChange={onChange}
+              required
+              type="number"
+            />
+            <TextInputField
+              width="100%"
+              label="เบอร์โทรศัพท์"
+              name="tell"
+              onChange={onChange}
+              required
+              type="number"
+            />
+            <TextInputField
+              width="100%"
+              label="หน่วยงาน/สังกัด"
+              name="oganize"
+              onChange={onChange}
+              required
+              // type="number"
+            />
+          </Pane>
+          <Button
+            appearance="primary"
+            intent="success"
+            width="100%"
+            type="submit"
+          >
+            บันทึก
+          </Button>
+        </form>
       </Dialog>
     </div>
   );

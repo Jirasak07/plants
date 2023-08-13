@@ -472,6 +472,7 @@ const zip = async()=>{
                 src={URL.createObjectURL(imgLeaf)}
                 alt="Preview"
                 width="100%"
+                
               />
             )}
           </Pane>
@@ -480,6 +481,13 @@ const zip = async()=>{
               onChange={(e) => handleFileChange(e, 2)}
               placeholder="เลือกรูปภาพต้น"
               accept=".png, .jpg, .jpeg"
+              validate={(file) => {
+                const maxFileSize = 5 * 1024 * 1024; // 5 MB
+                if (file.size > maxFileSize) {
+                  return "File size exceeds the limit";
+                }
+                return null;
+              }}
             />
             {imgTrunk && (
               <Image
@@ -494,6 +502,13 @@ const zip = async()=>{
               onChange={(e) => handleFileChange(e, 3)}
               placeholder="เลือกรูปภาพดอก"
               accept=".png, .jpg, .jpeg"
+              validate={(file) => {
+                const maxFileSize = 5 * 1024 * 1024; // 5 MB
+                if (file.size > maxFileSize) {
+                  return "File size exceeds the limit";
+                }
+                return null;
+              }}
             />
             {imgFlower && (
               <Image
@@ -508,6 +523,13 @@ const zip = async()=>{
               onChange={(e) => handleFileChange(e, 4)}
               placeholder="เลือกรูปภาพผล"
               accept=".png, .jpg, .jpeg"
+              validate={(file) => {
+                const maxFileSize = 5 * 1024 * 1024; // 5 MB
+                if (file.size > maxFileSize) {
+                  return "File size exceeds the limit";
+                }
+                return null;
+              }}
             />
             {imgFruit && (
               <Image
