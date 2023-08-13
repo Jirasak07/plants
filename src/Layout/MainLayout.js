@@ -1,33 +1,42 @@
-import React, { useEffect, useState } from 'react'
-import Head from './Head';
-import { Outlet, useNavigate } from 'react-router-dom';
-import axios from 'axios';
-import { API } from '../configUrl';
+import React, { useEffect, useState } from "react";
+import Head from "./Head";
+import { Outlet, useNavigate } from "react-router-dom";
+import axios from "axios";
+import { API } from "../configUrl";
 // import { MDBFooter } from 'mdbreact';
 
 function MainLayout() {
-  const nav = useNavigate()
-  const [sit,setSit] = useState(0)
-  useEffect(()=>{
-    axios.post(API+"/User/CheckLogin",{
-      token:localStorage.getItem('token')
-    }).then((res)=>{
-      const data = res.userid
-      if(localStorage.getItem('username') === data){
-        setSit(1)
-      }else{
-        setSit(0)
-        nav('/home')
+  const nav = useNavigate();
+  const [sit, setSit] = useState(0);
+  const tokens = localStorage.getItem("token");
+  const check = async () => {
+    try {
+      const token = await axios.post(API + "/User/checkLogin", {
+        token: tokens,
+      });
+      const data = token.data;
+      console.log(data.userid);
+      if (localStorage.getItem("username") === data.userid) {
+        setSit(1);
+      } else {
+        setSit(0);
+        nav("/home");
       }
-    })
-  })
+      // console.log(token.data)
+    } catch (error) {
+      setSit(0);
+      nav("/home");
+    }
+  };
+  useEffect(() => {
+    check();
+  }, []);
   return (
-    <div className='mainlayout' >
+    <div className="mainlayout container-fluid p-0">
       <Head sit={sit} />
-      <Outlet/>
-      {/* <MDBFooter color='indigo'  >Footer</MDBFooter> */}
+      <Outlet />
     </div>
-  )
+  );
 }
 
-export default MainLayout
+export default MainLayout;

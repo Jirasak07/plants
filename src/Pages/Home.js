@@ -7,23 +7,36 @@ import { MDBCard, MDBCardFooter } from "mdbreact";
 import { MDBPagination, MDBPageItem, MDBPageNav, MDBCol } from "mdbreact";
 import { PDFDownloadLink } from "@react-pdf/renderer";
 import ReportPDF from "../Report/ReportPDF";
+import axios from "axios";
+import { API } from "../configUrl";
 function Home() {
   const data = [{ val: 1 }, { val: 2 }, { val: 3 }];
   const [users, setUsers] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
   const itemsPerPage = 9; // จำนวนผู้ใช้งานต่อหน้า
-  useEffect(() => {
-    const fakeUsers = [];
-    for (let i = 1; i <= 100; i++) {
-      fakeUsers.push({
-        id: i,
-        firstName: `ชื่อ${i}`,
-        lastName: `นามสกุล${i}`,
-        age: Math.floor(Math.random() * 40) + 18,
-      });
+  const [isReady, setIsReady] = useState(false);
+  // const [plant,setPlant] = useState([])
+
+  const getUser = async()=>{
+    try {
+      const get = await axios.get(API + "/Plant/getPlant");
+      const data = get.data;
+      setUsers(data);
+      console.log(data)
+      setIsReady(true); // เมื่อได้ข้อมูลแล้วให้ตั้งค่า isReady เป็น true
+    } catch (error) {
+      
     }
-    setUsers(fakeUsers);
+  }
+  useEffect(() => {
+    getUser();
   }, []);
+  useEffect(() => {
+    if (isReady) {
+      // setTables();
+    }
+  }, [isReady]);
+
   const indexOfLastUser = currentPage * itemsPerPage;
   const indexOfFirstUser = indexOfLastUser - itemsPerPage;
   const currentUsers = users.slice(indexOfFirstUser, indexOfLastUser);
@@ -73,13 +86,12 @@ function Home() {
           {currentUsers.map((user) => (
             <div className="MDBCard rounded">
               <div>
-                {/* {user.firstName} {user.lastName} (อายุ: {user.age}) */}
                 <div>
-                  <img src={sunflower} width={"100%"} alt="" />
+                  <img src={API+"/"+user.img} width={"100%"} alt="" />
                 </div>
                 <div className="text-center mt-2">
                   <strong className="text-center">
-                    ดอกทานตะวัน SunFlower {user.firstName}
+                    {user.plant_name}
                   </strong>
                 </div>
               </div>

@@ -28,7 +28,7 @@ function Head({ sit }) {
           {" "}
           <img src={logo} alt="" width={40} /> โครงการ อพ.สธ. อบจ.กำแพงเพชร
         </span>
-      </MDBNavbarBrand>{sit}
+      </MDBNavbarBrand>
       <MDBNavbarToggler onClick={toggleCollapse} />
       <MDBCollapse id="navbarCollapse3" isOpen={isOpen} navbar>
         <NavLink
@@ -68,44 +68,59 @@ function Head({ sit }) {
             <MDBDropdownToggle nav caret className="navlink">
               <MDBIcon icon="cog" /> จัดการระบบ
             </MDBDropdownToggle>
-            <MDBDropdownMenu className="dropdown-default">
-              <NavLink to="/plant" className="dd">
-                <MDBIcon icon="spa" /> เพิ่มข่าวประชาสัมพันธ์
+            <MDBDropdownMenu className="dropdown-default ">
+              <NavLink to="/news" className="dd">
+                เพิ่มข่าวประชาสัมพันธ์
               </NavLink>
+              {/* <NavLink to="/plant" className="dd text-dark">
+                เพิ่มข่าวประชาสัมพันธ์
+              </NavLink> */}
             </MDBDropdownMenu>
           </MDBDropdown>
         ) : (
           <></>
         )}
-{sit === 1? <MDBNavbarNav right>
-          <MDBNavItem>
-            <MDBDropdown className="d-none d-md-flex">
-              <MDBDropdownToggle nav caret>
-                <MDBIcon icon="user" /> นายจิรศักดิ์ สิงหบุตร
-              </MDBDropdownToggle>
-              <MDBDropdownMenu className="dropdown-default p-2">
-                <MDBDropdownItem className="logout" href="#!">
+        {sit === 1 ? (
+          <MDBNavbarNav right>
+            <MDBNavItem>
+              <MDBDropdown className="d-none d-md-flex">
+                <MDBDropdownToggle nav caret>
+                  <MDBIcon icon="user" /> {localStorage.getItem("name")}
+                </MDBDropdownToggle>
+                <MDBDropdownMenu className="dropdown-default p-2">
+                  <NavLink to={'/profile'} >
+                      <MDBDropdownItem className="bg-info" href="#!">
+                    โปรไฟล์
+                  </MDBDropdownItem>
+                  </NavLink>
+                  <NavLink to={'/login'} >
+                      <MDBDropdownItem className="logout" href="#!">
+                    ออกจากระบบ
+                  </MDBDropdownItem>
+                  </NavLink>
+                </MDBDropdownMenu>
+              </MDBDropdown>
+              <MDBCol className="d-flex d-md-none justify-content-between align-items-center">
+                <NavLink>
+                  <MDBIcon icon="user" /> {localStorage.getItem("name")}
+                </NavLink>
+                <div
+                  className="btn btn-sm btn-danger d-flex align-items-center "
+                  style={{ gap: "10px" }}
+                >
+                  <MDBIcon icon="sign-out-alt" />
                   ออกจากระบบ
-                </MDBDropdownItem>
-              </MDBDropdownMenu>
-            </MDBDropdown>
-            <MDBCol className="d-flex d-md-none justify-content-between align-items-center">
-              <div>
-                <MDBIcon icon="user" /> นายจิรศักดิ์ สิงหบุตร
-              </div>
-              <div
-                className="btn btn-sm btn-danger d-flex align-items-center "
-                style={{ gap: "10px" }}
-              >
-                <MDBIcon icon="sign-out-alt" />
-                ออกจากระบบ
-              </div>
-            </MDBCol>
-          </MDBNavItem>
-        </MDBNavbarNav>:<>
-        <NavLink  className="" to={'/login'} >เข้าสู่ระบบ</NavLink>
-        </>}
-        
+                </div>
+              </MDBCol>
+            </MDBNavItem>
+          </MDBNavbarNav>
+        ) : (
+          <>
+            <NavLink className="" to={"/login"}>
+              เข้าสู่ระบบ
+            </NavLink>
+          </>
+        )}
       </MDBCollapse>
     </MDBNavbar>
   );

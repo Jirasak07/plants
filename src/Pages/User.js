@@ -1,13 +1,14 @@
-import {
-  MDBDataTableV5,
-  MDBInput,
-  MDBModal,
-  MDBModalBody,
-  MDBModalFooter,
-  MDBModalHeader,
-} from "mdbreact";
+import { MDBDataTableV5 } from "mdbreact";
 import React, { useEffect, useState } from "react";
-import { Button, Dialog, Overlay, Pane, TextInputField } from "evergreen-ui";
+import {
+  Button,
+  Dialog,
+  Overlay,
+  Pane,
+  ShieldIcon,
+  TextInputField,
+  UserIcon,
+} from "evergreen-ui";
 import Swal from "sweetalert2";
 import "./User.css";
 import axios from "axios";
@@ -17,85 +18,174 @@ function User() {
   const [users, setUsers] = useState([]);
   const [openAdd, setOpenAdd] = useState(false);
   const [input, setInput] = useState([]);
-  const toggleAdd = () => {
-    setOpenAdd(false);
+  const [isReady, setIsReady] = useState(false);
+  const getUser = async () => {
+    try {
+      const get = await axios.get(API + "/User/getUser");
+      const data = get.data;
+      setUsers(data);
+      setIsReady(true); // เมื่อได้ข้อมูลแล้วให้ตั้งค่า isReady เป็น true
+    } catch (error) {
+      // จัดการเมื่อเกิดข้อผิดพลาด
+    }
+  };
+  const setTables = async () => {
+    try {
+      setTable({
+        columns: [
+          {
+            label: "รหัสผู้ใช้",
+            field: "no",
+          },
+          {
+            label: "ชื่อ",
+            field: "name",
+          },
+          {
+            label: "สังกัด",
+            field: "oga",
+          },
+          {
+            label: "เบอร์โทรศัพท์",
+            field: "tell",
+          },
+          {
+            label: "สถานะ",
+            field: "status",
+          },
+          {
+            label: "สิทธิ์",
+            field: "role",
+          },
+          {
+            label: "จัดการ",
+            field: "manage",
+          },
+        ],
+        rows: [
+          ...users.map((i) => ({
+            no: i.user_id,
+            name: i.name,
+            oga: i.organization,
+            tell: i.tell_number,
+            status: (
+              <div className={i.status === 1 ? "text-success" : "text-danger"}>
+                {i.status === 1 ? "ใช้งานปกติ" : "ไม่ได้รับสิทธิ์"}
+              </div>
+            ),
+            role: <div> {i.user_role === 1 ? "Admin" : "ผู้ใช้งาน"} </div>,
+            manage: (
+              <div className="d-flex " style={{ gap: "10px" }}>
+                <UserIcon
+                  size={20}
+                  color="blue"
+                  className="ic"
+                  onClick={() => EditUser(i.user_id, i.name, i.user_role)}
+                />
+                <ShieldIcon
+                  size={20}
+                  color="green"
+                  className="ic"
+                  onClick={() => EditRole(i.user_id, i.name, i.status)}
+                />
+              </div>
+            ),
+          })),
+        ],
+      });
+      console.log(users);
+    } catch (error) {}
   };
   useEffect(() => {
-    const fakeUsers = [];
-    for (let i = 1; i <= 100; i++) {
-      fakeUsers.push({
-        id: i,
-        firstName: `ชื่อ${i}`,
-        lastName: `นามสกุล${i}`,
-        age: Math.floor(Math.random() * 40) + 18,
-      });
-    }
-    setUsers(fakeUsers);
-    setTable({
-      columns: [
-        {
-          label: "รหัสผู้ใช้",
-          field: "no",
-        },
-        {
-          label: "ชื่อ",
-          field: "name",
-        },
-        {
-          label: "นามสกุล",
-          field: "lname",
-        },
-        {
-          label: "อายุ",
-          field: "age",
-        },
-        {
-          label: "จัดการ",
-          field: "manage",
-        },
-      ],
-      rows: [
-        ...fakeUsers.map((i) => ({
-          no: i.id,
-          name: i.firstName,
-          lname: i.lastName,
-          age: i.age,
-          manage: (
-            <div>
-              <div
-                className="btn-warning btn btn-sm"
-                onClick={() => EditUser(i.id, i.firstName)}
-              >
-                แก้ไข
-              </div>
-            </div>
-          ),
-        })),
-      ],
-    });
+    getUser();
   }, []);
+
+  useEffect(() => {
+    if (isReady) {
+      setTables();
+    }
+  }, [isReady]);
+
   const [loading, setLoading] = useState(false);
-  const EditUser = async (id, name) => {
-    Swal.fire({
-      icon: "info",
-      title: "ท่านต้องการแก้ไขสิทธิ์ของ" + name + "หรือไม่ ",
-      confirmButtonText: "ยืนยัน",
-      cancelButtonText: "ยกเลิก",
-      showCancelButton: true,
-      cancelButtonColor: "#d90429",
-      confirmButtonColor: "#38b000",
-    }).then((res) => {
-      if (res.isConfirmed === true) {
-        setLoading(true);
-        setTimeout(() => {
-          setLoading(false);
-          Swal.fire({
-            icon: "success",
-            title: "แก้ไขเสร็จสิ้น",
-          });
-        }, 2000);
-      }
-    });
+  const EditUser = (id, name, role) => {
+      Swal.fire({
+        icon: "info",
+        text: `ท่านต้องการเปลี่ยน${name}เป็น${
+          role === 1 ? "ผู้ใช้" : "Admin"
+        }หรือไม่ `,
+        confirmButtonText: "ยืนยัน",
+        cancelButtonText: "ยกเลิก",
+        showCancelButton: true,
+        cancelButtonColor: "#d90429",
+        confirmButtonColor: "#38b000",
+      }).then((res) => {
+        if (res.isConfirmed === true) {
+          setLoading(true);
+          axios
+            .post(API + "/User/EditAuth", {
+              user_role: role===1? 2:1,
+              id: id,
+            })
+            .then((d) => {
+              if (d.data === "success") {
+                setLoading(false);
+                Swal.fire({
+                  icon: "success",
+                  title: "แก้ไขเสร็จสิ้น",
+                }).then((rr)=>{
+                  window.location.reload()
+                })
+              }
+            });
+
+          // if ( === "success") {
+          //   setTimeout(() => {
+          //     setLoading(false);
+          //
+          //   }, 2000);
+          // }
+        }
+      });
+  };
+  const EditRole = (id, name, role) => {
+      Swal.fire({
+        icon: "info",
+        text: `ท่านต้องการเปลี่ยนสิทธิ์ใช้งานของ${name}เป็น${
+          role === 1 ? "ยกเลิกสิทธิ์" : "ให้สิทธิ์"
+        }หรือไม่ `,
+        confirmButtonText: "ยืนยัน",
+        cancelButtonText: "ยกเลิก",
+        showCancelButton: true,
+        cancelButtonColor: "#d90429",
+        confirmButtonColor: "#38b000",
+      }).then((res) => {
+        if (res.isConfirmed === true) {
+          setLoading(true);
+          axios
+            .post(API + "/User/EditRole", {
+              status: role===1? 0:1,
+              id: id,
+            })
+            .then((d) => {
+              if (d.data === "success") {
+                setLoading(false);
+                Swal.fire({
+                  icon: "success",
+                  title: "แก้ไขเสร็จสิ้น",
+                }).then((rr)=>{
+                  window.location.reload()
+                })
+              }
+            });
+
+          // if ( === "success") {
+          //   setTimeout(() => {
+          //     setLoading(false);
+          //
+          //   }, 2000);
+          // }
+        }
+      });
   };
   const onChange = (e) => {
     const name = e.target.name;
@@ -118,8 +208,11 @@ function User() {
       if (response === "success") {
         setLoading(false);
         Swal.fire({
-          icon: "question",
-          title: JSON.stringify(input),
+          icon: "success",
+          title: "เพิ่มผู้ใช้สำเร็จ",
+        }).then((e) => {
+          setOpenAdd(false);
+          window.location.reload();
         });
       }
     } catch (error) {}
@@ -127,7 +220,7 @@ function User() {
   return (
     <div className="container-md   ">
       <Overlay isShown={loading}>
-        <div class="lds-spinner">
+        <div className="lds-spinner">
           <div></div>
           <div></div>
           <div></div>
