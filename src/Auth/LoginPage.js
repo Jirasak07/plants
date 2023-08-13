@@ -24,7 +24,6 @@ localStorage.clear()
           password: input.password,
         });
         const response = login.data;
-        console.log(response);
         if (response.message === "success") {
           setLoad(false);
           Swal.fire({

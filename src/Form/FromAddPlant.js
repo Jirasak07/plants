@@ -17,8 +17,6 @@ import {
 import React, { useEffect, useState } from "react";
 import { API } from "../configUrl";
 import Swal from "sweetalert2";
-import ImageCarousel from "./ImageCarousel";
-import { TrashIcon, UploadIcon } from "evergreen-ui";
 
 function FromAddPlant() {
   const [province, setProvince] = useState([]);
@@ -54,7 +52,7 @@ function FromAddPlant() {
       const response = post.data;
 
       // ตรวจสอบว่า setDistrict ถูกเรียกใช้งานและค่าที่ถูกส่งเข้ามาถูกต้อง
-      console.log("Calling setDistrict with:", response);
+      console.log("Calling setDistrict with:");
 
       setDistrict(response);
       console.log("setDistrict called successfully");
@@ -76,7 +74,6 @@ function FromAddPlant() {
     fetchAmphur();
   }, []);
   useEffect(() => {
-    console.log(amphur);
   }, []);
   const onSelectAmphur = async (e) => {
     try {
@@ -105,7 +102,6 @@ function FromAddPlant() {
     } catch (error) {}
   };
   const handleFileChange = (files, val) => {
-    console.log(files[0].type);
     if (files.length > 0) {
       if (
         files &&
@@ -152,7 +148,7 @@ function FromAddPlant() {
       axios
         .post(API + "/Plant/uploadImage", formData)
         .then((response) => {
-          console.log("Upload successful:", response.data);
+          console.log("Upload successful:");
         })
         .catch((error) => {
           console.error("Upload error:", error);
@@ -206,10 +202,9 @@ function FromAddPlant() {
       try {
         addPlant()
           .then((res) => {
-            console.log(res);
             if (res.mes === "success") {
               const va = res.val;
-              console.log(va);
+
               if (va) {
                 if (imgLeaf) {
                   handleUpload(imgLeaf, va, "leaf");

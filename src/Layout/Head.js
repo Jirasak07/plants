@@ -21,6 +21,7 @@ function Head({ sit }) {
     setIsOpen(!isOpen);
   };
   const [isOpen, setIsOpen] = useState(false);
+  const role = localStorage.getItem("role");
   return (
     <MDBNavbar className="head" dark expand="md">
       <MDBNavbarBrand>
@@ -52,31 +53,47 @@ function Head({ sit }) {
           <></>
         )}
         {sit === 1 ? (
-          <NavLink
-            to="/user"
-            className={({ isActive, isPending }) =>
-              isPending ? "bg-info" : isActive ? "navlink ac" : "navlink"
-            }
-          >
-            <MDBIcon icon="user-cog" /> ผู้ใช้งาน
-          </NavLink>
+          <>
+            {role === "1" ? (
+              <>
+                <NavLink
+                  to="/user"
+                  className={({ isActive, isPending }) =>
+                    isPending ? "bg-info" : isActive ? "navlink ac" : "navlink"
+                  }
+                >
+                  <MDBIcon icon="user-cog" /> ผู้ใช้งาน
+                </NavLink>
+              </>
+            ) : (
+              <></>
+            )}
+          </>
         ) : (
           <></>
         )}
         {sit === 1 ? (
-          <MDBDropdown>
-            <MDBDropdownToggle nav caret className="navlink">
-              <MDBIcon icon="cog" /> จัดการระบบ
-            </MDBDropdownToggle>
-            <MDBDropdownMenu className="dropdown-default ">
-              <NavLink to="/news" className="dd">
-                เพิ่มข่าวประชาสัมพันธ์
-              </NavLink>
-              {/* <NavLink to="/plant" className="dd text-dark">
+          <>
+            {role === "1" ? (
+              <>
+                <MDBDropdown>
+                  <MDBDropdownToggle nav caret className="navlink">
+                    <MDBIcon icon="cog" /> จัดการระบบ
+                  </MDBDropdownToggle>
+                  <MDBDropdownMenu className="dropdown-default ">
+                    <NavLink to="/news" className="dd">
+                      เพิ่มข่าวประชาสัมพันธ์
+                    </NavLink>
+                    {/* <NavLink to="/plant" className="dd text-dark">
                 เพิ่มข่าวประชาสัมพันธ์
               </NavLink> */}
-            </MDBDropdownMenu>
-          </MDBDropdown>
+                  </MDBDropdownMenu>
+                </MDBDropdown>
+              </>
+            ) : (
+              <></>
+            )}
+          </>
         ) : (
           <></>
         )}
@@ -88,15 +105,15 @@ function Head({ sit }) {
                   <MDBIcon icon="user" /> {localStorage.getItem("name")}
                 </MDBDropdownToggle>
                 <MDBDropdownMenu className="dropdown-default p-2">
-                  <NavLink to={'/profile'} >
-                      <MDBDropdownItem className="bg-info" href="#!">
-                    โปรไฟล์
-                  </MDBDropdownItem>
+                  <NavLink to={"/profile"}>
+                    <MDBDropdownItem className="bg-info" href="#!">
+                      โปรไฟล์
+                    </MDBDropdownItem>
                   </NavLink>
-                  <NavLink to={'/login'} >
-                      <MDBDropdownItem className="logout" href="#!">
-                    ออกจากระบบ
-                  </MDBDropdownItem>
+                  <NavLink to={"/login"}>
+                    <MDBDropdownItem className="logout" href="#!">
+                      ออกจากระบบ
+                    </MDBDropdownItem>
                   </NavLink>
                 </MDBDropdownMenu>
               </MDBDropdown>

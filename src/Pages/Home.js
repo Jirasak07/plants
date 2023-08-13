@@ -5,29 +5,29 @@ import sunflower from "../Assets/sunflower.jpg";
 import { Carousel } from "react-responsive-carousel";
 import { MDBCard, MDBCardFooter } from "mdbreact";
 import { MDBPagination, MDBPageItem, MDBPageNav, MDBCol } from "mdbreact";
-import { PDFDownloadLink } from "@react-pdf/renderer";
-import ReportPDF from "../Report/ReportPDF";
+import iii from "../Assets/sds.png";
 import axios from "axios";
 import { API } from "../configUrl";
 function Home() {
   const data = [{ val: 1 }, { val: 2 }, { val: 3 }];
   const [users, setUsers] = useState([]);
+  const [news, setNews] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
   const itemsPerPage = 9; // จำนวนผู้ใช้งานต่อหน้า
   const [isReady, setIsReady] = useState(false);
   // const [plant,setPlant] = useState([])
 
-  const getUser = async()=>{
+  const getUser = async () => {
     try {
       const get = await axios.get(API + "/Plant/getPlant");
       const data = get.data;
       setUsers(data);
-      console.log(data)
+      const getNew = await axios.get(API + "/News/getNew");
+      const news = getNew.data;
+      setNews(news);
       setIsReady(true); // เมื่อได้ข้อมูลแล้วให้ตั้งค่า isReady เป็น true
-    } catch (error) {
-      
-    }
-  }
+    } catch (error) {}
+  };
   useEffect(() => {
     getUser();
   }, []);
@@ -65,20 +65,22 @@ function Home() {
     startIndex + pagesToShow - 1,
     Math.ceil(users.length / itemsPerPage)
   );
+
   return (
     <div className="container-lg main-home" style={{ gap: "10px" }}>
-      <div className="carousel" >
+      <div className="carousel">
         <Carousel
           infiniteLoop
           autoPlay={true}
           showThumbs={false}
           transitionTime={600}
         >
-          {data.map((i, index) => (
-            <div>
-              <img className="d-block w-100" src={image} alt="" />
-            </div>
-          ))}
+          {Array.isArray(news) &&
+            news.map((i, index) => (
+              <div>
+                <img className="d-block w-100" src={API+"/"+i.image_news} alt="" />
+              </div>
+            ))}
         </Carousel>
       </div>
       <div className=" pt-3 pb-3 mb-5 info ">
@@ -87,12 +89,10 @@ function Home() {
             <div className="MDBCard rounded">
               <div>
                 <div>
-                  <img src={API+"/"+user.img} width={"100%"} alt="" />
+                  <img src={API + "/" + user.img} width={"100%"} alt="" />
                 </div>
                 <div className="text-center mt-2">
-                  <strong className="text-center">
-                    {user.plant_name}
-                  </strong>
+                  <strong className="text-center">{user.plant_name}</strong>
                 </div>
               </div>
 

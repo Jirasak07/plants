@@ -1,4 +1,10 @@
-import { Button, Dialog, DownloadIcon, EditIcon } from "evergreen-ui";
+import {
+  Button,
+  Dialog,
+  DownloadIcon,
+  EditIcon,
+  EyeOnIcon,
+} from "evergreen-ui";
 import {
   MDBDataTableV5,
   MDBIcon,
@@ -12,81 +18,93 @@ import React, { useEffect, useState } from "react";
 import FromAddPlant from "../Form/FromAddPlant";
 import axios from "axios";
 import { API } from "../configUrl";
+import { NavLink } from "react-router-dom";
+import { PDFDownloadLink } from "@react-pdf/renderer";
+import PDF from "../Report/PDF";
 
 function ListData() {
   const [table, setTable] = useState([]);
   const [isOpen, setIsOpen] = useState(false);
   const [isReady, setIsReady] = useState(false);
-  const [plant,setPlant] = useState([])
-  const getUser = async()=>{
+  const [plant, setPlant] = useState([]);
+  const getUser = async () => {
     try {
       const get = await axios.get(API + "/Plant/getPlant");
       const data = get.data;
       setPlant(data);
-      console.log(data)
       setIsReady(true); // เมื่อได้ข้อมูลแล้วให้ตั้งค่า isReady เป็น true
-    } catch (error) {
-      
-    }
-  }
-  const submitAdd = () => {
-    alert("1234");
+    } catch (error) {}
   };
-    useEffect(() => {
+  useEffect(() => {
     getUser();
   }, []);
-const setTables=async()=>{
-  try {
-    setTable({
-      columns:[
-        {
-          label: "รูปภาพ",
-          field: "img",
-        },
-        {
-          label: "ชื่อพืชพรรณ",
-          field: "name",
-        },
-        {
-          label: "รหัสพรรณไม้",
-          field: "plant_code",
-        },
-        {
-          label: "ลักษณะวิสัย",
-          field: "vis",
-        },
-        {
-          label: "ลักษณะเด่นของพืช",
-          field: "div",
-        },
-        {
-          label: "สถานภาพ",
-          field: "status",
-        },
-        {
-          label: "จัดการ",
-          field: "manage",
-        },
-      ],
-      rows:[
-        ...plant.map((i)=>({
-          img:<div> <img src={API+"/"+i.img} alt="" width={100} /> </div>,
-          name:i.plant_name,
-          plant_code:i.plant_code,
-          vis:i.plant_character,
-          div:i.distinctive,
-          status:i.statuss,
-          manage:<div className="d-flex" style={{gap:'10px'}} >
-           <DownloadIcon className="ic" color="green500" size={20} />
-            <EditIcon className="ic" color="orange500" />
-          </div>
-        }))
-      ]
-    })
-  } catch (error) {
-    
-  }
-}
+  const setTables = async () => {
+    try {
+      setTable({
+        columns: [
+          {
+            label: "รูปภาพ",
+            field: "img",
+          },
+          {
+            label: "ชื่อพืชพรรณ",
+            field: "name",
+          },
+          {
+            label: "รหัสพรรณไม้",
+            field: "plant_code",
+          },
+          {
+            label: "ลักษณะวิสัย",
+            field: "vis",
+          },
+          {
+            label: "ลักษณะเด่นของพืช",
+            field: "div",
+          },
+          {
+            label: "สถานภาพ",
+            field: "status",
+          },
+          {
+            label: "จัดการ",
+            field: "manage",
+          },
+        ],
+        rows: [
+          ...plant.map((i) => ({
+            img: (
+              <div>
+                {" "}
+                <img src={API + "/" + i.img} alt="" width={100} />{" "}
+              </div>
+            ),
+            name: i.plant_name,
+            plant_code: i.plant_code,
+            vis: i.plant_character,
+            div: i.distinctive,
+            status: i.statuss,
+            manage: (
+              <div className="d-flex" style={{ gap: "10px" }}>
+                <PDFDownloadLink document={<PDF />} fileName="FORM">
+                  {({ loading }) =>
+                    loading ? (
+                      <DownloadIcon className="ic" color="green500" size={20} />
+                    ) : (
+                      <DownloadIcon className="ic" color="green500" size={20} />
+                    )
+                  }
+                </PDFDownloadLink>
+                <NavLink to={"/detail/" + i.plant_id}>
+                  <EyeOnIcon className="ic" color="orange500" />
+                </NavLink>
+              </div>
+            ),
+          })),
+        ],
+      });
+    } catch (error) {}
+  };
   useEffect(() => {
     if (isReady) {
       setTables();
@@ -96,11 +114,20 @@ const setTables=async()=>{
     <div className="container pt-2 ">
       <div className="bg-white px-3 pt-2 rounded">
         <div className="d-flex justify-content-end">
-          <Button appearance="primary" style={{gap:'10px'}}  onClick={() => setIsOpen(true)}>
+          <Button
+            appearance="primary"
+            style={{ gap: "10px" }}
+            onClick={() => setIsOpen(true)}
+          >
             <MDBIcon icon="plus-square" /> เพิ่มพืชพรรณใหม่
           </Button>
         </div>
-        <MDBDataTableV5 responsive theadColor="dark" data={table} sortable={false} />
+        <MDBDataTableV5
+          responsive
+          theadColor="dark"
+          data={table}
+          sortable={false}
+        />
       </div>
       <Dialog
         isShown={isOpen}
