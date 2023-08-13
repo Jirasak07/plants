@@ -13,10 +13,10 @@ import {
   MDBIcon,
   MDBCol,
 } from "mdbreact";
-import logo from '../Assets/logoo.png'
+import logo from "../Assets/logoo.png";
 import "./Stylelayout.css";
 import { NavLink } from "react-router-dom";
-function Head() {
+function Head({ sit }) {
   const toggleCollapse = () => {
     setIsOpen(!isOpen);
   };
@@ -24,8 +24,11 @@ function Head() {
   return (
     <MDBNavbar className="head" dark expand="md">
       <MDBNavbarBrand>
-        <span style={{fontSize:'16px'}} > <img src={logo} alt="" width={40} /> โครงการ อพ.สธ. อบจ.กำแพงเพชร</span>
-      </MDBNavbarBrand>
+        <span style={{ fontSize: "16px" }}>
+          {" "}
+          <img src={logo} alt="" width={40} /> โครงการ อพ.สธ. อบจ.กำแพงเพชร
+        </span>
+      </MDBNavbarBrand>{sit}
       <MDBNavbarToggler onClick={toggleCollapse} />
       <MDBCollapse id="navbarCollapse3" isOpen={isOpen} navbar>
         <NavLink
@@ -36,36 +39,45 @@ function Head() {
         >
           <MDBIcon icon="home" /> หน้าแรก
         </NavLink>
-        <NavLink
-          to="/plant"
-          className={({ isActive, isPending }) =>
-            isPending ? "bg-info" : isActive ? "navlink ac" : "navlink"
-          }
-        >
-          <MDBIcon icon="spa" /> พืชพรรณ
-        </NavLink>
-        <NavLink
-          to="/user"
-          className={({ isActive, isPending }) =>
-            isPending ? "bg-info" : isActive ? "navlink ac" : "navlink"
-          }
-        >
-          <MDBIcon icon="user-cog" /> ผู้ใช้งาน
-        </NavLink>
-        <MDBDropdown >
-          <MDBDropdownToggle nav caret className="navlink" >
-              <MDBIcon icon="cog" /> จัดการระบบ
-          </MDBDropdownToggle>
-          <MDBDropdownMenu className="dropdown-default">
+        {sit === 1 ? (
           <NavLink
-          to="/plant"
-          className="dd"
-        >
-          <MDBIcon icon="spa" /> เพิ่มข่าวประชาสัมพันธ์
-        </NavLink>
-          </MDBDropdownMenu>
-        </MDBDropdown>
-        <MDBNavbarNav right>
+            to="/plant"
+            className={({ isActive, isPending }) =>
+              isPending ? "bg-info" : isActive ? "navlink ac" : "navlink"
+            }
+          >
+            <MDBIcon icon="spa" /> พืชพรรณ
+          </NavLink>
+        ) : (
+          <></>
+        )}
+        {sit === 1 ? (
+          <NavLink
+            to="/user"
+            className={({ isActive, isPending }) =>
+              isPending ? "bg-info" : isActive ? "navlink ac" : "navlink"
+            }
+          >
+            <MDBIcon icon="user-cog" /> ผู้ใช้งาน
+          </NavLink>
+        ) : (
+          <></>
+        )}
+        {sit === 1 ? (
+          <MDBDropdown>
+            <MDBDropdownToggle nav caret className="navlink">
+              <MDBIcon icon="cog" /> จัดการระบบ
+            </MDBDropdownToggle>
+            <MDBDropdownMenu className="dropdown-default">
+              <NavLink to="/plant" className="dd">
+                <MDBIcon icon="spa" /> เพิ่มข่าวประชาสัมพันธ์
+              </NavLink>
+            </MDBDropdownMenu>
+          </MDBDropdown>
+        ) : (
+          <></>
+        )}
+{sit === 1? <MDBNavbarNav right>
           <MDBNavItem>
             <MDBDropdown className="d-none d-md-flex">
               <MDBDropdownToggle nav caret>
@@ -90,7 +102,10 @@ function Head() {
               </div>
             </MDBCol>
           </MDBNavItem>
-        </MDBNavbarNav>
+        </MDBNavbarNav>:<>
+        <NavLink  className="" to={'/login'} >เข้าสู่ระบบ</NavLink>
+        </>}
+        
       </MDBCollapse>
     </MDBNavbar>
   );
