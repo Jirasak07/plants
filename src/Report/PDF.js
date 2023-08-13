@@ -1,32 +1,24 @@
-import React, { useEffect } from "react";
-import {  Document, Page, Text, View, StyleSheet, Font } from "@react-pdf/renderer";
-// Font.register({
-//   family: 'Noto Sans Thai',
-//   src: 'https://fonts.gstatic.com/s/notosansthai/v5/TfV5Mu3SuvH0Ep1cW50U.ttf'
-// });
-const styles = StyleSheet.create({
-  page: {
-    flexDirection: 'row',
-    backgroundColor: '#E4E4E4'
-  },
-  section: {
-    margin: 10,
-    padding: 10,
-    flexGrow: 1,
-    fontFamily: 'Noto Sans Thai'
-  }
-});
+import React, { useRef } from 'react';
+import { PDFDownloadLink, Page, Text, View, Document } from '@react-pdf/renderer';
+import { jsPDF } from 'jspdf';
+import { useReactToPrint } from 'react-to-print';
 
-function PDF() {
+const MyPDF = () => {
+  const componentRef = useRef();
+
+  const handlePrint = useReactToPrint({
+    content: () => componentRef.current,
+  });
+
   return (
-    <Document>
-    <Page size="A4" style={styles.page}>
-      <View style={styles.section}>
-        <Text>สวัสดี, นี่คือเอกสาร PDF ที่ใช้แบบอักษร Noto Sans Thai!</Text>
-      </View>
-    </Page>
-  </Document>
+    <div>
+      <div ref={componentRef}>
+        lf,vlf,vlf,vl,
+        <h1>Hello PDF!</h1>
+      </div>
+      <button onClick={handlePrint}>Print PDF</button>
+    </div>
   );
-}
+};
 
-export default PDF;
+export default MyPDF;

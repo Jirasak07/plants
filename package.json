@@ -11,6 +11,7 @@
     "evergreen-ui": "^7.1.9",
     "jspdf": "^2.5.1",
     "jspdf-html2canvas": "^1.4.9",
+    "jspdf-react": "^1.0.11",
     "mdbreact": "^5.2.0",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
@@ -18,6 +19,7 @@
     "react-responsive-carousel": "^3.2.23",
     "react-router-dom": "^6.14.2",
     "react-scripts": "5.0.1",
+    "react-to-print": "^2.14.13",
     "sweetalert2": "^11.7.20",
     "web-vitals": "^2.1.4"
   },
