@@ -7,9 +7,9 @@ import {
   MDBModalHeader,
 } from "mdbreact";
 import React, { useEffect, useState } from "react";
-import {Overlay} from 'evergreen-ui'
+import { Button, Dialog, Overlay, Pane, TextInputField } from "evergreen-ui";
 import Swal from "sweetalert2";
-import './User.css'
+import "./User.css";
 function User() {
   const [table, setTable] = useState([]);
   const [users, setUsers] = useState([]);
@@ -87,16 +87,16 @@ function User() {
         setTimeout(() => {
           setLoading(false);
           Swal.fire({
-            icon:'success',
-            title:'แก้ไขเสร็จสิ้น'
-        })
+            icon: "success",
+            title: "แก้ไขเสร็จสิ้น",
+          });
         }, 2000);
       }
     });
   };
   return (
     <div className="container-md   ">
-      <Overlay isShown={loading} >
+      <Overlay isShown={loading}>
         <div class="lds-spinner">
           <div></div>
           <div></div>
@@ -112,29 +112,42 @@ function User() {
           <div></div>
         </div>
       </Overlay>
-    
+
       <div className="bg-white rounded p-2">
-      <div className="d-flex justify-content-end">
-        {" "}
-        <div className="btn-info btn" onClick={() => setOpenAdd(true)}>
-          เพิ่มผู้ใช้งานใหม่
-        </div>{" "}
-      </div>
+        <div className="d-flex justify-content-end">
+          <Button
+            appearance="primary"
+            intent=""
+            onClick={() => setOpenAdd(true)}
+          >
+            เพิ่มผู้ใช้งานใหม่
+          </Button>
+        </div>
         <MDBDataTableV5 data={table} sortable={false} />
       </div>
-      <MDBModal isOpen={openAdd} toggle={toggleAdd}>
-        <MDBModalHeader toggle={toggleAdd}></MDBModalHeader>
-        <MDBModalBody>
-          <MDBInput label="ชื่อ-นามสกุล" />
-          <MDBInput label="username" />
-          <MDBInput label="password" />
-        </MDBModalBody>
-        <MDBModalFooter>
-          <div>
-            <div className="btn btn-success w-100">บันทึก</div>
-          </div>
-        </MDBModalFooter>
-      </MDBModal>
+      <Dialog
+      header="เพิ่มผู้ใช้ใหม่"
+        hasFooter={false}
+        isShown={openAdd}
+        onCloseComplete={() => setOpenAdd(false)}
+      >
+        <Pane>
+          <TextInputField label="ชื่อ-นามสกุล" />
+          <TextInputField label="ชื่อผู้ใช้" />
+          <TextInputField label="รหัสผ่าน" />
+          <TextInputField label="เลขบัตรประชาชน" />
+          <TextInputField label="เบอร์โทรศัพท์" />
+          <TextInputField label="หน่วยงาน/สังกัด" />
+        </Pane>
+        <Button
+          appearance="primary"
+          intent="success"
+          width="100%"
+          onClick={() => EditUser()}
+        >
+          บันทึก
+        </Button>
+      </Dialog>
     </div>
   );
 }
