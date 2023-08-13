@@ -15,14 +15,16 @@ import Swal from "sweetalert2";
 function News() {
   const [isShow, setIsShow] = useState(false);
   const [files, setFiles] = useState(null);
-  const [endDate,setEndDate] = useState()
+  const [endDate, setEndDate] = useState();
+  const [title, setTitle] = useState();
 
-  const handleUpload = (val, date) => {
-    if (val) {
+  const handleUpload = () => {
+    if (files) {
       const formData = new FormData();
-      formData.append("file", val);
+      formData.append("file", files);
       // formData.append("name", );
-      formData.append("date_end", date);
+      formData.append("date_end", endDate);
+      formData.append("title", title);
       axios
         .post(API + "/Plant/uploadNews", formData)
         .then((response) => {
@@ -33,7 +35,7 @@ function News() {
         });
     }
   };
-  const handleFileChange = (files, val) => {
+  const handleFileChange = (files) => {
     if (files.length > 0) {
       if (
         files &&
@@ -48,8 +50,12 @@ function News() {
           icon: "info",
           title:
             "กรุณาเลือกไฟล์รูปภาพที่เป็นประเภท png, jpg, หรือ jpeg เท่านั้น",
-        }).then((res) => {});
+        }).then((res) => {
+          setFiles(null);
+        });
       }
+    } else {
+      setFiles(null);
     }
   };
   return (
@@ -69,13 +75,6 @@ function News() {
             เพิ่มข่าวประชาสัมพันธ์
           </Button>
         </div>
-        <Button
-            appearance="primary"
-            intent=""
-            onClick={() => console.log(endDate)}
-          >
-            เพิ่มข่าวประชาสัมพันธ์
-          </Button>
         <MDBDataTableV5 />
       </Pane>
       <Pane>
@@ -85,7 +84,11 @@ function News() {
           onCloseComplete={() => setIsShow(false)}
           footer={
             <div className="d-flex" style={{ gap: "10px" }}>
-              <Button appearance="primary" intent="success">
+              <Button
+                appearance="primary"
+                intent="success"
+                onClick={handleUpload}
+              >
                 บันทึก
               </Button>
               <Button
@@ -104,8 +107,8 @@ function News() {
             {/* <TextInputField  name="title" /> */}
             <Pane width="100%">
               <FilePicker
-                onChange={(e) => handleFileChange(e, 1)}
-                placeholder="เลือกรูปภาพใบ"
+                onChange={(e) => handleFileChange(e)}
+                placeholder="เลือกแบนเนอร์ประชาสัมพันธ์"
                 accept=".png, .jpg, .jpeg"
                 validate={(file) => {
                   const maxFileSize = 5 * 1024 * 1024; // 5 MB
@@ -123,7 +126,15 @@ function News() {
                 />
               )}
             </Pane>
-            <TextInputField type="date" onChange={(e)=>setEndDate(e.target.value)} />
+            <TextInputField
+              label="หัวข้อข่าว"
+              onChange={(e) => setTitle(e.target.value)}
+            />
+            <TextInputField
+              type="date"
+              label="วันที่สิ้นสุดการประชาสัมพันธ์"
+              onChange={(e) => setEndDate(e.target.value)}
+            />
           </Pane>
         </Dialog>
       </Pane>
