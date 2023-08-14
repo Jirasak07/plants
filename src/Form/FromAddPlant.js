@@ -239,7 +239,9 @@ function FromAddPlant() {
             Swal.fire({
               icon: "success",
               title: "เพิ่มพืชพรรณใหม่เสร็จสิ้น",
-            });
+            }).then((e)=>{
+              window.location.reload()
+            })
           });
       } catch (error) {
         // จัดการข้อผิดพลาดที่เกิดขึ้นในกรณีที่เรียกใช้ addPlant() ไม่สำเร็จ

@@ -22,12 +22,16 @@ function Head({ sit }) {
   };
   const [isOpen, setIsOpen] = useState(false);
   const role = localStorage.getItem("role");
-const nav = useNavigate()
+  const nav = useNavigate();
 
   return (
     <MDBNavbar className="head" dark expand="lg">
-      <MDBNavbarBrand >
-        <span style={{ fontSize: "16px" }} className="ic" onClick={()=>nav('/home')} >
+      <MDBNavbarBrand>
+        <span
+          style={{ fontSize: "16px" }}
+          className="ic"
+          onClick={() => nav("/home")}
+        >
           {" "}
           <img src={logo} alt="" width={40} /> โครงการ อพ.สธ. อบจ.กำแพงเพชร
         </span>
@@ -78,12 +82,16 @@ const nav = useNavigate()
           <>
             {role === "1" ? (
               <>
-                <MDBDropdown className="w-100">
-                  <MDBDropdownToggle nav caret className="navlink">
+                <MDBDropdown className=" w-100">
+                  <MDBDropdownToggle
+                    nav
+                    caret
+                    className="navlink d-flex justify-content-center "
+                  >
                     <MDBIcon icon="cog" /> จัดการระบบ
                   </MDBDropdownToggle>
-                  <MDBDropdownMenu className="dropdown-default ">
-                    <NavLink to="/news" className="dd w-100 ">
+                  <MDBDropdownMenu className="dropdown-default" >
+                    <NavLink to="/news" className="dd w-100">
                       เพิ่มข่าวประชาสัมพันธ์
                     </NavLink>
                     {/* <NavLink to="/plant" className="dd text-dark">
@@ -125,10 +133,10 @@ const nav = useNavigate()
                   <MDBIcon icon="user" /> {localStorage.getItem("name")}
                 </NavLink>
                 <NavLink to={"/login"}>
-                    <MDBDropdownItem className="logout" href="#!">
-                      ออกจากระบบ
-                    </MDBDropdownItem>
-                  </NavLink>
+                  <MDBDropdownItem className="logout" href="#!">
+                    ออกจากระบบ
+                  </MDBDropdownItem>
+                </NavLink>
               </MDBCol>
             </MDBNavItem>
           </MDBNavbarNav>

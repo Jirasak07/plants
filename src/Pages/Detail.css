@@ -2,4 +2,13 @@
     display: flex;
     flex-wrap: wrap;
 }
+.call{
+    position: relative;
+    width: 350px;
+    height: 350px;
+}
+.iconimg{
+    position: absolute;
+    right: 20px;
+}
 

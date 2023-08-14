@@ -112,7 +112,7 @@ window.location.href = link
         >
           {Array.isArray(news) &&
             news.map((i, index) => (
-              <div    >
+              <div >
                 <img
                   className="d-block w-100"
                   src={API + "/" + i.image_news}
@@ -142,18 +142,18 @@ window.location.href = link
         <div className="card-container pb-3">
           {currentUsers.map((user) => (
             <div className="MDBCard rounded">
-              <div>
+              <div >
                 <div>
                   <img src={API + "/" + user.img} width={"100%"} alt="" />
                 </div>
-                <div className="text-center mt-2">
+                <div className="text-center ">
                   <strong className="text-center">{user.plant_name}</strong>
                 </div>
               </div>
 
               <NavLink
                 to={"/detail2/" + user.plant_id}
-                className="btn btn-secondary d-flex align-items-center justify-content-center btn-sm"
+                className="btn  btn-secondary d-flex align-items-center justify-content-center btn-sm"
               >
                 ดูเพิ่มเติม
               </NavLink>

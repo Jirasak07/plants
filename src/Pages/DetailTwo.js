@@ -11,9 +11,11 @@ import { useParams } from "react-router-dom";
 import "./Detail.css";
 import axios from "axios";
 import { API } from "../configUrl";
+import { Carousel } from "react-responsive-carousel";
 function DetailTwo() {
   const { id } = useParams();
   const [permis, setPermis] = useState(false);
+  const [permissimg, setPermissimg] = useState(false);
   const [permiss, setPermiss] = useState(false);
   const [plant_name, setPlant_name] = useState();
   const [plant_code, setPlant_code] = useState();
@@ -43,6 +45,7 @@ function DetailTwo() {
   const [date, setDate] = useState();
   const [qty, setQty] = useState();
   const [plant, setPlant] = useState([]);
+  const [dataImage, setDataImg] = useState([]);
   const fetch = async () => {
     try {
       const a = await axios.post(API + "/Plant/detailPlant", {
@@ -56,6 +59,21 @@ function DetailTwo() {
   };
   useEffect(() => {
     fetch();
+  }, []);
+  const fetchimg = async () => {
+    try {
+      const a = await axios.post(API + "/Plant/ShowImage", {
+        id: id,
+      });
+      const respos = a.data;
+      setDataImg(respos);
+      console.log(respos);
+      setPermissimg(true);
+    } catch (error) {}
+  };
+  useEffect(() => {}, [permissimg]);
+  useEffect(() => {
+    fetchimg();
   }, []);
   useEffect(() => {
     if (permiss) {
@@ -106,15 +124,31 @@ function DetailTwo() {
         padding={20}
       >
         <div className="d-flex justify-content-end pr-2">
-          <a href={API+"/PlantPD.php/?id="+id} target="_blank" >
+          <a href={API + "/PlantPD.php/?id=" + id} target="_blank">
             <DownloadIcon size={20} color="green500" className="ic" />
           </a>
         </div>
-        <div></div>
+        <div>
+          <Carousel
+            infiniteLoop
+            autoPlay={true}
+            showThumbs={false}
+            transitionTime={600}
+            className="Caro bg-white "
+            // width={"300px"}
+          >
+            {Array.isArray(dataImage) &&
+              dataImage.map((i) =>(
+                <div>
+                   <img src={API + "/" + i.image_name} width={"100%"} style={{maxWidth:'300px'}} alt="" />
+                </div>
+              ))}
+          </Carousel>
+        </div>
         <form className="m row">
           <div className="col-6">
             <TextInputField
-              disabled={!permis}
+              readOnly={!permis}
               label="ชื่อพืช"
               name="plant_name"
               value={plant_name}
@@ -123,7 +157,7 @@ function DetailTwo() {
           </div>
           <div className="col-6 px-2">
             <TextInputField
-              disabled={!permis}
+              readOnly={!permis}
               label="รหัสพรรณไม้"
               name="plant_code"
               value={plant_code}
@@ -132,7 +166,7 @@ function DetailTwo() {
           </div>
           <div className="col-12 px-2">
             <TextInputField
-              disabled={!permis}
+              readOnly={!permis}
               label="ลักษณะวิสัย"
               name="plant_character"
               value={plant_character}
@@ -141,7 +175,7 @@ function DetailTwo() {
           </div>
           <div className="col-12 px-2">
             <TextareaField
-              disabled={!permis}
+              readOnly={!permis}
               label="ลักษณะเด่นของพืช"
               name="distinctive"
               value={distinctive}
@@ -150,7 +184,7 @@ function DetailTwo() {
           </div>
           <div className="col-12 px-2">
             <TextInputField
-              disabled={!permis}
+              readOnly={!permis}
               label="บริเวณที่พบ"
               name="area"
               value={area}
@@ -160,7 +194,7 @@ function DetailTwo() {
           <label className="col-12">แสดงพิกัดตำแหน่งพรรณไม้ (GIS)</label>
           <div className="col-6 px-2">
             <TextInputField
-              disabled={!permis}
+              readOnly={!permis}
               label="X"
               value={lacate_x}
               onChange={(e) => setX(e.target.value)}
@@ -169,7 +203,7 @@ function DetailTwo() {
           </div>
           <div className="col-6 px-2">
             <TextInputField
-              disabled={!permis}
+              readOnly={!permis}
               label="Y"
               value={locate_y}
               onChange={(e) => setY(e.target.value)}
@@ -178,7 +212,7 @@ function DetailTwo() {
           </div>
           <div className="col-3 px-2">
             <TextInputField
-              disabled={!permis}
+              readOnly={!permis}
               label="ตำบล/แขวง"
               name="tumbol"
               value={tumbol}
@@ -187,7 +221,7 @@ function DetailTwo() {
           </div>
           <div className="col-3 px-2">
             <TextInputField
-              disabled={!permis}
+              readOnly={!permis}
               label="อำเภอ/เขต"
               name="amphure"
               value={amphure}
@@ -196,7 +230,7 @@ function DetailTwo() {
           </div>
           <div className="col-4 px-2">
             <TextInputField
-              disabled={true}
+              readOnly={true}
               label="จังหวัด"
               name="province"
               value={province}
@@ -206,7 +240,7 @@ function DetailTwo() {
 
           <div className="col-4 px-2">
             <TextInputField
-              disabled={!permis}
+              readOnly={!permis}
               label="อายุประมาณ (ปี)"
               name="age"
               value={age}
@@ -215,7 +249,7 @@ function DetailTwo() {
           </div>
           <div className="col-4 px-2">
             <TextInputField
-              disabled={!permis}
+              readOnly={!permis}
               label="เส้นรอบวงลำต้น (เมตร)"
               name="girth"
               value={girth}
@@ -224,7 +258,7 @@ function DetailTwo() {
           </div>
           <div className="col-4 px-2">
             <TextInputField
-              disabled={!permis}
+              readOnly={!permis}
               label="ความสูง (เมตร)"
               name="height"
               value={height}
@@ -233,7 +267,7 @@ function DetailTwo() {
           </div>
           <div className="col-8 px-2">
             <TextInputField
-              disabled={!permis}
+              readOnly={!permis}
               label="สถานภาพ"
               name="statuss"
               onChange={(e) => setStatus(e.target.value)}
@@ -241,7 +275,7 @@ function DetailTwo() {
           </div>
           <div className="col-4 px-2">
             <TextInputField
-              disabled={!permis}
+              readOnly={!permis}
               label="จำนวนที่พบ (ต้น)"
               name="qty"
               value={qty}
@@ -253,7 +287,7 @@ function DetailTwo() {
           </label>
           <div className="col-6 px-2">
             <TextareaField
-              disabled={!permis}
+              readOnly={!permis}
               label="อาหาร"
               name="benefit_foot"
               value={benefitFoot}
@@ -262,7 +296,7 @@ function DetailTwo() {
           </div>
           <div className="col-6 px-2">
             <TextareaField
-              disabled={!permis}
+              readOnly={!permis}
               label="ยารักษาโรค ใช้กับคน"
               name="benefit_medicine_human"
               value={benefitHuman}
@@ -271,7 +305,7 @@ function DetailTwo() {
           </div>
           <div className="col-6 px-2">
             <TextareaField
-              disabled={!permis}
+              readOnly={!permis}
               label="ยารักษาโรค ใช้กับสัตว์"
               name="benefit_medicine_animal"
               onChange={(e) => setAnimal(e.target.value)}
@@ -280,7 +314,7 @@ function DetailTwo() {
           </div>
           <div className="col-6 px-2">
             <TextareaField
-              disabled={!permis}
+              readOnly={!permis}
               label="เครื่องเรือน เครื่องใช้อื่นๆ"
               name="benefit_appliances"
               value={benefitAppliances}
@@ -289,7 +323,7 @@ function DetailTwo() {
           </div>
           <div className="col-6 px-2">
             <TextareaField
-              disabled={!permis}
+              readOnly={!permis}
               label="ยาฆ่าแมลง ยาปราบศัตรูพืช"
               name="benefit_pesticide"
               value={benefitPesticide}
@@ -298,7 +332,7 @@ function DetailTwo() {
           </div>
           <div className="col-6 px-2">
             <TextareaField
-              disabled={!permis}
+              readOnly={!permis}
               label="ความเกี่ยวข้องกับประเพณี วัฒนธรรม"
               name="about_tradition"
               value={aboutTradition}
@@ -307,7 +341,7 @@ function DetailTwo() {
           </div>
           <div className="col-6 px-2">
             <TextareaField
-              disabled={!permis}
+              readOnly={!permis}
               label="ความเกี่ยวข้องกับความเชื่อทางศาสนา"
               name="about_religion"
               value={aboutReligion}
@@ -316,7 +350,7 @@ function DetailTwo() {
           </div>
           <div className="col-6 px-2">
             <TextareaField
-              disabled={!permis}
+              readOnly={!permis}
               label="อื่นๆ (เช่นการเป็นพิษ อันตราย)"
               onChange={(e) => setOther(e.target.value)}
               name="other"
@@ -325,7 +359,7 @@ function DetailTwo() {
           </div>
           <div className="col-8 px-2">
             <TextInputField
-              disabled={!permis}
+              readOnly={!permis}
               label="ผู้ให้ข้อมูล ชื่อ-สกุล"
               name="name_adder"
               value={nameAdder}
@@ -334,7 +368,7 @@ function DetailTwo() {
           </div>
           <div className="col-4 px-2">
             <TextInputField
-              disabled={!permis}
+              readOnly={!permis}
               label="อายุ"
               value={ageAdder}
               name="age_adder"
@@ -343,7 +377,7 @@ function DetailTwo() {
           </div>
           <div className="col-12 px-2">
             <TextareaField
-              disabled={!permis}
+              readOnly={!permis}
               label="ที่อยู่ผู้ให้ข้อมูล"
               name="address_adder"
               value={addressAdder}
@@ -352,7 +386,7 @@ function DetailTwo() {
           </div>
           <div className="col-12 px-2">
             <TextInputField
-              disabled={true}
+              readOnly={true}
               label="วันที่เพิ่มข้อมูล"
               name=""
               value={date}
