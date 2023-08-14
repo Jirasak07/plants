@@ -78,7 +78,7 @@ const nav = useNavigate()
           <>
             {role === "1" ? (
               <>
-                <MDBDropdown>
+                <MDBDropdown className="w-100">
                   <MDBDropdownToggle nav caret className="navlink">
                     <MDBIcon icon="cog" /> จัดการระบบ
                   </MDBDropdownToggle>

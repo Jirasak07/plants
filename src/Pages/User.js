@@ -246,7 +246,7 @@ function User() {
             เพิ่มผู้ใช้งานใหม่
           </Button>
         </div>
-        <MDBDataTableV5 data={table} sortable={false} />
+        <MDBDataTableV5 responsive data={table} sortable={false} />
       </div>
       <Dialog
         header="เพิ่มผู้ใช้ใหม่"

@@ -201,7 +201,7 @@ function News() {
             เพิ่มข่าวประชาสัมพันธ์
           </Button>
         </div>
-        <MDBDataTableV5 data={tabel} />
+        <MDBDataTableV5 responsive sortable={false} data={tabel} />
       </Pane>
       <Pane>
         <Dialog
