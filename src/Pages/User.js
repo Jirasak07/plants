@@ -194,8 +194,9 @@ function User() {
   };
   const onSubmit = async (e) => {
     e.preventDefault();
-    setLoading(true);
+    
     try {
+      setLoading(true);
       const sentRequest = await axios.post(API + "/User/AddUser", {
         name: input.fname + " " + input.lname,
         username: input.username,
@@ -205,6 +206,7 @@ function User() {
         organize: input.oganize,
       });
       const response = sentRequest.data;
+      console.log(response)
       if (response === "success") {
         setLoading(false);
         Swal.fire({
@@ -258,6 +260,7 @@ function User() {
           <Pane className="formuser ">
             <TextInputField
               width="100%"
+              autoFocus
               label="ชื่อ"
               name="fname"
               onChange={onChange}
