@@ -69,29 +69,31 @@ localStorage.clear()
         width="350px"
         backgroundColor="white"
         borderRadius={10}
-        padding={10}
+        padding={30}
         height={450}
       >
         <form
-          className="d-flex flex-column justify-content-center h-100"
+          className="d-flex flex-column  h-100" style={{justifyContent:'space-evenly'}}
           onSubmit={onSubmit}
         >
           <div
-            className="h-25 d-flex justify-content-center align-items-center"
-            style={{ fontSize: "2em", fontWeight: "600" }}
+            className="d-flex flex-column justify-content-center  align-items-center"
+            style={{ fontSize: "2em",fontWeight: "500" }}
           >
-            เข้าสู่ระบบ
+           <div style={{color:'#6a00e4',fontWeight: "600"}} >Wellcome</div> 
+           <div className="mt-4" style={{fontSize:'16px'}} >ระบบจัดเก็บพันธุกรรมพืช</div> 
+           <div style={{fontSize:'16px'}} >องค์การบริหารส่วนจังหวัดกำแพงเพชร</div> 
           </div>
-          <div className=" d-flex flex-column justify-content-center">
+          <div className=" mt-3 d-flex flex-column justify-content-center">
             <TextInputField
-              label="Username"
+              label="ชื่อผู้ใช้"
               name="username"
               onChange={onChange}
             />
             <TextInputField
               type="password"
               name="password"
-              label="Password"
+              label="รหัสผ่าน"
               onChange={onChange}
             />
             <div className="text-center">

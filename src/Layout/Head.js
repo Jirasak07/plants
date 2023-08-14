@@ -15,17 +15,19 @@ import {
 } from "mdbreact";
 import logo from "../Assets/logoo.png";
 import "./Stylelayout.css";
-import { NavLink } from "react-router-dom";
+import { NavLink, useNavigate } from "react-router-dom";
 function Head({ sit }) {
   const toggleCollapse = () => {
     setIsOpen(!isOpen);
   };
   const [isOpen, setIsOpen] = useState(false);
   const role = localStorage.getItem("role");
+const nav = useNavigate()
+
   return (
     <MDBNavbar className="head" dark expand="md">
-      <MDBNavbarBrand>
-        <span style={{ fontSize: "16px" }}>
+      <MDBNavbarBrand >
+        <span style={{ fontSize: "16px" }} className="ic" onClick={()=>nav('/home')} >
           {" "}
           <img src={logo} alt="" width={40} /> โครงการ อพ.สธ. อบจ.กำแพงเพชร
         </span>
@@ -97,6 +99,7 @@ function Head({ sit }) {
         ) : (
           <></>
         )}
+
         {sit === 1 ? (
           <MDBNavbarNav right>
             <MDBNavItem>

@@ -10,8 +10,7 @@ import Setting from "./Pages/Setting";
 import Profile from "./Pages/Profile";
 import News from "./Pages/News";
 import Detail from "./Pages/Detail";
-import PDF from "./Report/PDF";
-import Test from "./Report/Test";
+import DetailTwo from "./Pages/DetailTwo";
 function App() {
   return (
     <div className="v">
@@ -25,7 +24,7 @@ function App() {
           <Route path="/news" element={<News />} />
           <Route path="/profile" element={<Profile />} />
           <Route path="/detail/:id" element={<Detail />} />
-          <Route path="/pdf" element={<Test/>} />
+          <Route path="/detail2/:id" element={<DetailTwo/>} />
         </Route>
       </Routes>
     </div>

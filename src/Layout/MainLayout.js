@@ -18,19 +18,27 @@ function MainLayout() {
       console.log(data.userid);
       if (localStorage.getItem("username") === data.userid) {
         setSit(1);
+        if (window.location.pathname === "/") {
+          nav("/home");
+        }
       } else {
-        setSit(0);
-        nav("/home");
       }
       // console.log(token.data)
     } catch (error) {
-      setSit(0);
-      nav("/home");
+      const path =  window.location.pathname
+      const pathsplit = path.split('/');
+       if (pathsplit[1] === "detail2") {
+         setSit(0);
+       } else {
+         setSit(0);
+         nav("/home");
+       }
+     
     }
   };
   useEffect(() => {
     check();
-  }, []);
+  });
   return (
     <div className="mainlayout container-fluid p-0">
       <Head sit={sit} />

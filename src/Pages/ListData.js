@@ -5,22 +5,12 @@ import {
   EditIcon,
   EyeOnIcon,
 } from "evergreen-ui";
-import {
-  MDBDataTableV5,
-  MDBIcon,
-  MDBInput,
-  MDBModal,
-  MDBModalBody,
-  MDBModalFooter,
-  MDBModalHeader,
-} from "mdbreact";
+import { MDBDataTableV5, MDBIcon } from "mdbreact";
 import React, { useEffect, useState } from "react";
 import FromAddPlant from "../Form/FromAddPlant";
 import axios from "axios";
 import { API } from "../configUrl";
 import { NavLink } from "react-router-dom";
-import { PDFDownloadLink } from "@react-pdf/renderer";
-import PDF from "../Report/PDF";
 
 function ListData() {
   const [table, setTable] = useState([]);
@@ -86,15 +76,7 @@ function ListData() {
             status: i.statuss,
             manage: (
               <div className="d-flex" style={{ gap: "10px" }}>
-                <PDFDownloadLink document={<PDF />} fileName="FORM">
-                  {({ loading }) =>
-                    loading ? (
-                      <DownloadIcon className="ic" color="green500" size={20} />
-                    ) : (
-                      <DownloadIcon className="ic" color="green500" size={20} />
-                    )
-                  }
-                </PDFDownloadLink>
+                <DownloadIcon className="ic" color="green500" size={20} />
                 <NavLink to={"/detail/" + i.plant_id}>
                   <EyeOnIcon className="ic" color="orange500" />
                 </NavLink>
@@ -122,12 +104,7 @@ function ListData() {
             <MDBIcon icon="plus-square" /> เพิ่มพืชพรรณใหม่
           </Button>
         </div>
-        <MDBDataTableV5
-          responsive
-          theadColor="dark"
-          data={table}
-          sortable={false}
-        />
+        <MDBDataTableV5 responsive data={table} sortable={false} />
       </div>
       <Dialog
         isShown={isOpen}

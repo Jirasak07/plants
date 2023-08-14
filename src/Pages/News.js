@@ -73,7 +73,7 @@ function News() {
   };
   const getNeww = async () => {
     try {
-      const getNew = await axios.get(API + "/News/getNew");
+      const getNew = await axios.get(API + "/News/getNewTable");
       const news = getNew.data;
       setNews(news);
       setIsReady(true);

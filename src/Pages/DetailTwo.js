@@ -1,34 +1,10 @@
 import { EditIcon, Pane, TextInputField, TextareaField } from "evergreen-ui";
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import { useParams } from "react-router-dom";
 import "./Detail.css";
-import axios from "axios";
-import { API } from "../configUrl";
-function Detail() {
+function DetailTwo() {
   const { id } = useParams();
   const [permis, setPermis] = useState(false);
-  const [permiss, setPermiss] = useState(false);
-  const [plant,setPlant] = useState([]);
-  const fetch = async()=>{
-    try {
-      const a = axios.post(API+"/Plant/detailPlant",{
-        id:id
-      })
-      const respos = a.data
-      setPlant(respos)
-      setPermiss(true)
-    } catch (error) {
-      
-    }
-  }
-  useEffect(()=>{
-    fetch();
-  },[])
-useEffect(()=>{
-if(permiss){
-  console.log("success")
-}
-},[permiss])
   return (
     <div className="container-md">
       <Pane
@@ -37,11 +13,8 @@ if(permiss){
         minHeight={100}
         padding={20}
       >
-        <div className="d-flex justify-content-end pr-2">
-          <EditIcon size={20} color="orange500" onClick={()=>setPermis(!permis)} className="ic" />
-        </div>
         <div>
-
+          
         </div>
         <form className="m row">
           <div className="col-6">
@@ -228,4 +201,4 @@ if(permiss){
   );
 }
 
-export default Detail;
+export default DetailTwo;

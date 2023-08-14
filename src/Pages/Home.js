@@ -8,6 +8,8 @@ import { MDBPagination, MDBPageItem, MDBPageNav, MDBCol } from "mdbreact";
 import iii from "../Assets/sds.png";
 import axios from "axios";
 import { API } from "../configUrl";
+import { NavLink } from "react-router-dom";
+import { Button, SearchIcon, SearchInput } from "evergreen-ui";
 function Home() {
   const data = [{ val: 1 }, { val: 2 }, { val: 3 }];
   const [users, setUsers] = useState([]);
@@ -15,6 +17,7 @@ function Home() {
   const [currentPage, setCurrentPage] = useState(1);
   const itemsPerPage = 9; // จำนวนผู้ใช้งานต่อหน้า
   const [isReady, setIsReady] = useState(false);
+  const [search, setSearch] = useState("");
   // const [plant,setPlant] = useState([])
 
   const getUser = async () => {
@@ -39,9 +42,8 @@ function Home() {
 
   const indexOfLastUser = currentPage * itemsPerPage;
   const indexOfFirstUser = indexOfLastUser - itemsPerPage;
-  const currentUsers = users.slice(indexOfFirstUser, indexOfLastUser);
+  var currentUsers = users.slice(indexOfFirstUser, indexOfLastUser);
   const pagesToShow = 5;
-
   // เปลี่ยนหน้า
   const handlePageChange = (pageNumber) => {
     setCurrentPage(pageNumber);
@@ -65,7 +67,32 @@ function Home() {
     startIndex + pagesToShow - 1,
     Math.ceil(users.length / itemsPerPage)
   );
+  const Search = (e) => {
+    var send = "";
+    if (search === "") {
+      send = "no";
+    } else {
+      send = search;
+    }
+    const frm = new FormData();
+    frm.append("name", search);
+    let config = {
+      method: "post",
+      maxBodyLength: Infinity,
+      url: "https://rspg-kpppao.com/backend/Plant/Search",
+      data: frm,
+    };
 
+    axios.request(config).then((res) => {
+      const data = res.data;
+      console.log(data);
+      if (data === "error") {
+      } else {
+        setUsers(data);
+        currentUsers = data.slice(indexOfFirstUser, indexOfLastUser);
+      }
+    });
+  };
   return (
     <div className="container-lg main-home" style={{ gap: "10px" }}>
       <div className="carousel">
@@ -74,16 +101,32 @@ function Home() {
           autoPlay={true}
           showThumbs={false}
           transitionTime={600}
+          className="Caro"
         >
           {Array.isArray(news) &&
             news.map((i, index) => (
               <div>
-                <img className="d-block w-100" src={API+"/"+i.image_news} alt="" />
+                <img
+                  className="d-block w-100"
+                  src={API + "/" + i.image_news}
+                  alt=""
+                />
               </div>
             ))}
         </Carousel>
       </div>
       <div className=" pt-3 pb-3 mb-5 info ">
+        <div className="d-flex justify-content-end pr-3 mb-2">
+          <SearchInput
+            placeholder="ค้นหาจากชื่อ"
+            value={search}
+            onChange={(e) => setSearch(e.target.value)}
+          />
+          <Button onClick={() => Search()}>
+            <SearchIcon color="blue500" />
+          </Button>{" "}
+        </div>
+
         <div className="card-container pb-3">
           {currentUsers.map((user) => (
             <div className="MDBCard rounded">
@@ -96,9 +139,12 @@ function Home() {
                 </div>
               </div>
 
-              <div className="btn btn-secondary d-flex align-items-center justify-content-center btn-sm">
+              <NavLink
+                to={"/detail2/" + user.plant_id}
+                className="btn btn-secondary d-flex align-items-center justify-content-center btn-sm"
+              >
                 ดูเพิ่มเติม
-              </div>
+              </NavLink>
             </div>
           ))}
         </div>
