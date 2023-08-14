@@ -32,6 +32,11 @@ function News() {
       // formData.append("name", );
       formData.append("enddate", endDate);
       formData.append("title", title);
+      if(url === null){
+        setUrl('-')
+      }else{
+        
+      }
       formData.append("url", url);
       axios
         .post(API + "/News/AddNews", formData)

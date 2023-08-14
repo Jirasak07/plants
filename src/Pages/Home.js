@@ -93,6 +93,13 @@ function Home() {
       }
     });
   };
+  const onLink = (val)=>{
+    const urlRegex = /^(ftp|http|https):\/\/[^ "]+$/;
+    return urlRegex.test(val)
+  }
+const ONweb=(link)=>{
+window.location.href = link
+}
   return (
     <div className="container-lg main-home" style={{ gap: "10px" }}>
       <div className="carousel">
@@ -105,12 +112,17 @@ function Home() {
         >
           {Array.isArray(news) &&
             news.map((i, index) => (
-              <div>
+              <div    >
                 <img
                   className="d-block w-100"
                   src={API + "/" + i.image_news}
                   alt=""
+                
                 />
+                {
+                  onLink(i.url_news)? <>  <div className="btn btn-info" onClick={()=>{ONweb(i.url_news)}} >ดูเพิ่มเติม</div></>:<></>
+                }
+              
               </div>
             ))}
         </Carousel>
