@@ -83,7 +83,7 @@ const nav = useNavigate()
                     <MDBIcon icon="cog" /> จัดการระบบ
                   </MDBDropdownToggle>
                   <MDBDropdownMenu className="dropdown-default ">
-                    <NavLink to="/news" className="dd">
+                    <NavLink to="/news" className="dd w-100 ">
                       เพิ่มข่าวประชาสัมพันธ์
                     </NavLink>
                     {/* <NavLink to="/plant" className="dd text-dark">
