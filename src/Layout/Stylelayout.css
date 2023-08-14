@@ -22,10 +22,10 @@ a {
   gap: 10px;
   border: none;
 }
-.mainlayout {
+/* .mainlayout {
   display: grid;
   gap: 10px;
-}
+} */
 .navlink:hover {
   cursor: pointer;
   /* background-color: #8e07d1; */

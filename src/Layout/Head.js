@@ -25,7 +25,7 @@ function Head({ sit }) {
 const nav = useNavigate()
 
   return (
-    <MDBNavbar className="head" dark expand="md">
+    <MDBNavbar className="head" dark expand="lg">
       <MDBNavbarBrand >
         <span style={{ fontSize: "16px" }} className="ic" onClick={()=>nav('/home')} >
           {" "}
@@ -103,7 +103,7 @@ const nav = useNavigate()
         {sit === 1 ? (
           <MDBNavbarNav right>
             <MDBNavItem>
-              <MDBDropdown className="d-none d-md-flex">
+              <MDBDropdown className="d-none d-lg-flex">
                 <MDBDropdownToggle nav caret>
                   <MDBIcon icon="user" /> {localStorage.getItem("name")}
                 </MDBDropdownToggle>
@@ -120,17 +120,15 @@ const nav = useNavigate()
                   </NavLink>
                 </MDBDropdownMenu>
               </MDBDropdown>
-              <MDBCol className="d-flex d-md-none justify-content-between align-items-center">
+              <MDBCol className="d-flex d-lg-none justify-content-between align-items-center">
                 <NavLink>
                   <MDBIcon icon="user" /> {localStorage.getItem("name")}
                 </NavLink>
-                <div
-                  className="btn btn-sm btn-danger d-flex align-items-center "
-                  style={{ gap: "10px" }}
-                >
-                  <MDBIcon icon="sign-out-alt" />
-                  ออกจากระบบ
-                </div>
+                <NavLink to={"/login"}>
+                    <MDBDropdownItem className="logout" href="#!">
+                      ออกจากระบบ
+                    </MDBDropdownItem>
+                  </NavLink>
               </MDBCol>
             </MDBNavItem>
           </MDBNavbarNav>

@@ -93,7 +93,6 @@ function Detail() {
 
   return (
     <div className="container-md">
-      {id}
       <Pane
         backgroundColor={"white"}
         borderRadius={10}

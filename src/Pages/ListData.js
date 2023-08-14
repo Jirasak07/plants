@@ -76,7 +76,14 @@ function ListData() {
             status: i.statuss,
             manage: (
               <div className="d-flex" style={{ gap: "10px" }}>
-                <DownloadIcon className="ic" color="green500" size={20} />
+                <a href={API+"/PlantPD.php/?id="+i.plant_id} target="_blank" >
+                  <DownloadIcon
+                    className="ic"
+                    color="green500"
+                    size={20}
+                  />
+                </a>
+
                 <NavLink to={"/detail/" + i.plant_id}>
                   <EyeOnIcon className="ic" color="orange500" />
                 </NavLink>
