@@ -16,6 +16,7 @@ import {
 import logo from "../Assets/logoo.png";
 import "./Stylelayout.css";
 import { NavLink, useNavigate } from "react-router-dom";
+import Swal from "sweetalert2";
 function Head({ sit }) {
   const toggleCollapse = () => {
     setIsOpen(!isOpen);
@@ -23,7 +24,19 @@ function Head({ sit }) {
   const [isOpen, setIsOpen] = useState(false);
   const role = localStorage.getItem("role");
   const nav = useNavigate();
-
+  const Logout = () => {
+    localStorage.clear();
+    Swal.fire({
+      icon: "warning",
+      title: "กำลังออกจากระบบ",
+      showConfirmButton: false,
+      timer: 1500,
+      timerProgressBar: true,
+    }).then((e) => {
+      window.location.reload()
+      nav("/home");
+    });
+  };
   return (
     <MDBNavbar className="head" dark expand="lg">
       <MDBNavbarBrand>
@@ -90,7 +103,7 @@ function Head({ sit }) {
                   >
                     <MDBIcon icon="cog" /> จัดการระบบ
                   </MDBDropdownToggle>
-                  <MDBDropdownMenu className="dropdown-default" >
+                  <MDBDropdownMenu className="dropdown-default">
                     <NavLink to="/news" className="dd w-100">
                       เพิ่มข่าวประชาสัมพันธ์
                     </NavLink>
@@ -121,22 +134,30 @@ function Head({ sit }) {
                       โปรไฟล์
                     </MDBDropdownItem>
                   </NavLink>
-                  <NavLink to={"/login"}>
+                  <div
+                    onClick={() => {
+                      Logout();
+                    }}
+                  >
                     <MDBDropdownItem className="logout" href="#!">
                       ออกจากระบบ
                     </MDBDropdownItem>
-                  </NavLink>
+                  </div>
                 </MDBDropdownMenu>
               </MDBDropdown>
               <MDBCol className="d-flex d-lg-none justify-content-between align-items-center">
                 <NavLink>
                   <MDBIcon icon="user" /> {localStorage.getItem("name")}
                 </NavLink>
-                <NavLink to={"/login"}>
+                <div
+                  onClick={() => {
+                    Logout();
+                  }}
+                >
                   <MDBDropdownItem className="logout" href="#!">
                     ออกจากระบบ
                   </MDBDropdownItem>
-                </NavLink>
+                </div>
               </MDBCol>
             </MDBNavItem>
           </MDBNavbarNav>

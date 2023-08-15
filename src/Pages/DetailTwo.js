@@ -85,7 +85,7 @@ function DetailTwo() {
       setX(plant.lacate_x);
       setY(plant.locate_y);
       setTam(plant.tumbol);
-      setAmphur(plant.amphure);
+      setAmphur(plant.amphur);
       setProvince(plant.province);
       setAge(plant.age);
       setGirth(plant.girth);
