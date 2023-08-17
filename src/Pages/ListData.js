@@ -5,14 +5,17 @@ import {
   EditIcon,
   EyeOnIcon,
 } from "evergreen-ui";
-import { MDBDataTableV5, MDBIcon } from "mdbreact";
+import { MDBCol, MDBDataTableV5, MDBIcon } from "mdbreact";
 import React, { useEffect, useState } from "react";
 import FromAddPlant from "../Form/FromAddPlant";
 import axios from "axios";
 import { API } from "../configUrl";
 import { NavLink } from "react-router-dom";
+import './ListData.css'
 
 function ListData() {
+
+
   const [table, setTable] = useState([]);
   const [isOpen, setIsOpen] = useState(false);
   const [isReady, setIsReady] = useState(false);
@@ -35,30 +38,38 @@ function ListData() {
           {
             label: "รูปภาพ",
             field: "img",
+            minimal:'bee',
           },
           {
             label: "ชื่อพืชพรรณ",
             field: "name",
+            minimal:'bee',
           },
           {
             label: "รหัสพรรณไม้",
             field: "plant_code",
+            minimal:'bee',
           },
           {
             label: "ลักษณะวิสัย",
             field: "vis",
+            minimal:'bee',
           },
           {
             label: "ลักษณะเด่นของพืช",
             field: "div",
+            minimal:'sm',
+            with:600
           },
           {
             label: "สถานภาพ",
             field: "status",
+            minimal:'bee',
           },
           {
             label: "จัดการ",
             field: "manage",
+            minimal:'bee',
           },
         ],
         rows: [
@@ -100,7 +111,7 @@ function ListData() {
     }
   }, [isReady]);
   return (
-    <div className="container pt-2 ">
+    <div className="container-fluid pt-2 ">
       <div className="bg-white px-3 pt-2 rounded">
         <div className="d-flex justify-content-end">
           <Button
@@ -111,7 +122,10 @@ function ListData() {
             <MDBIcon icon="plus-square" /> เพิ่มพืชพรรณใหม่
           </Button>
         </div>
-        <MDBDataTableV5 responsive data={table} sortable={false} />
+        <MDBCol md="12" >
+          <MDBDataTableV5  responsive data={table} sortable={false} className="my-datatable" /> 
+        </MDBCol>
+       
       </div>
       <Dialog
         isShown={isOpen}

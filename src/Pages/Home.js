@@ -8,6 +8,7 @@ import { MDBPagination, MDBPageItem, MDBPageNav, MDBCol } from "mdbreact";
 import iii from "../Assets/sds.png";
 import axios from "axios";
 import { API } from "../configUrl";
+import { GrFormNextLink } from "react-icons/gr";
 import { NavLink } from "react-router-dom";
 import { Button, SearchIcon, SearchInput } from "evergreen-ui";
 function Home() {
@@ -101,7 +102,7 @@ function Home() {
     window.location.href = link;
   };
   return (
-    <div className="container-lg main-home" style={{ gap: "10px" }}>
+    <div className="container-fluid main-home">
       <div className="carousel">
         <Carousel
           infiniteLoop
@@ -138,13 +139,15 @@ function Home() {
         </Carousel>
       </div>
       <div className=" pt-3 pb-3 mb-5 info ">
-        <div className="d-flex justify-content-end pr-3 mb-2">
+        <div className="d-flex justify-content-center mb-2">
           <SearchInput
             placeholder="ค้นหาจากชื่อ"
             value={search}
+            width={"100%"}
+            maxWidth="300px"
             onChange={(e) => setSearch(e.target.value)}
           />
-          <Button onClick={() => Search()}>
+          <Button maxWidth="60px" onClick={() => Search()}>
             <SearchIcon color="blue500" />
           </Button>{" "}
         </div>
@@ -155,7 +158,12 @@ function Home() {
               <div className="MDBCard rounded">
                 <div>
                   <div>
-                    <img src={API + "/" + user.img} width={"100%"} alt="" />
+                    <img
+                      src={API + "/" + user.img}
+                      width={"100%"}
+                      alt=""
+                      className="rounded"
+                    />
                   </div>
                   <div className="text-center ">
                     <strong className="text-center">{user.plant_name}</strong>
@@ -172,35 +180,37 @@ function Home() {
             ))}
         </div>
       </div>
-      <MDBPagination
-        className="d-flex justify-content-center bg-secondary py-2"
-        color="purple"
-      >
-        <MDBPageItem disabled={currentPage === 1}>
-          <MDBPageNav className="pnav" onClick={goToPrevPage}>
-            &laquo; Prev
-          </MDBPageNav>
-        </MDBPageItem>
-
-        {Array.from({ length: endIndex - startIndex + 1 }).map((_, index) => (
-          <MDBPageItem
-            key={startIndex + index}
-            active={startIndex + index === currentPage}
-          >
-            <MDBPageNav onClick={() => handlePageChange(startIndex + index)}>
-              {startIndex + index}
+      <div>
+        <MDBPagination
+          className="d-flex justify-content-center  bot"
+          color="purple"
+        >
+          <MDBPageItem disabled={currentPage === 1}>
+            <MDBPageNav className="pnav ic" onClick={goToPrevPage}>
+              <span className="baba"> &laquo; ก่อนหน้า</span>
             </MDBPageNav>
           </MDBPageItem>
-        ))}
 
-        <MDBPageItem
-          disabled={currentPage === Math.ceil(users.length / itemsPerPage)}
-        >
-          <MDBPageNav className="pnav" onClick={goToNextPage}>
-            Next &raquo;
-          </MDBPageNav>
-        </MDBPageItem>
-      </MDBPagination>
+          {Array.from({ length: endIndex - startIndex + 1 }).map((_, index) => (
+            <MDBPageItem
+              key={startIndex + index}
+              active={startIndex + index === currentPage}
+            >
+              <MDBPageNav onClick={() => handlePageChange(startIndex + index)}>
+                {startIndex + index}
+              </MDBPageNav>
+            </MDBPageItem>
+          ))}
+
+          <MDBPageItem
+            disabled={currentPage === Math.ceil(users.length / itemsPerPage)}
+          >
+            <MDBPageNav className="pnav ic" onClick={goToNextPage}>
+              <span className="baba" > ถัดไป &raquo;</span>
+            </MDBPageNav>
+          </MDBPageItem>
+        </MDBPagination>
+      </div>
     </div>
   );
 }

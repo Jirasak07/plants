@@ -24,17 +24,71 @@ function FromAddPlant() {
   const [district, setDistrict] = useState([]);
   const [selectAmphurs, setSelectAmphurs] = useState("#");
   const [tambon, setTambon] = useState();
-  const [zipcode, setZipcode] = useState();
+  const [zipcode, setZipcode] = useState("000");
   const [imgLeaf, setImgLeaf] = useState(null);
   const [imgFlower, setImgFlower] = useState(null);
   const [imgTrunk, setImgTrunk] = useState(null);
   const [imgFruit, setImgFruit] = useState(null);
-  const [inputs, setInputs] = useState([]);
+  const [inputs, setInputs] = useState(
+    {
+      plant_code: "",
+
+      plant_name: "",
+
+      plant_area: "-",
+
+      x: "0",
+
+      y: "0",
+
+      qty: "0",
+
+      radius: "0",
+
+      statuss: "-",
+
+      tambon_id: "0000",
+
+      zipcode: "0000",
+
+      plant_character: "-",
+
+      amphur_id: "-",
+
+      benefit_appliances: "-",
+
+      benefit_foot: "-",
+
+      benefit_medicine_animal: "-",
+
+      benefit_medicine_human: "-",
+
+      benefit_pesticide: "-",
+
+      height: "0",
+
+      name_adder: "-",
+
+      other: "-",
+
+      age_adder: "0",
+
+      address_adder: "-",
+
+      about_tradition: "-",
+
+      about_religion: "-",
+
+      age: "0",
+      distinctive:"-"
+    },
+  );
   const [idimage, setIdImage] = useState(null);
   const onChange = (e) => {
     const name = e.target.name;
     const value = e.target.value;
     setInputs((values) => ({ ...values, [name]: value }));
+    console.log(inputs);
   };
   const Fprovince = async () => {
     try {
@@ -74,6 +128,7 @@ function FromAddPlant() {
     fetchAmphur();
   }, []);
   useEffect(() => {
+    console.log(inputs);
   }, []);
   const onSelectAmphur = async (e) => {
     try {
@@ -160,6 +215,7 @@ function FromAddPlant() {
     e.preventDefault();
     const addPlant = async () => {
       try {
+
         const go = await axios.post(API + "/Plant/AddPlant", {
           plant_code: inputs.plant_code,
           plant_name: inputs.plant_name,
@@ -190,6 +246,7 @@ function FromAddPlant() {
           user_id: localStorage.getItem("user_id"),
         });
         const respo = go.data;
+      console.log(respo)
         if (respo.mes === "success") {
           setIdImage(respo.val);
           return respo;
@@ -202,6 +259,7 @@ function FromAddPlant() {
       try {
         addPlant()
           .then((res) => {
+          
             if (res.mes === "success") {
               const va = res.val;
 
@@ -232,6 +290,11 @@ function FromAddPlant() {
                 icon: "error",
                 title: "Hi",
               });
+            }else if(res === 'error'){
+              Swal.fire({
+                icon: "error",
+                title: "Hi",
+              });
             }
           })
           .then((d) => {
@@ -239,9 +302,9 @@ function FromAddPlant() {
             Swal.fire({
               icon: "success",
               title: "เพิ่มพืชพรรณใหม่เสร็จสิ้น",
-            }).then((e)=>{
-              window.location.reload()
-            })
+            }).then((e) => {
+              window.location.reload();
+            });
           });
       } catch (error) {
         // จัดการข้อผิดพลาดที่เกิดขึ้นในกรณีที่เรียกใช้ addPlant() ไม่สำเร็จ
@@ -260,7 +323,7 @@ function FromAddPlant() {
           <TextInputField
             width="100%"
             name="plant_name"
-            label="ชื่อพืช"
+            label="ชื่อพรรณไม้"
             onChange={onChange}
             autoFocus={true}
             required
@@ -275,19 +338,17 @@ function FromAddPlant() {
         </div>
         <TextInputField
           name="plant_character"
-          label="ลักษณะวิสัย"
+          label="ลักษณะวิสัยของพรรณไม้"
           onChange={onChange}
-          required
         />
         <TextInputField
           name="distinctive"
-          label="ลักษณะเด่นของพืช"
+          label="ลักษณะเด่นของพรรณไม้"
           onChange={onChange}
-          required
         />
         <TextareaField
           name="plant_area"
-          label="บริเวณที่พบ"
+          label="บริเวณที่พบพรรณไม้"
           onChange={onChange}
           required
         />
@@ -299,18 +360,18 @@ function FromAddPlant() {
               style={{ gap: "10px" }}
             >
               <strong>X</strong>{" "}
-              <TextInput name="x" onChange={onChange} width={"100%"} required />
+              <TextInput name="x" onChange={onChange} width={"100%"} />
             </Group>
             <Group
               className="col p-0 d-flex align-items-center "
               style={{ gap: "10px" }}
             >
               <strong>Y</strong>{" "}
-              <TextInput name="y" onChange={onChange} width={"100%"} required />
+              <TextInput name="y" onChange={onChange} width={"100%"} />
             </Group>
           </div>
         </div>
-        <div className="d-flex" style={{ gap: "10px" }}>
+        <div className="d-flex flex-column flex-md-row" style={{ gap: "10px" }}>
           <TextInputField label="จังหวัด" width="100%" value={province.label} />
           <SelectField
             width="100%"
@@ -325,8 +386,6 @@ function FromAddPlant() {
               <option value={i.AMPHUR_ID}>{i.AMPHUR_NAME}</option>
             ))}
           </SelectField>
-        </div>
-        <div className="d-flex" style={{ gap: "10px" }}>
           <SelectField
             width="100%"
             label="ตำบล"
@@ -343,23 +402,14 @@ function FromAddPlant() {
                 </option>
               ))}
           </SelectField>
-          <TextInputField
-            width="100%"
-            label="รหัสไปรษณีย์"
-            name="zipcode"
-            value={zipcode}
-            readOnly
-            required
-          />
         </div>
         <div className="d-flex flex-column flex-md-row" style={{ gap: "10px" }}>
           <TextInputField
-            label="อายุโดยประมาณ (ปี)"
+            label="อายุโดยประมาณของพืช (ปี)"
             name="age"
             width="100%"
             type="number"
             onChange={onChange}
-            required
           />
           <TextInputField
             label="เส้นรอบวงลำต้น(เมตร)"
@@ -367,24 +417,21 @@ function FromAddPlant() {
             type="number"
             width="100%"
             onChange={onChange}
-            required
           />
           <TextInputField
-            label="ความสูง (เมตร)"
+            label="ความสูงโดยประมาณของพืช (เมตร)"
             name="height"
             type="number"
             width="100%"
             onChange={onChange}
-            required
           />
         </div>
         <div className="d-flex" style={{ gap: "10px" }}>
           <TextInputField
             width="100%"
             name="statuss"
-            label="สถานภาพ"
+            label="สถานภาพของพืช"
             onChange={onChange}
-            required
           />
           <TextInputField
             width="40%"
@@ -392,7 +439,6 @@ function FromAddPlant() {
             name="qty"
             label="จำนวน (ต้น)"
             onChange={onChange}
-            required
           />
         </div>
         <div className="d-flex flex-column  mb-2">
@@ -403,50 +449,42 @@ function FromAddPlant() {
               name="benefit_foot"
               onChange={onChange}
               width="100%"
-              required
             />
             <TextareaField
               label="ยารักษาโรค ใช้กับคน"
               name="benefit_medicine_human"
               onChange={onChange}
               width="100%"
-              required
             />
             <TextareaField
               label="ยารักษาโรค ใช้กับสัตว์"
               name="benefit_medicine_animal"
               onChange={onChange}
-              required
             />
             <TextareaField
               label="เครื่องเรือน เครื่องใช้อื่น ๆ"
               name="benefit_appliances"
               onChange={onChange}
-              required
             />
             <TextareaField
               label="ยาฆ่าแมลง ยาปราบศัตรูพืช"
               name="benefit_pesticide"
               onChange={onChange}
-              required
             />
             <TextareaField
               label="ความเกี่ยวข้องกับประเพณี วัฒนธรรม"
               name="about_tradition"
               onChange={onChange}
-              required
             />
             <TextareaField
               label="ความเกี่ยวข้องกับความเชื่อทางศาสนา"
               name="about_religion"
               onChange={onChange}
-              required
             />
             <TextareaField
               label="อื่นๆ (เช่นการเป็นพิษ อันตราย)"
               name="other"
               onChange={onChange}
-              required
             />
           </div>
         </div>
@@ -546,7 +584,6 @@ function FromAddPlant() {
               name="name_adder"
               onChange={onChange}
               width="100%"
-              required
             />
             <TextInputField
               label="อายุ"
@@ -554,7 +591,6 @@ function FromAddPlant() {
               width="30%"
               type="number"
               onChange={onChange}
-              required
             />
           </div>
 
@@ -562,7 +598,6 @@ function FromAddPlant() {
             label="ที่อยู่"
             name="address_adder"
             onChange={onChange}
-            required
           />
         </div>
         <Button type="submit" appearance="primary" intent="success">

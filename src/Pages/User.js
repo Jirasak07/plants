@@ -220,7 +220,7 @@ function User() {
     } catch (error) {}
   };
   return (
-    <div className="container-md   ">
+    <div className="container-fluid   ">
       <Overlay isShown={loading}>
         <div className="lds-spinner">
           <div></div>

@@ -11,11 +11,14 @@ import Profile from "./Pages/Profile";
 import News from "./Pages/News";
 import Detail from "./Pages/Detail";
 import DetailTwo from "./Pages/DetailTwo";
+import Desk from "./Pages/Desk";
 function App() {
+
   return (
     <div className="v">
       <Routes>
         <Route path="/login" element={<LoginPage />} />
+
         <Route path="/" element={<MainLayout />}>
           <Route path="/home" element={<Home />} />
           <Route path="/plant" element={<ListData />} />
@@ -24,8 +27,10 @@ function App() {
           <Route path="/news" element={<News />} />
           <Route path="/profile" element={<Profile />} />
           <Route path="/detail/:id" element={<Detail />} />
-          <Route path="/detail2/:id" element={<DetailTwo/>} />
+          <Route path="/detail2/:id" element={<DetailTwo />} />
+          <Route path="/test" element={<Desk/>} />
         </Route>
+        <Route path="/admin"></Route>
       </Routes>
     </div>
   );

@@ -1,0 +1,15 @@
+.my-datatable .dataTable-table th:nth-child(2),
+.my-datatable .dataTable-table td:nth-child(2) {
+  width: 300px !important;
+  max-width: 300px !important;
+  white-space: nowrap; /* ป้องกันข้อความที่ยาวเกินไปในคอลัม */
+  overflow: hidden; /* ป้องกันการขยายคอลัม */
+  text-overflow: ellipsis; /* แสดงจุดที่เหลือหากข้อความยาวเกินคอลัม */
+}
+.my-datatable th.th-sm{
+    min-width: 300px !important;
+}
+th.th-bee{
+    min-width: 150px;
+}
+

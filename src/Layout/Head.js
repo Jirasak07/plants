@@ -16,6 +16,8 @@ import {
 import logo from "../Assets/logoo.png";
 import "./Stylelayout.css";
 import { NavLink, useNavigate } from "react-router-dom";
+import {BiNews} from 'react-icons/bi'
+import {CgLogIn} from 'react-icons/cg'
 import Swal from "sweetalert2";
 function Head({ sit }) {
   const toggleCollapse = () => {
@@ -33,7 +35,7 @@ function Head({ sit }) {
       timer: 1500,
       timerProgressBar: true,
     }).then((e) => {
-      window.location.reload()
+      window.location.reload();
       nav("/home");
     });
   };
@@ -50,15 +52,16 @@ function Head({ sit }) {
         </span>
       </MDBNavbarBrand>
       <MDBNavbarToggler onClick={toggleCollapse} />
-      <MDBCollapse id="navbarCollapse3" isOpen={isOpen} navbar>
-        <NavLink
+      <MDBCollapse id="navbarCollapse3" isOpen={isOpen} navbar className="headmenu">
+        <MDBNavbarNav className="barmenu" left>
+              <NavLink
           to="/home"
           className={({ isActive, isPending }) =>
-            isPending ? "bg-info" : isActive ? "navlink ac" : "navlink"
+            isPending ? "bg-info" : isActive ? " navlink ac" : "navlink"
           }
         >
           <MDBIcon icon="home" /> หน้าแรก
-        </NavLink>
+        </NavLink>      
         {sit === 1 ? (
           <NavLink
             to="/plant"
@@ -89,29 +92,20 @@ function Head({ sit }) {
             )}
           </>
         ) : (
-          <></>
+          <> </>
         )}
         {sit === 1 ? (
           <>
             {role === "1" ? (
               <>
-                <MDBDropdown className=" w-100">
-                  <MDBDropdownToggle
-                    nav
-                    caret
-                    className="navlink d-flex justify-content-center "
-                  >
-                    <MDBIcon icon="cog" /> จัดการระบบ
-                  </MDBDropdownToggle>
-                  <MDBDropdownMenu className="dropdown-default">
-                    <NavLink to="/news" className="dd w-100">
-                      เพิ่มข่าวประชาสัมพันธ์
-                    </NavLink>
-                    {/* <NavLink to="/plant" className="dd text-dark">
-                เพิ่มข่าวประชาสัมพันธ์
-              </NavLink> */}
-                  </MDBDropdownMenu>
-                </MDBDropdown>
+                <NavLink
+                  to="/news"
+                  className={({ isActive, isPending }) =>
+                    isPending ? "bg-info" : isActive ? "navlink ac" : "navlink"
+                  }
+                >
+                <BiNews/>  เพิ่มข่าวประชาสัมพันธ์
+                </NavLink>
               </>
             ) : (
               <></>
@@ -120,7 +114,8 @@ function Head({ sit }) {
         ) : (
           <></>
         )}
-
+        </MDBNavbarNav>
+    
         {sit === 1 ? (
           <MDBNavbarNav right>
             <MDBNavItem>
@@ -130,7 +125,7 @@ function Head({ sit }) {
                 </MDBDropdownToggle>
                 <MDBDropdownMenu className="dropdown-default p-2">
                   <NavLink to={"/profile"}>
-                    <MDBDropdownItem className="bg-info" href="#!">
+                    <MDBDropdownItem className="profile" href="#!">
                       โปรไฟล์
                     </MDBDropdownItem>
                   </NavLink>
@@ -154,7 +149,7 @@ function Head({ sit }) {
                     Logout();
                   }}
                 >
-                  <MDBDropdownItem className="logout" href="#!">
+                  <MDBDropdownItem className="logout-sm" href="#!">
                     ออกจากระบบ
                   </MDBDropdownItem>
                 </div>
@@ -163,8 +158,8 @@ function Head({ sit }) {
           </MDBNavbarNav>
         ) : (
           <>
-            <NavLink className="" to={"/login"}>
-              เข้าสู่ระบบ
+            <NavLink className="navlink" to={"/login"}>
+          <CgLogIn/>    เข้าสู่ระบบ
             </NavLink>
           </>
         )}

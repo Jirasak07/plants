@@ -190,7 +190,7 @@ function News() {
     })
   }
   return (
-    <div className="container-md">
+    <div className="container-fluid">
       <Pane
         backgroundColor="white"
         minHeight={200}
