@@ -1,9 +1,11 @@
 import {
   Button,
+  CloudDownloadIcon,
   Dialog,
   DownloadIcon,
   EditIcon,
   EyeOnIcon,
+  EyeOpenIcon,
 } from "evergreen-ui";
 import { MDBCol, MDBDataTableV5, MDBIcon } from "mdbreact";
 import React, { useEffect, useState } from "react";
@@ -88,7 +90,7 @@ function ListData() {
             manage: (
               <div className="d-flex" style={{ gap: "10px" }}>
                 <a href={API+"/PlantPD.php/?id="+i.plant_id} target="_blank" >
-                  <DownloadIcon
+                  <CloudDownloadIcon
                     className="ic"
                     color="green500"
                     size={20}
@@ -96,7 +98,7 @@ function ListData() {
                 </a>
 
                 <NavLink to={"/detail/" + i.plant_id}>
-                  <EyeOnIcon className="ic" color="orange500" />
+                  <EyeOpenIcon className="ic" size={20} color="orange500" />
                 </NavLink>
               </div>
             ),

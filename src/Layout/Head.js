@@ -41,7 +41,7 @@ function Head({ sit }) {
     });
   };
   return (
-    <MDBNavbar className="head flex-wrap" dark expand="lg">
+    <MDBNavbar className="head flex-wrap" dark expand="xl">
       <MDBNavbarBrand>
         <span
           style={{ fontSize: "16px" }}
@@ -118,7 +118,7 @@ function Head({ sit }) {
                         : "navlink"
                     }
                   >
-                    <BiNews /> เพิ่มข่าวประชาสัมพันธ์
+                    <BiNews /> ข่าวประชาสัมพันธ์
                   </NavLink>
                   <NavLink
                     to="/active"
@@ -130,7 +130,7 @@ function Head({ sit }) {
                         : "navlink"
                     }
                   >
-                    <BiNews /> เพิ่มข่าวกิจกรรม
+                    <BiNews /> ข่าวกิจกรรม
                   </NavLink>
                 {/* </>
               ) : (
@@ -145,7 +145,7 @@ function Head({ sit }) {
         {sit === 1 ? (
           <MDBNavbarNav right>
             <MDBNavItem>
-              <MDBDropdown className="d-none d-lg-flex">
+              <MDBDropdown className="d-none d-xl-flex">
                 <MDBDropdownToggle nav caret>
                   <MDBIcon icon="user" /> {localStorage.getItem("name")}
                 </MDBDropdownToggle>
@@ -166,7 +166,7 @@ function Head({ sit }) {
                   </div>
                 </MDBDropdownMenu>
               </MDBDropdown>
-              <MDBCol className="d-flex d-lg-none justify-content-between align-items-center">
+              <MDBCol className="d-flex d-xl-none justify-content-between align-items-center">
                 <NavLink>
                   <MDBIcon icon="user" /> {localStorage.getItem("name")}
                 </NavLink>

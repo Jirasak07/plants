@@ -160,7 +160,7 @@ function Home() {
           <Pane backgroundColor="white" className="cd" borderRadius={5}>
             <div
               style={{
-                backgroundColor: "red",
+                backgroundColor: "#00000020",
                 aspectRatio: "4/3",
                 borderRadius: "5px",
               }}
@@ -171,7 +171,7 @@ function Home() {
             <div className="text-secondary mt-1" style={{ fontWeight: "500" }}>
               หัวข้อ
             </div>
-            <span style={{fontSize:"small"}} >วันที่ - วันที่</span>
+            {/* <span style={{fontSize:"small"}} >วันที่ - วันที่</span> */}
             <div
               style={{
                 whiteSpace: "wrap",

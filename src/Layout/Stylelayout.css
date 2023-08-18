@@ -44,7 +44,7 @@ a {
 .barmenu{
   display: grid !important;
   gap: 10px;
-  grid-template-columns: 120px 150px 200px 200px !important;
+  grid-template-columns: 120px 150px auto 200px 200px !important;
   /* background-color: #6a00e4; */
 }
 /* .mainlayout {
