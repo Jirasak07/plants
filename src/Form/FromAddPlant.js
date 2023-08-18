@@ -17,7 +17,6 @@ import {
 import React, { useEffect, useState } from "react";
 import { API } from "../configUrl";
 import Swal from "sweetalert2";
-
 function FromAddPlant() {
   const [province, setProvince] = useState([]);
   const [amphur, setAmphur] = useState([]);

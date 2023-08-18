@@ -16,8 +16,9 @@ import {
 import logo from "../Assets/logoo.png";
 import "./Stylelayout.css";
 import { NavLink, useNavigate } from "react-router-dom";
-import {BiNews} from 'react-icons/bi'
-import {CgLogIn} from 'react-icons/cg'
+import { BiNews } from "react-icons/bi";
+import { CgLogIn } from "react-icons/cg";
+import { FaUserTie } from "react-icons/fa";
 import Swal from "sweetalert2";
 function Head({ sit }) {
   const toggleCollapse = () => {
@@ -40,7 +41,7 @@ function Head({ sit }) {
     });
   };
   return (
-    <MDBNavbar className="head" dark expand="lg">
+    <MDBNavbar className="head flex-wrap" dark expand="lg">
       <MDBNavbarBrand>
         <span
           style={{ fontSize: "16px" }}
@@ -52,70 +53,95 @@ function Head({ sit }) {
         </span>
       </MDBNavbarBrand>
       <MDBNavbarToggler onClick={toggleCollapse} />
-      <MDBCollapse id="navbarCollapse3" isOpen={isOpen} navbar className="headmenu">
+      <MDBCollapse
+        id="navbarCollapse3"
+        isOpen={isOpen}
+        navbar
+        className="headmenu"
+      >
         <MDBNavbarNav className="barmenu" left>
-              <NavLink
-          to="/home"
-          className={({ isActive, isPending }) =>
-            isPending ? "bg-info" : isActive ? " navlink ac" : "navlink"
-          }
-        >
-          <MDBIcon icon="home" /> หน้าแรก
-        </NavLink>      
-        {sit === 1 ? (
           <NavLink
-            to="/plant"
+            to="/home"
             className={({ isActive, isPending }) =>
-              isPending ? "bg-info" : isActive ? "navlink ac" : "navlink"
+              isPending ? "bg-info" : isActive ? " navlink ac" : "navlink"
             }
           >
-            <MDBIcon icon="spa" /> พืชพรรณ
+            <MDBIcon icon="home" /> หน้าแรก
           </NavLink>
-        ) : (
-          <></>
-        )}
-        {sit === 1 ? (
-          <>
-            {role === "1" ? (
-              <>
-                <NavLink
-                  to="/user"
-                  className={({ isActive, isPending }) =>
-                    isPending ? "bg-info" : isActive ? "navlink ac" : "navlink"
-                  }
-                >
-                  <MDBIcon icon="user-cog" /> ผู้ใช้งาน
-                </NavLink>
-              </>
-            ) : (
-              <></>
-            )}
-          </>
-        ) : (
-          <> </>
-        )}
-        {sit === 1 ? (
-          <>
-            {role === "1" ? (
-              <>
-                <NavLink
-                  to="/news"
-                  className={({ isActive, isPending }) =>
-                    isPending ? "bg-info" : isActive ? "navlink ac" : "navlink"
-                  }
-                >
-                <BiNews/>  เพิ่มข่าวประชาสัมพันธ์
-                </NavLink>
-              </>
-            ) : (
-              <></>
-            )}
-          </>
-        ) : (
-          <></>
-        )}
+          {sit === 1 ? (
+            <NavLink
+              to="/plant"
+              className={({ isActive, isPending }) =>
+                isPending ? "bg-info" : isActive ? "navlink ac" : "navlink"
+              }
+            >
+              <MDBIcon icon="spa" /> พืชพรรณ
+            </NavLink>
+          ) : (
+            <></>
+          )}
+          {sit === 1 ? (
+            <>
+              {role === "1" ? (
+                <>
+                  <NavLink
+                    to="/user"
+                    className={({ isActive, isPending }) =>
+                      isPending
+                        ? "bg-info"
+                        : isActive
+                        ? "navlink ac"
+                        : "navlink"
+                    }
+                  >
+                    <MDBIcon icon="user-cog" /> ผู้ใช้งาน
+                  </NavLink>
+                </>
+              ) : (
+                <></>
+              )}
+            </>
+          ) : (
+            <> </>
+          )}
+          {sit === 1 ? (
+            <>
+              {/* {role === "1" ? (
+                <> */}
+                  <NavLink
+                    to="/news"
+                    className={({ isActive, isPending }) =>
+                      isPending
+                        ? "bg-info"
+                        : isActive
+                        ? "navlink ac"
+                        : "navlink"
+                    }
+                  >
+                    <BiNews /> เพิ่มข่าวประชาสัมพันธ์
+                  </NavLink>
+                  <NavLink
+                    to="/active"
+                    className={({ isActive, isPending }) =>
+                      isPending
+                        ? "bg-info"
+                        : isActive
+                        ? "navlink ac"
+                        : "navlink"
+                    }
+                  >
+                    <BiNews /> เพิ่มข่าวกิจกรรม
+                  </NavLink>
+                {/* </>
+              ) : (
+                <></>
+              )} */}
+            </>
+          ) : (
+            <></>
+          )}
         </MDBNavbarNav>
-    
+
         {sit === 1 ? (
           <MDBNavbarNav right>
             <MDBNavItem>
@@ -126,7 +152,7 @@ function Head({ sit }) {
                 <MDBDropdownMenu className="dropdown-default p-2">
                   <NavLink to={"/profile"}>
                     <MDBDropdownItem className="profile" href="#!">
-                      โปรไฟล์
+                      <FaUserTie /> โปรไฟล์
                     </MDBDropdownItem>
                   </NavLink>
                   <div
@@ -159,7 +185,7 @@ function Head({ sit }) {
         ) : (
           <>
             <NavLink className="navlink" to={"/login"}>
-          <CgLogIn/>    เข้าสู่ระบบ
+              <CgLogIn /> เข้าสู่ระบบ
             </NavLink>
           </>
         )}

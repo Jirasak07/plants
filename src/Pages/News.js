@@ -32,6 +32,7 @@ function News() {
       // formData.append("name", );
       formData.append("enddate", endDate);
       formData.append("title", title);
+      formData.append("user_id", localStorage.getItem());
       if(url === null){
         setUrl('-')
       }else{
@@ -137,8 +138,9 @@ function News() {
               <div>
                 <EditIcon
                   size={20}
-                  className="ic"
+                  className={localStorage.getItem('role') === 1?"ic":'disabled'}
                   color="orange500"
+                  
                   onClick={() => EditNew(i.news_id)}
                 />
               </div>
@@ -199,6 +201,7 @@ function News() {
       >
         <div className="d-flex justify-content-end">
           <Button
+          disabled={localStorage.getItem('role')===1? false:true}
             appearance="primary"
             intent=""
             onClick={() => setIsShow(true)}
@@ -237,7 +240,9 @@ function News() {
           <Pane className="d-flex flex-column" style={{ gap: "10px" }}>
             {/* <TextInputField  name="title" /> */}
             <Pane width="100%">
+              <label style={{fontSize:'14px',fontWeight:'400'}} aria-label="label-news" htmlFor="label-news" className="label" >เลือกรูปภาพข่าวประชาสัมพันธ์ (ขนาด 970x240)</label>
               <FilePicker
+                id="label-news"
                 onChange={(e) => handleFileChange(e)}
                 placeholder="เลือกแบนเนอร์ประชาสัมพันธ์ (970 X 240 pixel)"
                 accept=".png, .jpg, .jpeg"

@@ -64,6 +64,8 @@ const [isHowma,setIshowe] =useState(false)
   useEffect(() => {}, [permissimg]);
   useEffect(() => {
     fetchimg();
+    return ()=>{
+    }
   }, []);
   const fetch = async () => {
     try {

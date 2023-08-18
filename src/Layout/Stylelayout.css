@@ -29,19 +29,22 @@ a {
 }
 .headmenu{
   gap: 10px;
-  width: 100%;
+  width: 60%;
+
 
 }
 .profile{
-  background-color: #6a00e475 !important;
-  backdrop-filter: blur(10px);
+  background-color: #5f13b6 !important;
   border-radius: 5px;
   color: #ffffff;
+  display: flex !important;
+  justify-content: flex-start;
+  align-items: center !important;
 }
 .barmenu{
   display: grid !important;
   gap: 10px;
-  grid-template-columns: 120px 150px 150px 200px !important;
+  grid-template-columns: 120px 150px 200px 200px !important;
   /* background-color: #6a00e4; */
 }
 /* .mainlayout {

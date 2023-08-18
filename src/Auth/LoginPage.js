@@ -80,7 +80,7 @@ localStorage.clear()
             className="d-flex flex-column justify-content-center  align-items-center"
             style={{ fontSize: "2em",fontWeight: "500" }}
           >
-           <div style={{color:'#6a00e4',fontWeight: "600"}} >Wellcome</div> 
+           <div style={{color:'#6a00e4',fontWeight: "600"}} >Welcome</div> 
            <div className="mt-4" style={{fontSize:'16px'}} >ระบบจัดเก็บพันธุกรรมพืช</div> 
            <div style={{fontSize:'16px'}} >องค์การบริหารส่วนจังหวัดกำแพงเพชร</div> 
           </div>

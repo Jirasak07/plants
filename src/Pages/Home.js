@@ -10,9 +10,20 @@ import axios from "axios";
 import { API } from "../configUrl";
 import { GrFormNextLink } from "react-icons/gr";
 import { NavLink } from "react-router-dom";
-import { Button, SearchIcon, SearchInput } from "evergreen-ui";
+import { ArrowRightIcon, Button, Pane, SearchIcon, SearchInput } from "evergreen-ui";
 function Home() {
-  const data = [{ val: 1 }, { val: 2 }, { val: 3 }];
+  const data = [
+    { val: 1 },
+    { val: 2 },
+    { val: 3 },
+    { val: 3 },
+    { val: 3 },
+    { val: 3 },
+    { val: 3 },
+    { val: 3 },
+    { val: 3 },
+    { val: 3 },
+  ];
   const [users, setUsers] = useState([]);
   const [news, setNews] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
@@ -98,18 +109,36 @@ function Home() {
     const urlRegex = /^(ftp|http|https):\/\/[^ "]+$/;
     return urlRegex.test(val);
   };
-  const ONweb = (link) => {
-    window.location.href = link;
+  // const ONweb = (link) => {
+  //   window.location.href = link;
+  // };
+  const handleClick = (index) => {
+    const targetIndex = index; // ดัชนีที่ต้องการค้นหา (array ตัวที่ 4)
+    const targetItem = news[targetIndex];
+    const chk = onLink(targetItem.url_news);
+    if (chk) {
+      window.open(targetItem.url_news, "_bank");
+    } else {
+      // alert(`ไม่พบองค์ประกอบที่ดัชนี ${targetIndex}`);
+    }
   };
+  const [count,setCount]=useState(false);
   return (
     <div className="container-fluid main-home">
-      <div className="carousel">
+      <div className="carousel container-md">
         <Carousel
           infiniteLoop
           autoPlay={true}
-          showThumbs={false}
+          showThumbs={true}
+          thumbWidth={"50px"}
           transitionTime={600}
           className="Caro"
+          // dynamicHeight={true}
+          showStatus={false}
+          showIndicators={false}
+          stopOnHover={true}
+          swipeable={true}
+          onClickItem={handleClick}
         >
           {Array.isArray(news) &&
             news.map((i, index) => (
@@ -119,97 +148,64 @@ function Home() {
                   src={API + "/" + i.image_news}
                   alt=""
                 />
-                {onLink(i.url_news) ? (
-                  <>
-                    {" "}
-                    <div
-                      className="btn btn-info"
-                      onClick={() => {
-                        ONweb(i.url_news);
-                      }}
-                    >
-                      ดูเพิ่มเติม
-                    </div>
-                  </>
-                ) : (
-                  <></>
-                )}
               </div>
             ))}
         </Carousel>
       </div>
-      <div className=" pt-3 pb-3 mb-5 info ">
-        <div className="d-flex justify-content-center mb-2">
-          <SearchInput
-            placeholder="ค้นหาจากชื่อ"
-            value={search}
-            width={"100%"}
-            maxWidth="300px"
-            onChange={(e) => setSearch(e.target.value)}
-          />
-          <Button maxWidth="60px" onClick={() => Search()}>
-            <SearchIcon color="blue500" />
-          </Button>{" "}
-        </div>
-
-        <div className="card-container pb-3">
-          {Array.isArray(currentUsers) &&
-            currentUsers.map((user) => (
-              <div className="MDBCard rounded">
-                <div>
-                  <div>
-                    <img
-                      src={API + "/" + user.img}
-                      width={"100%"}
-                      alt=""
-                      className="rounded"
-                    />
-                  </div>
-                  <div className="text-center ">
-                    <strong className="text-center">{user.plant_name}</strong>
-                  </div>
-                </div>
-
-                <NavLink
-                  to={"/detail2/" + user.plant_id}
-                  className="btn  btn-secondary d-flex align-items-center justify-content-center btn-sm"
-                >
-                  ดูเพิ่มเติม
-                </NavLink>
-              </div>
-            ))}
-        </div>
-      </div>
-      <div>
-        <MDBPagination
-          className="d-flex justify-content-center  bot"
-          color="purple"
-        >
-          <MDBPageItem disabled={currentPage === 1}>
-            <MDBPageNav className="pnav ic" onClick={goToPrevPage}>
-              <span className="baba"> &laquo; ก่อนหน้า</span>
-            </MDBPageNav>
-          </MDBPageItem>
-
-          {Array.from({ length: endIndex - startIndex + 1 }).map((_, index) => (
-            <MDBPageItem
-              key={startIndex + index}
-              active={startIndex + index === currentPage}
+      <div
+        style={{ position: "relative" }}
+        className="container-md d-grid news-small  pb-5"
+      >
+        {data.slice(0, !count? 4:data.length).map((val) => (
+          <Pane backgroundColor="white" className="cd" borderRadius={5}>
+            <div
+              style={{
+                backgroundColor: "red",
+                aspectRatio: "4/3",
+                borderRadius: "5px",
+              }}
+              className=""
             >
-              <MDBPageNav onClick={() => handlePageChange(startIndex + index)}>
-                {startIndex + index}
-              </MDBPageNav>
-            </MDBPageItem>
-          ))}
-
-          <MDBPageItem
-            disabled={currentPage === Math.ceil(users.length / itemsPerPage)}
-          >
-            <MDBPageNav className="pnav ic" onClick={goToNextPage}>
-              <span className="baba" > ถัดไป &raquo;</span>
-            </MDBPageNav>
-          </MDBPageItem>
-        </MDBPagination>
+              รูปข่าว
+            </div>
+            <div className="text-secondary mt-1" style={{ fontWeight: "500" }}>
+              หัวข้อ
+            </div>
+            <span style={{fontSize:"small"}} >วันที่ - วันที่</span>
+            <div
+              style={{
+                whiteSpace: "wrap",
+                overflow: "hidden",
+                otextOverflow: "ellipsis",
+                maxHeight: "110px",
+              }}
+            >
+              <p style={{fontSize:'0.9em'}} >
+                Lorem ipsum dolor sit amet consectetur adipisicing elit.
+                Recusandae, culpa ex esse veniam omnis iusto deserunt ipsam
+                repellendus adipisci quisquam, veritatis minima consectetur!
+                Inventore laudantium saepe quas fugiat illum aut perspiciatis
+                officiis impedit quibusdam animi dignissimos, nihil illo
+                aspernatur nisi sit repudiandae quisquam, dolore laboriosam
+                dolores quo quia, accusamus ex.{" "}
+              </p>
+            </div>
+            <div style={{backgroundColor:'#00000030',borderRadius:'5px',paddingLeft:'8px',minHeight:'30px'}} className="d-flex align-items-center ic" ><ArrowRightIcon className="ic" /></div>
+          </Pane>
+        ))}
+        <span
+        onClick={()=>setCount(!count)}
+          className="ic text-dark text-right"
+          style={{
+            // textShadow: "0px 0px 5px #000000",
+            position: "absolute",
+            right: "10px",
+            bottom: "5px",
+            fontWeight:'600'
+          }}
+        >
+        {count? "น้อยลง":"ดูเพิ่มเติม"}  
+        </span>
       </div>
     </div>
   );
