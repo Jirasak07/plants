@@ -15,9 +15,11 @@ import Desk from "./Pages/Desk";
 import Plant from "./Pages/Plant";
 import ActivityPage from "./Pages/ActivityPage";
 import FormAddActivity from "./Form/FormAddActivity";
+import ratingkpru from 'rating_kpru'
 function App() {
   return (
     <div className="v">
+      {/* <button onClick={()=>ratingkpru({system_kpru:'Test'})} > gg </button> */}
       <Routes>
         <Route path="/login" element={<LoginPage />} />
         <Route path="/" element={<MainLayout />}>

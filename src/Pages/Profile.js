@@ -19,6 +19,7 @@ function Profile() {
   const [newUsername, setNewUsername] = useState();
   const [pass, setPass] = useState();
   const [newPassword, setNewPassword] = useState();
+  const [newNewPassword, setNewNewPassword] = useState();
   const getMyProfile = async () => {
     try {
       const post = await axios.post(API + "/User/ShowProfile", {
@@ -43,57 +44,60 @@ function Profile() {
   useEffect(() => {
     console.log("fetch success");
   }, [per]);
-const changePass =()=>{
-  axios.post(API+"/User/ChangePass",{
-    username:newUsername,
-    id:localStorage.getItem('user_id'),
-    newpass:newPassword,
-    oldpass:pass
-  }).then((res)=>{
+  const changePass = () => {
+    axios
+      .post(API + "/User/ChangePass", {
+        username: newUsername,
+        id: localStorage.getItem("user_id"),
+        newpass: newPassword,
+        oldpass: pass,
+      })
+      .then((res) => {
+        const r = res.data;
 
-    const r = res.data
-
-    if(r === 'success'){
-      Swal.fire({
-        icon:'success',
-        title:'Success !!'
-      }).then((rd)=>{
-        window.location.reload()
+        if (r === "success") {
+          Swal.fire({
+            icon: "success",
+            title: "Success !!",
+          }).then((rd) => {
+            window.location.reload();
+          });
+        } else if (r === "error") {
+          Swal.fire({
+            icon: "error",
+            title: "ไม่สำเร็จ",
+          });
+        }
+      });
+  };
+  const editUser = () => {
+    axios
+      .post(API + "/User/EditProfile", {
+        username: currUsername,
+        name: currName,
+        organize: currOga,
+        tell_number: currTell,
+        citizen: currCiti,
+        id: localStorage.getItem("user_id"),
       })
-    }else if(r === "error"){
-      Swal.fire({
-        icon:'error',
-        title:'ไม่สำเร็จ'
-      })
-    }
-  })
-}
-const editUser=()=>{
-  axios.post(API+"/User/EditProfile",{
-    username:currUsername,
-   name:currName,
-    organize:currOga,
-  tell_number:currTell,
-    citizen:currCiti,
-   id:localStorage.getItem('user_id')
-  }).then((res)=>{
-    const resp = res.data
-    if(resp === "success"){
-      Swal.fire({
-        icon:'success',
-        title:'Success !!'
-      }).then((dsd)=>{
-        window.location.reload()
-      })
-    }
-  })
-}
+      .then((res) => {
+        const resp = res.data;
+        if (resp === "success") {
+          Swal.fire({
+            icon: "success",
+            title: "Success !!",
+          }).then((dsd) => {
+            window.location.reload();
+          });
+        }
+      });
+  };
   return (
-    <div className="container-md d-flex justify-content-center">
+    <div className="container-md d-flex justify-content-center bg-danger" style={{minHeight:'calc(100vh - 80px) '}} >
       <Pane
         backgroundColor="white"
         className="profile"
-        padding={30}
+        padding={10}
         borderRadius={20}
       >
         <EditIcon
@@ -107,6 +111,7 @@ const editUser=()=>{
           value={currUsername}
           disabled={!allowEdit}
           readOnly={!allowEdit}
+          width="100%"
           onChange={(e) => setCurrUsername(e.target.value)}
         />
         <TextInputField
@@ -115,9 +120,11 @@ const editUser=()=>{
           disabled={!allowEdit}
           readOnly={!allowEdit}
           onChange={(e) => setCurrName(e.target.value)}
+          width="100%"
         />
         <TextInputField
           label="สังกัด"
+          width="100%"
           value={currOga}
           disabled={!allowEdit}
           readOnly={!allowEdit}
@@ -127,20 +134,27 @@ const editUser=()=>{
           label="เบอร์โทร"
           value={currTell}
           disabled={!allowEdit}
+          width="100%"
           readOnly={!allowEdit}
           onChange={(e) => setCurrTell(e.target.value)}
         />
         <TextInputField
           label="เลขบัตร"
+          width="100%"
           value={currCiti}
           disabled={!allowEdit}
           readOnly={!allowEdit}
           onChange={(e) => setCurrCiti(e.target.value)}
         />
-        <TextInputField label="สิทธิ์" value={currRole} disabled />
+        <TextInputField label="สิทธิ์" value={currRole} disabled width="100%" />
         {allowEdit ? (
           <>
-            <Button width="100%" appearance="primary" intent="success" onClick={editUser} >
+            <Button
+              width="100%"
+              appearance="primary"
+              intent="success"
+              onClick={editUser}
+            >
               บันทึก
             </Button>
           </>
@@ -170,11 +184,23 @@ const editUser=()=>{
             onChange={(e) => setPass(e.target.value)}
           />
           <TextInputField
-          label="รหัสผ่านใหม่"
+            label="รหัสผ่านใหม่"
             value={newPassword}
             onChange={(e) => setNewPassword(e.target.value)}
           />
-          <Button appearance="primary" width="100%" intent="success" onClick={changePass} >บันทึก</Button>
+          <TextInputField
+            label="ยืนยันรหัสผ่านใหม่"
+            value={newNewPassword}
+            onChange={(e) => setNewNewPassword(e.target.value)}
+          />
+          <Button
+            appearance="primary"
+            width="100%"
+            intent="success"
+            onClick={changePass}
+          >
+            บันทึก
+          </Button>
         </Dialog>
       </Pane>
     </div>
