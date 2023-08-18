@@ -53,12 +53,18 @@ function FormAddActivity() {
     fileCountOverLimit === 1 ? "file" : "files"
   }.`;
   return (
-    <div className="container-md bg-white d-flex flex-column align-items-center p-3" style={{borderRadius:'5px'}} >
-     
-     <TextInputField label='ชื่อกิจกรรม' />
-     <TextInputField label='ชื่อกิจกรรม' />
-     <TextInputField label='ชื่อกิจกรรม' />
-     <TextInputField label='ชื่อกิจกรรม' />
+    <div
+      className="container-md bg-white d-flex flex-column align-items-center p-3"
+      style={{ borderRadius: "5px" }}
+    >
+      <form className="form row d-flex " style={{maxWidth:'654px'}} >
+        <TextInputField
+          label="ชื่อกิจกรรม"
+        />
+        <TextInputField label="ชื่อกิจกรรม" />
+        <TextInputField label="ชื่อกิจกรรม" />
+        <TextInputField label="ชื่อกิจกรรม" />
+      </form>
       <Pane maxWidth={654}>
         <FileUploader
           acceptedMimeTypes={acceptedMimeTypes}
