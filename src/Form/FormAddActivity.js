@@ -13,7 +13,7 @@ import {
   rebaseFiles,
 } from "evergreen-ui";
 import { FileRejectionReason, MimeType } from "evergreen-ui";
-import React from "react";
+import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 
 function FormAddActivity() {
@@ -22,7 +22,10 @@ function FormAddActivity() {
   const maxSizeInBytes = 5 * 1024 ** 2; // 50 MB
   const [files, setFiles] = React.useState([]);
   const [fileRejections, setFileRejections] = React.useState([]);
-  const nav = useNavigate()
+  const nav = useNavigate();
+  const [activeName, setActiveName] = useState();
+  const [activeDeatil, setActiveDetail] = useState();
+  const [otherFile, setOtherFile] = useState([]);
   const values = React.useMemo(
     () => [
       ...files,
@@ -74,7 +77,7 @@ function FormAddActivity() {
         style={{ maxWidth: "654px" }}
       >
         <div className="col-12">
-          <TextInputField label="ชื่อกิจกรรม" />
+          <TextInputField label="ชื่อกิจกรรม" value={activeName} onChange={(e)=>setActiveName(e.target.value)} />
         </div>
         <div className="col-12">
           <TextareaField label="เนื้อหากิจกรรม" />
@@ -137,7 +140,7 @@ function FormAddActivity() {
             values={values}
           />
         </Pane>
-        <div className="d-flex flex-row w-100" style={{gap:'10px'}} >
+        <div className="d-flex flex-row w-100" style={{ gap: "10px" }}>
           <Button
             iconBefore={<FloppyDiskIcon />}
             appearance="primary"
@@ -146,7 +149,16 @@ function FormAddActivity() {
           >
             บันทึกข่าวกิจกรรม
           </Button>
-          <Button type="button" onClick={()=>nav(-1)} iconBefore={<TrashIcon/>} appearance="minimal" intent="danger" width="20%" >ยกเลิก</Button>
+          <Button
+            type="button"
+            onClick={() => nav(-1)}
+            iconBefore={<TrashIcon />}
+            appearance="minimal"
+            intent="danger"
+            width="20%"
+          >
+            ยกเลิก
+          </Button>
         </div>
       </form>
     </div>
