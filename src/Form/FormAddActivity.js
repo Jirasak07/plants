@@ -5,6 +5,7 @@ import {
   FilePicker,
   FileUploader,
   FloppyDiskIcon,
+  Image,
   Pane,
   TextInputField,
   TextareaField,
@@ -64,11 +65,38 @@ function FormAddActivity() {
   }.`;
   const Submit = (e) => {
     e.preventDefault();
-    console.log(files);
+    console.log(selectedImages);
+    // files.forEach((element) => {
+    //   console.log(element);
+    // });
+    // const frm = new FormData();
+  };
+  // const [prevFile,setPrevFile] = useState(null)
+  const manageFile = (e) => {
+    if (e.length > 0) {
+      const ffiillee = e[0];
+      setOtherFile(ffiillee);
+    } else {
+      setOtherFile(null);
+    }
+  };
+
+  const [selectedImages, setSelectedImages] = useState([]);
+
+  const handleImageChange = (files) => {
+    // รับรายการไฟล์ที่ถูกเลือกจาก FilePicker
+    setSelectedImages([...selectedImages, ...files]);
+  };
+
+  const handleRemoveImage = (index) => {
+    // คลิกปุ่มลบรูปภาพ
+    const newSelectedImages = [...selectedImages];
+    newSelectedImages.splice(index, 1);
+    setSelectedImages(newSelectedImages);
   };
   return (
     <div
-      className="container-md bg-white d-flex flex-column align-items-center p-3"
+      className="container-sm bg-white d-flex flex-column align-items-center p-3"
       style={{ borderRadius: "5px" }}
     >
       <form
@@ -77,10 +105,18 @@ function FormAddActivity() {
         style={{ maxWidth: "654px" }}
       >
         <div className="col-12">
-          <TextInputField label="ชื่อกิจกรรม" value={activeName} onChange={(e)=>setActiveName(e.target.value)} />
+          <TextInputField
+            label="ชื่อกิจกรรม"
+            value={activeName}
+            onChange={(e) => setActiveName(e.target.value)}
+          />
         </div>
         <div className="col-12">
-          <TextareaField label="เนื้อหากิจกรรม" />
+          <TextareaField
+            label="เนื้อหากิจกรรม"
+            value={activeDeatil}
+            onChange={(e) => setActiveDetail(e.target.value)}
+          />
         </div>
         <div className="col-12">
           <label
@@ -90,57 +126,46 @@ function FormAddActivity() {
           >
             ไฟล์เพิ่มเติม
           </label>
-          <FilePicker label="" />
+          <FilePicker label="" onChange={manageFile} />
         </div>
-
-        <Pane maxWidth={654} width="100%" className="px-3 mt-2">
-          <FileUploader
-            acceptedMimeTypes={acceptedMimeTypes}
-            label="รูปภาพกิจกรรม"
-            description="Images can be up to 5MB. You can upload .jpg .jpeg .png file formats."
-            disabled={files.length + fileRejections.length >= maxFiles}
-            maxSizeInBytes={maxSizeInBytes}
-            //   maxFiles={maxFiles}
-            onAccepted={setFiles}
-            onRejected={setFileRejections}
-            renderFile={(file, index) => {
-              const { name, size, type } = file;
-              const renderFileCountError =
-                index === 0 && fileCountOverLimit > 0;
-
-              // We're displaying an <Alert /> component to aggregate files rejected for being over the maxFiles limit,
-              // so don't show those errors individually on each <FileCard />
-              const fileRejection = fileRejections.find(
-                (fileRejection) =>
-                  fileRejection.file === file &&
-                  fileRejection.reason !== FileRejectionReason.OverFileLimit
-              );
-              const { message } = fileRejection || {};
-
-              return (
-                <React.Fragment key={`${file.name}-${index}`}>
-                  {renderFileCountError && (
-                    <Alert
-                      intent="danger"
-                      marginBottom={majorScale(2)}
-                      title={fileCountError}
+        <div className="col-12 mt-3">
+          <div>
+            <label
+              htmlFor=""
+              style={{ fontSize: "13px", fontWeight: "600" }}
+              className="mt-2"
+            >
+              รูปภาพกิจกรรม
+            </label>
+            <FilePicker
+              multiple
+              onChange={handleImageChange}
+              placeholder="คลิกเพื่อเลือกรูปภาพ"
+            />
+            <div>
+              {selectedImages.map((file, index) => (
+                <div key={index}>
+                  <Pane
+                    display="flex"
+                    alignItems="center"
+                    justifyContent="space-between"
+                  >
+                    <Image
+                      src={URL.createObjectURL(file)}
+                      alt={`Image ${index}`}
+                      width="150"
                     />
-                  )}
-                  <FileCard
-                    isInvalid={fileRejection != null}
-                    name={name}
-                    onRemove={() => handleRemove(file)}
-                    sizeInBytes={size}
-                    type={type}
-                    validationMessage={message}
-                  />
-                </React.Fragment>
-              );
-            }}
-            values={values}
-          />
-        </Pane>
-        <div className="d-flex flex-row w-100" style={{ gap: "10px" }}>
+                    <Button onClick={() => handleRemoveImage(index)}>ลบ</Button>
+                  </Pane>
+                </div>
+              ))}
+            </div>
+          </div>
+        </div>
+        <div
+          className="d-flex flex-row w-100 col-12 mt-3"
+          style={{ gap: "10px" }}
+        >
           <Button
             iconBefore={<FloppyDiskIcon />}
             appearance="primary"
