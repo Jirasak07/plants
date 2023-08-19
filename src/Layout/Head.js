@@ -108,31 +108,23 @@ function Head({ sit }) {
             <>
               {/* {role === "1" ? (
                 <> */}
-                  <NavLink
-                    to="/news"
-                    className={({ isActive, isPending }) =>
-                      isPending
-                        ? "bg-info"
-                        : isActive
-                        ? "navlink ac"
-                        : "navlink"
-                    }
-                  >
-                    <BiNews /> ข่าวประชาสัมพันธ์
-                  </NavLink>
-                  <NavLink
-                    to="/active"
-                    className={({ isActive, isPending }) =>
-                      isPending
-                        ? "bg-info"
-                        : isActive
-                        ? "navlink ac"
-                        : "navlink"
-                    }
-                  >
-                    <BiNews /> ข่าวกิจกรรม
-                  </NavLink>
-                {/* </>
+              <NavLink
+                to="/news"
+                className={({ isActive, isPending }) =>
+                  isPending ? "bg-info" : isActive ? "navlink ac" : "navlink"
+                }
+              >
+                <BiNews /> ข่าวประชาสัมพันธ์
+              </NavLink>
+              <NavLink
+                to="/active"
+                className={({ isActive, isPending }) =>
+                  isPending ? "bg-info" : isActive ? "navlink ac" : "navlink"
+                }
+              >
+                <BiNews /> ข่าวกิจกรรม
+              </NavLink>
+              {/* </>
               ) : (
                 <></>
               )} */}
@@ -143,18 +135,15 @@ function Head({ sit }) {
         </MDBNavbarNav>
 
         {sit === 1 ? (
-          <MDBNavbarNav right>
+          <MDBNavbarNav right className="mt-xl-0 mt-3">
             <MDBNavItem>
               <MDBDropdown className="d-none d-xl-flex">
                 <MDBDropdownToggle nav caret>
-                  <MDBIcon icon="user" /> {localStorage.getItem("name")}
+                  <NavLink to={'/profile'} >
+                    <MDBIcon icon="user" /> {localStorage.getItem("name")}
+                  </NavLink>
                 </MDBDropdownToggle>
                 <MDBDropdownMenu className="dropdown-default p-2">
-                  <NavLink to={"/profile"}>
-                    <MDBDropdownItem className="profile" href="#!">
-                      <FaUserTie /> โปรไฟล์
-                    </MDBDropdownItem>
-                  </NavLink>
                   <div
                     onClick={() => {
                       Logout();
@@ -167,9 +156,9 @@ function Head({ sit }) {
                 </MDBDropdownMenu>
               </MDBDropdown>
               <MDBCol className="d-flex d-xl-none justify-content-between align-items-center">
-                <NavLink>
-                  <MDBIcon icon="user" /> {localStorage.getItem("name")}
-                </NavLink>
+              <NavLink to={'/profile'} >
+                    <MDBIcon icon="user" /> {localStorage.getItem("name")}
+                  </NavLink>
                 <div
                   onClick={() => {
                     Logout();
