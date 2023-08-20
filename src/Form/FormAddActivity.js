@@ -1,3 +1,4 @@
+import axios from "axios";
 import {
   Alert,
   Button,
@@ -16,6 +17,7 @@ import {
 import { FileRejectionReason, MimeType } from "evergreen-ui";
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { API } from "../configUrl";
 
 function FormAddActivity() {
   const acceptedMimeTypes = [MimeType.jpeg, MimeType.png, MimeType.jpg];
@@ -65,13 +67,18 @@ function FormAddActivity() {
   }.`;
   const Submit = (e) => {
     e.preventDefault();
-    console.log(selectedImages);
-    // files.forEach((element) => {
-    //   console.log(element);
-    // });
-    // const frm = new FormData();
+    console.log(otherFile)
+    const frmd = new FormData()
+    frmd.append('title',activeName);
+         
+    axios.post(API+'/News/AddNews',{
+
+    })
+    for(var i=0;i<selectedImages.length;i++){
+      console.log(selectedImages[i]);
+    }
   };
-  // const [prevFile,setPrevFile] = useState(null)
+
   const manageFile = (e) => {
     if (e.length > 0) {
       const ffiillee = e[0];
@@ -126,7 +133,7 @@ function FormAddActivity() {
           >
             ไฟล์เพิ่มเติม
           </label>
-          <FilePicker label="" onChange={manageFile} />
+          <FilePicker accept={".pdf"} label="" onChange={manageFile} />
         </div>
         <div className="col-12 mt-3">
           <div>
@@ -171,6 +178,7 @@ function FormAddActivity() {
             appearance="primary"
             intent="success"
             width="80%"
+            type="submit"
           >
             บันทึกข่าวกิจกรรม
           </Button>
