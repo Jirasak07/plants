@@ -18,6 +18,7 @@ import { FileRejectionReason, MimeType } from "evergreen-ui";
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { API } from "../configUrl";
+import Swal from "sweetalert2";
 
 function FormAddActivity() {
   const acceptedMimeTypes = [MimeType.jpeg, MimeType.png, MimeType.jpg];
@@ -67,16 +68,47 @@ function FormAddActivity() {
   }.`;
   const Submit = (e) => {
     e.preventDefault();
-    console.log(otherFile)
-    const frmd = new FormData()
-    frmd.append('title',activeName);
-         
-    axios.post(API+'/News/AddNews',{
-
-    })
-    for(var i=0;i<selectedImages.length;i++){
-      console.log(selectedImages[i]);
-    }
+    console.log(otherFile);
+    const frmd = new FormData();
+    frmd.append("title", activeName);
+    frmd.append("ac_detail", activeDeatil);
+    frmd.append("user_id", localStorage.getItem("user_id"));
+    frmd.append("ac_file", otherFile);
+    axios.post(API + "/News/AddActiv", frmd).then((res) => {
+      const respon = res.data;
+      if (respon.message === "success") {
+        const id = respon.data;
+        var i = 0;
+        for (i = 0; i < selectedImages.length; i++) {
+          // console.log(selectedImages[i]);
+          const j = i;
+          const frmImg = new FormData();
+          frmImg.append("img", selectedImages[i]);
+          frmImg.append("ac_id", id);
+          axios.post(API + "/News/AddImgNews", frmImg).then((res) => {
+            if (res.data === "success" && j === selectedImages.length) {
+              Swal.fire({
+                icon: "success",
+                title: respon.data,
+                timer: 1500,
+                timerProgressBar: true,
+                showConfirmButton: false,
+              });
+            }
+          });
+        }
+      } else if (respon === "error") {
+        Swal.fire({
+          icon: "error",
+          title: "ไม่สำเร็จ",
+        });
+      } else {
+        Swal.fire({
+          icon: "warning",
+          title: respon,
+        });
+      }
+    });
   };
 
   const manageFile = (e) => {
@@ -148,6 +180,7 @@ function FormAddActivity() {
               multiple
               onChange={handleImageChange}
               placeholder="คลิกเพื่อเลือกรูปภาพ"
+              accept={"image/png, image/jpg, image/jpeg"}
             />
             <div>
               {selectedImages.map((file, index) => (
