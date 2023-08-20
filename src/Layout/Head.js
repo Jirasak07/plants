@@ -68,18 +68,16 @@ function Head({ sit }) {
           >
             <MDBIcon icon="home" /> หน้าแรก
           </NavLink>
-          {sit === 1 ? (
-            <NavLink
-              to="/plant"
-              className={({ isActive, isPending }) =>
-                isPending ? "bg-info" : isActive ? "navlink ac" : "navlink"
-              }
-            >
-              <MDBIcon icon="spa" /> พืชพรรณ
-            </NavLink>
-          ) : (
-            <></>
-          )}
+
+          <NavLink
+            to="/plant"
+            className={({ isActive, isPending }) =>
+              isPending ? "bg-info" : isActive ? "navlink ac" : "navlink"
+            }
+          >
+            <MDBIcon icon="spa" /> พืชพรรณ
+          </NavLink>
+
           {sit === 1 ? (
             <>
               {role === "1" ? (
@@ -139,7 +137,7 @@ function Head({ sit }) {
             <MDBNavItem>
               <MDBDropdown className="d-none d-xl-flex">
                 <MDBDropdownToggle nav caret>
-                  <NavLink to={'/profile'} >
+                  <NavLink to={"/profile"}>
                     <MDBIcon icon="user" /> {localStorage.getItem("name")}
                   </NavLink>
                 </MDBDropdownToggle>
@@ -156,9 +154,9 @@ function Head({ sit }) {
                 </MDBDropdownMenu>
               </MDBDropdown>
               <MDBCol className="d-flex d-xl-none justify-content-between align-items-center">
-              <NavLink to={'/profile'} >
-                    <MDBIcon icon="user" /> {localStorage.getItem("name")}
-                  </NavLink>
+                <NavLink to={"/profile"}>
+                  <MDBIcon icon="user" /> {localStorage.getItem("name")}
+                </NavLink>
                 <div
                   onClick={() => {
                     Logout();

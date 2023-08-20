@@ -117,9 +117,11 @@ function ListData() {
       <div className="bg-white px-3 pt-2 rounded">
         <div className="d-flex justify-content-end">
           <Button
+            disabled={localStorage.getItem('user_id')===null? true:false}
             appearance="primary"
             style={{ gap: "10px" }}
             onClick={() => setIsOpen(true)}
+    // disabled={true}
           >
             <MDBIcon icon="plus-square" /> เพิ่มพืชพรรณใหม่
           </Button>

@@ -201,7 +201,7 @@ function News() {
       >
         <div className="d-flex justify-content-end">
           <Button
-          disabled={localStorage.getItem('role')===1? false:true}
+          disabled={localStorage.getItem('role')===1? true:false}
             appearance="primary"
             intent=""
             onClick={() => setIsShow(true)}
