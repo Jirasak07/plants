@@ -22,6 +22,10 @@
   gap: 10px;
   width: clamp(300px,60vw,400px);
   position: relative;
+  padding-top: 30px !important;
+  /* background-color: aqua !important; */
+  height: 100vh !important;
+  overflow: hidden;
 }
 .ed{
   position: absolute; 

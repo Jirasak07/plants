@@ -99,7 +99,7 @@ function FormAddActivity() {
                   setLoading(false);
                   Swal.fire({
                     icon: "success",
-                    title: respon.data,
+                    title: "Success",
                     timer: 1500,
                     timerProgressBar: true,
                     showConfirmButton: false,

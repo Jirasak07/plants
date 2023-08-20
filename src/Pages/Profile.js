@@ -6,7 +6,7 @@ import Swal from "sweetalert2";
 
 function Profile() {
   const [per, setPer] = useState(false);
-  const [profile, setProfile] = useState([]);
+  // const [profile, setProfile] = useState([]);
   const [isShow, setIsShow] = useState(false);
   const user_id = localStorage.getItem("user_id");
   const [currUsername, setCurrUsername] = useState();
@@ -26,7 +26,7 @@ function Profile() {
         id: user_id,
       });
       const res = post.data[0];
-      setProfile(res);
+      // setProfile(res);
       setCurrCiti(res.citizen_id);
       setCurrName(res.name);
       setCurrOga(res.organization);
@@ -45,30 +45,37 @@ function Profile() {
     console.log("fetch success");
   }, [per]);
   const changePass = () => {
-    axios
-      .post(API + "/User/ChangePass", {
-        username: newUsername,
-        id: localStorage.getItem("user_id"),
-        newpass: newPassword,
-        oldpass: pass,
-      })
-      .then((res) => {
-        const r = res.data;
+    if (newPassword === newNewPassword) {
+      axios
+        .post(API + "/User/ChangePass", {
+          username: newUsername,
+          id: localStorage.getItem("user_id"),
+          newpass: newPassword,
+          oldpass: pass,
+        })
+        .then((res) => {
+          const r = res.data;
 
-        if (r === "success") {
-          Swal.fire({
-            icon: "success",
-            title: "Success !!",
-          }).then((rd) => {
-            window.location.reload();
-          });
-        } else if (r === "error") {
-          Swal.fire({
-            icon: "error",
-            title: "ไม่สำเร็จ",
-          });
-        }
-      });
+          if (r === "success") {
+            Swal.fire({
+              icon: "success",
+              title: "Success !!",
+            }).then((rd) => {
+              window.location.reload();
+            });
+          } else if (r === "error") {
+            Swal.fire({
+              icon: "error",
+              title: "ไม่สำเร็จ",
+            });
+          }
+        });
+    } else {
+      Swal.fire({
+        icon:'error',
+        title:'รหัสผ่านไม่ตรงกัน'
+      })
+    }
   };
   const editUser = () => {
     axios
@@ -93,7 +100,7 @@ function Profile() {
       });
   };
   return (
-    <div className="container-md d-flex justify-content-center bg-danger" style={{minHeight:'calc(100vh - 80px) '}} >
+    <div className="container-md d-flex  justify-content-center ">
       <Pane
         backgroundColor="white"
         className="profile"
@@ -181,15 +188,18 @@ function Profile() {
           <TextInputField
             value={pass}
             label="รหัสผ่านเดิม"
+            type="password"
             onChange={(e) => setPass(e.target.value)}
           />
           <TextInputField
             label="รหัสผ่านใหม่"
             value={newPassword}
+            type="password"
             onChange={(e) => setNewPassword(e.target.value)}
           />
           <TextInputField
             label="ยืนยันรหัสผ่านใหม่"
+            type="password"
             value={newNewPassword}
             onChange={(e) => setNewNewPassword(e.target.value)}
           />
