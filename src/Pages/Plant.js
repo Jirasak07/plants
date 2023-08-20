@@ -82,7 +82,7 @@ function Plant() {
       }
     });
   };
-  const [showTable, setShowTable] = useState(false);
+  const [showTable, setShowTable] = useState(true);
   const change = async () => {
     await setShowTable(!showTable);
   };

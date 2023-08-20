@@ -7,6 +7,7 @@ import {
   FileUploader,
   FloppyDiskIcon,
   Image,
+  Overlay,
   Pane,
   TextInputField,
   TextareaField,
@@ -19,6 +20,7 @@ import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { API } from "../configUrl";
 import Swal from "sweetalert2";
+import "./active.css";
 
 function FormAddActivity() {
   const acceptedMimeTypes = [MimeType.jpeg, MimeType.png, MimeType.jpg];
@@ -66,7 +68,9 @@ function FormAddActivity() {
   const fileCountError = `You can upload up to 20 files. Please remove ${fileCountOverLimit} ${
     fileCountOverLimit === 1 ? "file" : "files"
   }.`;
+  const [loading, setLoading] = useState(false);
   const Submit = (e) => {
+    setLoading(true);
     e.preventDefault();
     console.log(otherFile);
     const frmd = new FormData();
@@ -79,23 +83,44 @@ function FormAddActivity() {
       if (respon.message === "success") {
         const id = respon.data;
         var i = 0;
-        for (i = 0; i < selectedImages.length; i++) {
-          // console.log(selectedImages[i]);
-          const j = i;
-          const frmImg = new FormData();
-          frmImg.append("img", selectedImages[i]);
-          frmImg.append("ac_id", id);
-          axios.post(API + "/News/AddImgNews", frmImg).then((res) => {
-            if (res.data === "success" && j === selectedImages.length) {
-              Swal.fire({
-                icon: "success",
-                title: respon.data,
-                timer: 1500,
-                timerProgressBar: true,
-                showConfirmButton: false,
+        var count = 0;
+        const max = selectedImages.length;
+        if (selectedImages.length > 0) {
+          for (i = 0; i < selectedImages.length; i++) {
+            count = count + 1;
+            const frmImg = new FormData();
+            frmImg.append("img", selectedImages[i]);
+            frmImg.append("ac_id", id);
+            axios
+              .post(API + "/News/AddImgNews", frmImg)
+              .then((res) => {
+                console.log(count);
+                if (res.data === "success" && count === max) {
+                  setLoading(false);
+                  Swal.fire({
+                    icon: "success",
+                    title: respon.data,
+                    timer: 1500,
+                    timerProgressBar: true,
+                    showConfirmButton: false,
+                  });
+                }
+              })
+              .then((res) => {
+                nav("/active");
               });
-            }
-          });
+          }
+        }else{
+          setLoading(false);
+          Swal.fire({
+            icon: "success",
+            title: respon.data,
+            timer: 1500,
+            timerProgressBar: true,
+            showConfirmButton: false,
+          }).then((res)=>{
+            nav("/active");
+          })
         }
       } else if (respon === "error") {
         Swal.fire({
@@ -138,6 +163,22 @@ function FormAddActivity() {
       className="container-sm bg-white d-flex flex-column align-items-center p-3"
       style={{ borderRadius: "5px" }}
     >
+      <Overlay isShown={loading} shouldCloseOnClick={false}>
+        <div class="lds-spinner">
+          <div></div>
+          <div></div>
+          <div></div>
+          <div></div>
+          <div></div>
+          <div></div>
+          <div></div>
+          <div></div>
+          <div></div>
+          <div></div>
+          <div></div>
+          <div></div>
+        </div>
+      </Overlay>
       <form
         onSubmit={Submit}
         className="form row d-flex "
@@ -147,12 +188,15 @@ function FormAddActivity() {
           <TextInputField
             label="ชื่อกิจกรรม"
             value={activeName}
+            // placeholder="ชื่อ"
+            required
             onChange={(e) => setActiveName(e.target.value)}
           />
         </div>
         <div className="col-12">
           <TextareaField
             label="เนื้อหากิจกรรม"
+            required
             value={activeDeatil}
             onChange={(e) => setActiveDetail(e.target.value)}
           />

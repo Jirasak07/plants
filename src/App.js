@@ -16,6 +16,7 @@ import Plant from "./Pages/Plant";
 import ActivityPage from "./Pages/ActivityPage";
 import FormAddActivity from "./Form/FormAddActivity";
 import ratingkpru from 'rating_kpru'
+import ActivDetail from "./Pages/ActivDetail";
 function App() {
   return (
     <div className="v">
@@ -33,6 +34,7 @@ function App() {
           <Route path="/detail2/:id" element={<DetailTwo />} />
           {/* <Route path="/test" element={<Plant />} /> */}
           <Route path="/active" element={<ActivityPage />} />
+          <Route path="/active/detail/:id" element={<ActivDetail/>} />
           <Route path="/active/add" element={<FormAddActivity />} />
         </Route>
         <Route path="/admin"></Route>

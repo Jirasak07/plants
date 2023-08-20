@@ -9,8 +9,15 @@ import iii from "../Assets/sds.png";
 import axios from "axios";
 import { API } from "../configUrl";
 import { GrFormNextLink } from "react-icons/gr";
-import { NavLink } from "react-router-dom";
-import { ArrowRightIcon, Button, Pane, SearchIcon, SearchInput } from "evergreen-ui";
+import { NavLink, useNavigate } from "react-router-dom";
+import {
+  ArrowRightIcon,
+  Button,
+  Image,
+  Pane,
+  SearchIcon,
+  SearchInput,
+} from "evergreen-ui";
 function Home() {
   const data = [
     { val: 1 },
@@ -31,10 +38,10 @@ function Home() {
   const [isReady, setIsReady] = useState(false);
   const [search, setSearch] = useState("");
   // const [plant,setPlant] = useState([])
-
+  const nav = useNavigate();
   const getUser = async () => {
     try {
-      const get = await axios.get(API + "/Plant/getPlant");
+      const get = await axios.get(API + "/News/getActivity");
       const data = get.data;
       setUsers(data);
       const getNew = await axios.get(API + "/News/getNew");
@@ -51,60 +58,6 @@ function Home() {
       // setTables();
     }
   }, [isReady]);
-
-  const indexOfLastUser = currentPage * itemsPerPage;
-  const indexOfFirstUser = indexOfLastUser - itemsPerPage;
-  var currentUsers = users.slice(indexOfFirstUser, indexOfLastUser);
-  const pagesToShow = 5;
-  // เปลี่ยนหน้า
-  const handlePageChange = (pageNumber) => {
-    setCurrentPage(pageNumber);
-  };
-
-  const goToPrevPage = () => {
-    if (currentPage > 1) {
-      setCurrentPage(currentPage - 1);
-    }
-  };
-
-  const goToNextPage = () => {
-    if (currentPage < Math.ceil(users.length / itemsPerPage)) {
-      setCurrentPage(currentPage + 1);
-    }
-  };
-
-  // คำนวณหน้าเริ่มต้นและสิ้นสุดของเพจเนชันที่จะแสดง
-  const startIndex = Math.max(currentPage - Math.floor(pagesToShow / 2), 1);
-  const endIndex = Math.min(
-    startIndex + pagesToShow - 1,
-    Math.ceil(users.length / itemsPerPage)
-  );
-  const Search = (e) => {
-    var send = "";
-    if (search === "") {
-      send = "no";
-    } else {
-      send = search;
-    }
-    const frm = new FormData();
-    frm.append("name", search);
-    let config = {
-      method: "post",
-      maxBodyLength: Infinity,
-      url: API + "/Plant/Search",
-      data: frm,
-    };
-
-    axios.request(config).then((res) => {
-      const data = res.data;
-      console.log(data);
-      if (data === "error") {
-      } else {
-        setUsers(data);
-        currentUsers = data.slice(indexOfFirstUser, indexOfLastUser);
-      }
-    });
-  };
   const onLink = (val) => {
     const urlRegex = /^(ftp|http|https):\/\/[^ "]+$/;
     return urlRegex.test(val);
@@ -122,7 +75,22 @@ function Home() {
       // alert(`ไม่พบองค์ประกอบที่ดัชนี ${targetIndex}`);
     }
   };
-  const [count,setCount]=useState(false);
+  const formatDate = (val) => {
+    const date = new Date(val); // วันที่ปัจจุบัน
+
+    // กำหนดภาษาเป้าหมายเป็นไทย
+    const options = { year: "numeric", month: "long", day: "numeric" };
+    const thaiDate = date.toLocaleDateString("th-TH", options);
+    return thaiDate;
+  };
+  const [count, setCount] = useState(false);
+  const GotoDetail = (id) => {
+    nav("/active/detail/" + id);
+  };
+  const onSub = (val) => {
+    const text = val.substring(0, 100);
+    return text;
+  };
   return (
     <div className="container-fluid main-home">
       <div className="carousel container-md">
@@ -156,55 +124,74 @@ function Home() {
         style={{ position: "relative" }}
         className="container-md d-grid news-small  pb-5"
       >
-        {data.slice(0, !count? 4:data.length).map((val) => (
+        {users.slice(0, !count ? 4 : users.length).map((val) => (
           <Pane backgroundColor="white" className="cd" borderRadius={5}>
             <div
               style={{
                 backgroundColor: "#00000020",
                 aspectRatio: "4/3",
                 borderRadius: "5px",
+                overflow:'hidden'
               }}
               className=""
             >
-              รูปข่าว
+              <Image src={API + "/" + val.pic} maxWidth={'350px'} />
             </div>
-            <div className="text-secondary mt-1" style={{ fontWeight: "500" }}>
-              หัวข้อ
+            <div
+              className="text-secondary text-center mt-1"
+              style={{ fontWeight: "500" }}
+            >
+              <span> {val.ac_title} </span>
             </div>
-            {/* <span style={{fontSize:"small"}} >วันที่ - วันที่</span> */}
+            <span style={{ fontSize: "small" }}>
+              ข้อมูลวันที่ {formatDate(val.ac_date)}
+            </span>
             <div
               style={{
-                whiteSpace: "wrap",
-                overflow: "hidden",
-                otextOverflow: "ellipsis",
-                maxHeight: "110px",
+                width: "100%", 
+                height: "100px",
+                overflow:"hidden",
+                whiteSpace:'pre-line',
+                wordWrap:'break-word'
               }}
             >
-              <p style={{fontSize:'0.9em'}} >
-                Lorem ipsum dolor sit amet consectetur adipisicing elit.
-                Recusandae, culpa ex esse veniam omnis iusto deserunt ipsam
-                repellendus adipisci quisquam, veritatis minima consectetur!
-                Inventore laudantium saepe quas fugiat illum aut perspiciatis
-                officiis impedit quibusdam animi dignissimos, nihil illo
-                aspernatur nisi sit repudiandae quisquam, dolore laboriosam
-                dolores quo quia, accusamus ex.{" "}
+              <p style={{ fontSize: "0.9em" }}>
+                {/* {val.ac_detail.length > 100 ? (
+                  <div>
+                    {onSub(val.ac_detail)} <span>...</span>{" "}
+                  </div>
+                ) : (
+                  <>{val.ac_detail}</>
+                )} */}
+                {val.ac_detail}
               </p>
             </div>
-            <div style={{backgroundColor:'#00000030',borderRadius:'5px',paddingLeft:'8px',minHeight:'30px'}} className="d-flex align-items-center ic" ><ArrowRightIcon className="ic" /></div>
+            <div
+              style={{
+                backgroundColor: "#00000030",
+                borderRadius: "5px",
+                paddingLeft: "8px",
+                minHeight: "30px",
+              }}
+              className="d-flex align-items-center ic"
+              onClick={() => GotoDetail(val.ac_id)}
+            >
+              <ArrowRightIcon className="ic" />
+            </div>
           </Pane>
         ))}
         <span
-        onClick={()=>setCount(!count)}
+          onClick={() => setCount(!count)}
           className="ic text-dark text-right"
           style={{
             // textShadow: "0px 0px 5px #000000",
             position: "absolute",
             right: "10px",
             bottom: "5px",
-            fontWeight:'600'
+            fontWeight: "600",
           }}
         >
-        {count? "น้อยลง":"ดูเพิ่มเติม"}  
+          {count ? "น้อยลง" : "ดูเพิ่มเติม"}
         </span>
       </div>
     </div>
