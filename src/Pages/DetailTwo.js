@@ -134,6 +134,7 @@ function DetailTwo() {
             autoPlay={true}
             showThumbs={false}
             transitionTime={600}
+            showArrows={true}
             className="Caro bg-white "
             // width={"300px"}
           >

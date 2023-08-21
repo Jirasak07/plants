@@ -28,60 +28,58 @@ function FromAddPlant() {
   const [imgFlower, setImgFlower] = useState(null);
   const [imgTrunk, setImgTrunk] = useState(null);
   const [imgFruit, setImgFruit] = useState(null);
-  const [inputs, setInputs] = useState(
-    {
-      plant_code: "",
+  const [inputs, setInputs] = useState({
+    plant_code: "",
 
-      plant_name: "",
+    plant_name: "",
 
-      plant_area: "-",
+    plant_area: "-",
 
-      x: "0",
+    x: "0",
 
-      y: "0",
+    y: "0",
 
-      qty: "0",
+    qty: "0",
 
-      radius: "0",
+    radius: "0",
 
-      statuss: "-",
+    statuss: "-",
 
-      tambon_id: "0000",
+    tambon_id: "0000",
 
-      zipcode: "0000",
+    zipcode: "0000",
 
-      plant_character: "-",
+    plant_character: "-",
 
-      amphur_id: "-",
+    amphur_id: "-",
 
-      benefit_appliances: "-",
+    benefit_appliances: "-",
 
-      benefit_foot: "-",
+    benefit_foot: "-",
 
-      benefit_medicine_animal: "-",
+    benefit_medicine_animal: "-",
 
-      benefit_medicine_human: "-",
+    benefit_medicine_human: "-",
 
-      benefit_pesticide: "-",
+    benefit_pesticide: "-",
 
-      height: "0",
+    height: "0",
 
-      name_adder: "-",
+    name_adder: "-",
 
-      other: "-",
+    other: "-",
 
-      age_adder: "0",
+    age_adder: "0",
 
-      address_adder: "-",
+    address_adder: "-",
 
-      about_tradition: "-",
+    about_tradition: "-",
 
-      about_religion: "-",
+    about_religion: "-",
 
-      age: "0",
-      distinctive:"-"
-    },
-  );
+    age: "0",
+    distinctive: "-",
+  });
   const [idimage, setIdImage] = useState(null);
   const onChange = (e) => {
     const name = e.target.name;
@@ -214,7 +212,6 @@ function FromAddPlant() {
     e.preventDefault();
     const addPlant = async () => {
       try {
-
         const go = await axios.post(API + "/Plant/AddPlant", {
           plant_code: inputs.plant_code,
           plant_name: inputs.plant_name,
@@ -223,7 +220,7 @@ function FromAddPlant() {
           y: inputs.y,
           distinctive: inputs.distinctive,
           qty: inputs.qty,
-          radius: inputs.radius,
+          radius: inputs.radius / 100,
           status: inputs.statuss,
           tambon_id: inputs.tambon_id,
           zipcode: zipcode,
@@ -234,7 +231,7 @@ function FromAddPlant() {
           benefit_medicine_animal: inputs.benefit_medicine_animal,
           benefit_medicine_human: inputs.benefit_medicine_human,
           benefit_pesticide: inputs.benefit_pesticide,
-          height: inputs.height,
+          height: inputs.height / 100,
           name_adder: inputs.name_adder,
           other: inputs.other,
           age_adder: inputs.age_adder,
@@ -245,7 +242,7 @@ function FromAddPlant() {
           user_id: localStorage.getItem("user_id"),
         });
         const respo = go.data;
-      console.log(respo)
+        console.log(respo);
         if (respo.mes === "success") {
           setIdImage(respo.val);
           return respo;
@@ -258,16 +255,10 @@ function FromAddPlant() {
       try {
         addPlant()
           .then((res) => {
-          
             if (res.mes === "success") {
               const va = res.val;
 
               if (va) {
-                if (imgLeaf) {
-                  handleUpload(imgLeaf, va, "leaf");
-                } else {
-                  console.log("not Leaf");
-                }
                 if (imgFlower) {
                   handleUpload(imgFlower, va, "flower");
                 } else {
@@ -283,13 +274,18 @@ function FromAddPlant() {
                 } else {
                   console.log("not fruit");
                 }
+                if (imgLeaf) {
+                  handleUpload(imgLeaf, va, "leaf");
+                } else {
+                  console.log("not Leaf");
+                }
               }
             } else if (res.data === "error") {
               Swal.fire({
                 icon: "error",
                 title: "Hi",
               });
-            }else if(res === 'error'){
+            } else if (res === "error") {
               Swal.fire({
                 icon: "error",
                 title: "Hi",
@@ -312,6 +308,7 @@ function FromAddPlant() {
     })();
   };
   const [load, setLoad] = useState(false);
+
   return (
     <Pane className="pt-2">
       <Overlay isShown={load}>
@@ -324,6 +321,8 @@ function FromAddPlant() {
             name="plant_name"
             label="ชื่อพรรณไม้"
             onChange={onChange}
+            onBlur={onChange}
+            // onPaste={}
             autoFocus={true}
             required
           />
@@ -331,6 +330,7 @@ function FromAddPlant() {
             name="plant_code"
             label="รหัสพรรณไม้"
             onChange={onChange}
+            onBlur={onChange}
             width="100%"
             required
           />
@@ -339,16 +339,19 @@ function FromAddPlant() {
           name="plant_character"
           label="ลักษณะวิสัยของพรรณไม้"
           onChange={onChange}
+          onBlur={onChange}
         />
-        <TextInputField
+        <TextareaField
           name="distinctive"
           label="ลักษณะเด่นของพรรณไม้"
           onChange={onChange}
+          onBlur={onChange}
         />
         <TextareaField
           name="plant_area"
           label="บริเวณที่พบพรรณไม้"
           onChange={onChange}
+          onBlur={onChange}
           required
         />
         <div className="d-flex flex-column mb-2">
@@ -359,14 +362,24 @@ function FromAddPlant() {
               style={{ gap: "10px" }}
             >
               <strong>X</strong>{" "}
-              <TextInput name="x" onChange={onChange} width={"100%"} />
+              <TextInput
+                name="x"
+                onChange={onChange}
+                onBlur={onChange}
+                width={"100%"}
+              />
             </Group>
             <Group
               className="col p-0 d-flex align-items-center "
               style={{ gap: "10px" }}
             >
               <strong>Y</strong>{" "}
-              <TextInput name="y" onChange={onChange} width={"100%"} />
+              <TextInput
+                name="y"
+                onChange={onChange}
+                onBlur={onChange}
+                width={"100%"}
+              />
             </Group>
           </div>
         </div>
@@ -409,20 +422,23 @@ function FromAddPlant() {
             width="100%"
             type="number"
             onChange={onChange}
+            onBlur={onChange}
           />
           <TextInputField
-            label="เส้นรอบวงลำต้น(เมตร)"
+            label="เส้นรอบวงลำต้น(เซนติเมตรเมตร)"
             name="radius"
             type="number"
             width="100%"
             onChange={onChange}
+            onBlur={onChange}
           />
           <TextInputField
-            label="ความสูงโดยประมาณของพืช (เมตร)"
+            label="ความสูงโดยประมาณของพืช (เซนติเมตรเมตร)"
             name="height"
             type="number"
             width="100%"
             onChange={onChange}
+            onBlur={onChange}
           />
         </div>
         <div className="d-flex" style={{ gap: "10px" }}>
@@ -431,6 +447,7 @@ function FromAddPlant() {
             name="statuss"
             label="สถานภาพของพืช"
             onChange={onChange}
+            onBlur={onChange}
           />
           <TextInputField
             width="40%"
@@ -438,6 +455,7 @@ function FromAddPlant() {
             name="qty"
             label="จำนวน (ต้น)"
             onChange={onChange}
+            onBlur={onChange}
           />
         </div>
         <div className="d-flex flex-column  mb-2">
@@ -447,43 +465,51 @@ function FromAddPlant() {
               label="อาหาร"
               name="benefit_foot"
               onChange={onChange}
+              onBlur={onChange}
               width="100%"
             />
             <TextareaField
               label="ยารักษาโรค ใช้กับคน"
               name="benefit_medicine_human"
               onChange={onChange}
+              onBlur={onChange}
               width="100%"
             />
             <TextareaField
               label="ยารักษาโรค ใช้กับสัตว์"
               name="benefit_medicine_animal"
               onChange={onChange}
+              onBlur={onChange}
             />
             <TextareaField
               label="เครื่องเรือน เครื่องใช้อื่น ๆ"
               name="benefit_appliances"
               onChange={onChange}
+              onBlur={onChange}
             />
             <TextareaField
               label="ยาฆ่าแมลง ยาปราบศัตรูพืช"
               name="benefit_pesticide"
               onChange={onChange}
+              onBlur={onChange}
             />
             <TextareaField
               label="ความเกี่ยวข้องกับประเพณี วัฒนธรรม"
               name="about_tradition"
               onChange={onChange}
+              onBlur={onChange}
             />
             <TextareaField
               label="ความเกี่ยวข้องกับความเชื่อทางศาสนา"
               name="about_religion"
               onChange={onChange}
+              onBlur={onChange}
             />
             <TextareaField
               label="อื่นๆ (เช่นการเป็นพิษ อันตราย)"
               name="other"
               onChange={onChange}
+              onBlur={onChange}
             />
           </div>
         </div>
@@ -582,6 +608,7 @@ function FromAddPlant() {
               label="ชื่อ-สกุล"
               name="name_adder"
               onChange={onChange}
+              onBlur={onChange}
               width="100%"
             />
             <TextInputField
@@ -590,6 +617,7 @@ function FromAddPlant() {
               width="30%"
               type="number"
               onChange={onChange}
+              onBlur={onChange}
             />
           </div>
 
@@ -597,6 +625,7 @@ function FromAddPlant() {
             label="ที่อยู่"
             name="address_adder"
             onChange={onChange}
+            onBlur={onChange}
           />
         </div>
         <Button type="submit" appearance="primary" intent="success">

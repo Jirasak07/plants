@@ -32,11 +32,10 @@ function News() {
       // formData.append("name", );
       formData.append("enddate", endDate);
       formData.append("title", title);
-      formData.append("user_id", localStorage.getItem());
-      if(url === null){
-        setUrl('-')
-      }else{
-        
+      formData.append("user_id", localStorage.getItem("user_id"));
+      if (url === null) {
+        setUrl("-");
+      } else {
       }
       formData.append("url", url);
       axios
@@ -138,9 +137,10 @@ function News() {
               <div>
                 <EditIcon
                   size={20}
-                  className={localStorage.getItem('role') === 1?"ic":'disabled'}
+                  className={
+                    localStorage.getItem("role") === 1 ? "ic" : "disabled"
+                  }
                   color="orange500"
-                  
                   onClick={() => EditNew(i.news_id)}
                 />
               </div>
@@ -161,36 +161,40 @@ function News() {
     const tran = date.toLocaleDateString("TH-th", options);
     return tran;
   };
-  const [currTitle,setCurrTitle]=useState()
-  const [currUrl,setCurrUrl]=useState()
-  const [currDate,setCurrDate]=useState()
+  const [currTitle, setCurrTitle] = useState();
+  const [currUrl, setCurrUrl] = useState();
+  const [currDate, setCurrDate] = useState();
   const EditNew = (val) => {
     setNewID(val);
-    axios.post(API+"/News/getEditNews",{
-      news_id:val
-    }).then((res)=>{
-      const data = res.data[0]
-      setCurrDate(data.news_end)
-      setCurrTitle(data.news_title)
-      setCurrUrl(data.url_news)
-    })
+    axios
+      .post(API + "/News/getEditNews", {
+        news_id: val,
+      })
+      .then((res) => {
+        const data = res.data[0];
+        setCurrDate(data.news_end);
+        setCurrTitle(data.news_title);
+        setCurrUrl(data.url_news);
+      });
     setIsShowE(true);
   };
-  const submit = ()=>{
-    axios.post(API+"/News/EditNews",{
-      news_id:newid,
-      news_title:currTitle,
-      news_end:currDate,
-      url_news:currUrl
-    }).then((res)=>{
-      Swal.fire({
-        icon:'success',
-        title:'แก้ไขเสร็จสิ้น'
-      }).then((d)=>{
-        window.location.reload()
+  const submit = () => {
+    axios
+      .post(API + "/News/EditNews", {
+        news_id: newid,
+        news_title: currTitle,
+        news_end: currDate,
+        url_news: currUrl,
       })
-    })
-  }
+      .then((res) => {
+        Swal.fire({
+          icon: "success",
+          title: "แก้ไขเสร็จสิ้น",
+        }).then((d) => {
+          window.location.reload();
+        });
+      });
+  };
   return (
     <div className="container-fluid">
       <Pane
@@ -199,9 +203,10 @@ function News() {
         borderRadius={10}
         padding={20}
       >
+
         <div className="d-flex justify-content-end">
           <Button
-          disabled={localStorage.getItem('role')===1? true:false}
+            disabled={localStorage.getItem("role") === 1 ? true : false}
             appearance="primary"
             intent=""
             onClick={() => setIsShow(true)}
@@ -240,7 +245,14 @@ function News() {
           <Pane className="d-flex flex-column" style={{ gap: "10px" }}>
             {/* <TextInputField  name="title" /> */}
             <Pane width="100%">
-              <label style={{fontSize:'14px',fontWeight:'400'}} aria-label="label-news" htmlFor="label-news" className="label" >เลือกรูปภาพข่าวประชาสัมพันธ์ (ขนาด 970x240)</label>
+              <label
+                style={{ fontSize: "14px", fontWeight: "400" }}
+                aria-label="label-news"
+                htmlFor="label-news"
+                className="label"
+              >
+                เลือกรูปภาพข่าวประชาสัมพันธ์ (ขนาด 970x240)
+              </label>
               <FilePicker
                 id="label-news"
                 onChange={(e) => handleFileChange(e)}
@@ -287,11 +299,7 @@ function News() {
           }}
           footer={
             <div className="d-flex" style={{ gap: "10px" }}>
-              <Button
-                appearance="primary"
-                intent="success"
-                onClick={submit}
-              >
+              <Button appearance="primary" intent="success" onClick={submit}>
                 บันทึก
               </Button>
               <Button
@@ -317,7 +325,6 @@ function News() {
             value={currUrl}
           />
           <TextInputField
-
             type="date"
             label="วันที่สิ้นสุดการประชาสัมพันธ์"
             value={currDate}

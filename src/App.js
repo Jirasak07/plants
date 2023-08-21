@@ -15,12 +15,11 @@ import Desk from "./Pages/Desk";
 import Plant from "./Pages/Plant";
 import ActivityPage from "./Pages/ActivityPage";
 import FormAddActivity from "./Form/FormAddActivity";
-import ratingkpru from 'rating_kpru'
+import ratingkpru from "rating_kpru";
 import ActivDetail from "./Pages/ActivDetail";
 function App() {
   return (
     <div className="v">
-      {/* <button onClick={()=>ratingkpru({system_kpru:'Test'})} > gg </button> */}
       <Routes>
         <Route path="/login" element={<LoginPage />} />
         <Route path="/" element={<MainLayout />}>
@@ -34,7 +33,7 @@ function App() {
           <Route path="/detail2/:id" element={<DetailTwo />} />
           {/* <Route path="/test" element={<Plant />} /> */}
           <Route path="/active" element={<ActivityPage />} />
-          <Route path="/active/detail/:id" element={<ActivDetail/>} />
+          <Route path="/active/detail/:id" element={<ActivDetail />} />
           <Route path="/active/add" element={<FormAddActivity />} />
         </Route>
         <Route path="/admin"></Route>

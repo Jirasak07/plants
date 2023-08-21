@@ -193,7 +193,7 @@ const [isHowma,setIshowe] =useState(false)
             autoPlay={true}
             showThumbs={false}
             transitionTime={600}
-            showArrows={false}
+            showArrows={true}
             className="Caro bg-white call"
             // swipeable={true}
           >

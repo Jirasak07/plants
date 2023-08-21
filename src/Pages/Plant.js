@@ -10,7 +10,7 @@ import ListData from "./ListData";
 function Plant() {
   const [users, setUsers] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
-  const itemsPerPage = 9; // จำนวนผู้ใช้งานต่อหน้า
+  const itemsPerPage = 6; // จำนวนผู้ใช้งานต่อหน้า
   const [isReady, setIsReady] = useState(false);
   const [search, setSearch] = useState("");
   const getUser = async () => {
@@ -124,7 +124,7 @@ function Plant() {
                   currentUsers.map((user) => (
                     <div className="MDBCard rounded">
                       <div>
-                        <div>
+                        <div style={{overflow:"hidden",maxHeight:'250px'}} >
                           <img
                             src={API + "/" + user.img}
                             width={"100%"}

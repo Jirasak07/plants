@@ -44,7 +44,7 @@ function ActivityPage() {
             field: "username",
           },
           {
-            label: "ผู้เพิ่มข้อมูล",
+            label: "จัดการ",
             field: "manage",
           },
         ],

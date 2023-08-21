@@ -51,6 +51,7 @@ function ActivDetail() {
             centerSlidePercentage={50}
             stopOnHover={true}
             centerMode={true}
+            dynamicHeight={true}
             >
     {Array.isArray(img)&& img.map((i)=>(
         <Image src={API+"/"+i.img_path} alt='' />

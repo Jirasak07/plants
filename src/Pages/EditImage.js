@@ -146,7 +146,7 @@ function EditImage({ id }) {
         <Pane>
           <FilePicker
             onChange={(e) => handleFileChange(e, 1)}
-            placeholder="เลือกรูปภาพผล"
+            placeholder="เลือกรูปภาพใบ"
             accept=".png, .jpg, .jpeg"
             validate={(file) => {
               const maxFileSize = 5 * 1024 * 1024; // 5 MB
@@ -167,7 +167,7 @@ function EditImage({ id }) {
         <Pane>
           <FilePicker
             onChange={(e) => handleFileChange(e, 2)}
-            placeholder="เลือกรูปภาพผล"
+            placeholder="เลือกรูปภาพดอก"
             accept=".png, .jpg, .jpeg"
             validate={(file) => {
               const maxFileSize = 5 * 1024 * 1024; // 5 MB
@@ -188,7 +188,7 @@ function EditImage({ id }) {
         <Pane>
           <FilePicker
             onChange={(e) => handleFileChange(e, 3)}
-            placeholder="เลือกรูปภาพผล"
+            placeholder="เลือกรูปภาพลำต้น"
             accept=".png, .jpg, .jpeg"
             validate={(file) => {
               const maxFileSize = 5 * 1024 * 1024; // 5 MB
