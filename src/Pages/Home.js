@@ -92,8 +92,8 @@ function Home() {
     return text;
   };
   return (
-    <div className="container-fluid main-home">
-      <div className="carousel container-md">
+    <div className="container-md main-home">
+      <div className="carousel ">
         <Carousel
           infiniteLoop
           autoPlay={true}
@@ -121,11 +121,10 @@ function Home() {
         </Carousel>
       </div>
       <div
-        style={{ position: "relative" }}
-        className="container-md d-grid news-small  pb-5"
+        className="container-md newss  pb-5"
       >
         {users.slice(0, !count ? 4 : users.length).map((val) => (
-          <Pane backgroundColor="white" className="cd" borderRadius={5}>
+          <Pane backgroundColor="white" className="cd" borderRadius={5} >
             <div
               style={{
                 backgroundColor: "#00000020",
