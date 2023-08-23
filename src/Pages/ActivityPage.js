@@ -148,7 +148,7 @@ function ActivityPage() {
           </Button>
         </div>
         <div>
-          <MDBDataTableV5 data={table} />
+          <MDBDataTableV5 responsiveMd sortable={false} data={table} />
         </div>
       </div>
     </div>

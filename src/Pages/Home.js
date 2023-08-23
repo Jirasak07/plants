@@ -124,7 +124,7 @@ function Home() {
         className="container-md newss  pb-5"
       >
         {users.slice(0, !count ? 4 : users.length).map((val) => (
-          <Pane backgroundColor="white" className="cd" borderRadius={5} >
+          <Pane backgroundColor="white" className="carddd" borderRadius={5} >
             <div
               style={{
                 backgroundColor: "#00000020",
@@ -155,13 +155,6 @@ function Home() {
               }}
             >
               <p style={{ fontSize: "0.9em" }}>
-                {/* {val.ac_detail.length > 100 ? (
-                  <div>
-                    {onSub(val.ac_detail)} <span>...</span>{" "}
-                  </div>
-                ) : (
-                  <>{val.ac_detail}</>
-                )} */}
                 {val.ac_detail}
               </p>
             </div>
@@ -179,19 +172,19 @@ function Home() {
             </div>
           </Pane>
         ))}
-        <span
+        <div
           onClick={() => setCount(!count)}
           className="ic text-dark text-right"
           style={{
             // textShadow: "0px 0px 5px #000000",
-            position: "absolute",
-            right: "10px",
-            bottom: "5px",
-            fontWeight: "600",
+            // position: "absolute",
+            // right: "10px",
+            // bottom: "5px",
+            // fontWeight: "600",
           }}
         >
           {count ? "น้อยลง" : "ดูเพิ่มเติม"}
-        </span>
+        </div>
       </div>
     </div>
   );
