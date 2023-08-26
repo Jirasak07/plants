@@ -138,7 +138,7 @@ function News() {
                 <EditIcon
                   size={20}
                   className={
-                    localStorage.getItem("role") === 1 ? "ic" : "disabled"
+                    localStorage.getItem("role") === '1' ? "ic" : "disabled"
                   }
                   color="orange500"
                   onClick={() => EditNew(i.news_id)}
