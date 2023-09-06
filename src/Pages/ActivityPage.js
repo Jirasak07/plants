@@ -84,6 +84,7 @@ function ActivityPage() {
     Swal.fire({
       icon: "info",
       title: `ท่านต้องการลบกิจกรรม ${title} หรือไม่ ?`,
+      showCancelButton:true
     }).then((res) => {
       if (res.isConfirmed === true) {
         setLd(true);
