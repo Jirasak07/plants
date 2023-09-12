@@ -122,6 +122,7 @@ function Home() {
       </div>
       <div
         className="container-md newss  pb-5"
+        style={{position:'relative'}}
       >
         {users.slice(0, !count ? 4 : users.length).map((val) => (
           <Pane backgroundColor="white" className="carddd" borderRadius={5} >
@@ -174,13 +175,13 @@ function Home() {
         ))}
         <div
           onClick={() => setCount(!count)}
-          className="ic text-dark text-right"
+          className="ic text-white text-right"
           style={{
-            // textShadow: "0px 0px 5px #000000",
-            // position: "absolute",
-            // right: "10px",
-            // bottom: "5px",
-            // fontWeight: "600",
+            textShadow: "0px 0px 5px #000000",
+            position: "absolute",
+            right: "2vw",
+            bottom: "0vh",
+            fontWeight: "600",
           }}
         >
           {count ? "น้อยลง" : "ดูเพิ่มเติม"}

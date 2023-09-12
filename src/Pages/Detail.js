@@ -48,7 +48,7 @@ function Detail() {
   const [date, setDate] = useState();
   const [qty, setQty] = useState();
   const [plant, setPlant] = useState([]);
-const [isHowma,setIshowe] =useState(false)
+  const [isHowma, setIshowe] = useState(false);
 
   const fetchimg = async () => {
     try {
@@ -64,8 +64,7 @@ const [isHowma,setIshowe] =useState(false)
   useEffect(() => {}, [permissimg]);
   useEffect(() => {
     fetchimg();
-    return ()=>{
-    }
+    return () => {};
   }, []);
   const fetch = async () => {
     try {
@@ -180,14 +179,18 @@ const [isHowma,setIshowe] =useState(false)
         padding={20}
       >
         <div className="d-flex justify-content-end pr-2">
-          <EditIcon
-            size={20}
-            color="orange500"
-            onClick={() => setPermis(!permis)}
-            className="ic"
-          />
+          {localStorage.getItem("role") === null ? (
+            ""
+          ) : (
+            <EditIcon
+              size={20}
+              color="orange500"
+              onClick={() => setPermis(!permis)}
+              className="ic"
+            />
+          )}
         </div>
-        <div className="d-flex justify-content-center" >
+        <div className="d-flex justify-content-center">
           <Carousel
             infiniteLoop
             autoPlay={true}
@@ -200,7 +203,12 @@ const [isHowma,setIshowe] =useState(false)
             {Array.isArray(dataImage) &&
               dataImage.map((i) => (
                 <div className=" p-3" style={{ width: "100%" }}>
-                  <EditIcon onClick={()=>setIshowe(true)} size={30} color="green500" className="ic iconimg" />
+                  <EditIcon
+                    onClick={() => setIshowe(true)}
+                    size={30}
+                    color="green500"
+                    className="ic iconimg"
+                  />
                   <img
                     src={API + "/" + i.image_name}
                     width={"100%"}
@@ -478,16 +486,17 @@ const [isHowma,setIshowe] =useState(false)
         </form>
       </Pane>
       <Dialog
-      width={"clamp(340px,95vw,700px)"}
-      hasFooter={false}
-      isShown={isHowma} onCloseComplete={()=>{
-        setIshowe(false)
-      }} >
-<EditImage id={id} />
+        width={"clamp(340px,95vw,700px)"}
+        hasFooter={false}
+        isShown={isHowma}
+        onCloseComplete={() => {
+          setIshowe(false);
+        }}
+      >
+        <EditImage id={id} />
       </Dialog>
     </div>
   );
-
 }
 
 export default Detail;
