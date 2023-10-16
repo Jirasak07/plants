@@ -61,6 +61,8 @@ function Head({ sit }) {
       >
         <MDBNavbarNav className="barmenu" left>
           <NavLink
+            exact
+            forceRefresh={true}
             to="/home"
             className={({ isActive, isPending }) =>
               isPending ? "bg-info" : isActive ? " navlink ac" : "navlink"

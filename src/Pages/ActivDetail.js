@@ -63,7 +63,7 @@ function ActivDetail() {
             <TextareaField inputHeight={200} label="รายละเอียดกิจกรรม" value={detail.ac_detail} readOnly />
             <TextInputField label="วันที่อัพเดท" value={formatDate(detail.ac_date)} />
 
-          {detail.ac_file === '-'?<></>:<a className='text-primary' target='_blank' href={API+"/"+detail.ac_file} >ไฟล์เอกสารเพิ่มเติม...</a>}
+          {detail.ac_file === '-'?<></>:<a className='text-primary' target='_blank' href={API+"/"+detail.ac_file} rel='noreferrer' >ไฟล์เอกสารเพิ่มเติม...</a>}
         </Pane>
       </Pane>
     </div>

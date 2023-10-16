@@ -1,5 +1,5 @@
 import axios from "axios";
-import { Button, SearchIcon, SearchInput } from "evergreen-ui";
+import { Button, RefreshIcon, SearchIcon, SearchInput } from "evergreen-ui";
 import { MDBPageItem, MDBPageNav, MDBPagination } from "mdbreact";
 import React, { useEffect, useState } from "react";
 import { NavLink } from "react-router-dom";
@@ -116,7 +116,16 @@ function Plant() {
                 />
                 <Button maxWidth="60px" onClick={() => Search()}>
                   <SearchIcon color="blue500" />
-                </Button>{" "}
+                </Button>
+                <Button
+                  maxWidth="60px"
+                  onClick={() => {
+                    getUser();
+                    setSearch("");
+                  }}
+                >
+                  <RefreshIcon color="green500" />
+                </Button>
               </div>
 
               <div className="card-container pb-3">
@@ -124,7 +133,7 @@ function Plant() {
                   currentUsers.map((user) => (
                     <div className="MDBCard rounded">
                       <div>
-                        <div style={{overflow:"hidden",maxHeight:'250px'}} >
+                        <div style={{ overflow: "hidden", maxHeight: "250px" }}>
                           <img
                             src={API + "/" + user.img}
                             width={"100%"}
