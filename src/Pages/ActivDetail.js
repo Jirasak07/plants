@@ -54,7 +54,7 @@ function ActivDetail() {
             dynamicHeight={true}
             >
     {Array.isArray(img)&& img.map((i)=>(
-        <Image src={API+"/"+i.img_path} alt='' />
+        <Image src={API+"/"+i.img_path} alt='' maxHeight={"400px"} />
     ))}
             </Carousel>
         </div>
